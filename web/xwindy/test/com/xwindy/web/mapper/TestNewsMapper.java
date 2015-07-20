@@ -24,10 +24,10 @@ import com.xwindy.web.model.News;
  * @author Dremy
  *
  */
-    @RunWith(SpringJUnit4ClassRunner.class)
-    @Transactional
-    @TransactionConfiguration(defaultRollback = true)
-    @ContextConfiguration({"classpath:resources/test-spring-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
+@ContextConfiguration({"classpath:resources/test-spring-context.xml"})
 public class TestNewsMapper {
 	
 
@@ -51,8 +51,8 @@ public class TestNewsMapper {
 	 */
     @Test
 	public void testGetNewsListByUserId() {
-	    List<News> newsList = newsMapper.getNewsListByUserIdAndPage("14", page.getPageNo(), page.getPageSize());
-	    assertNotNull(newsList);
+	    List<News> newsList = newsMapper.getNewsListByUserIdAndPage(4, page.getPageNo(), page.getPageSize());
+	    assertFalse(newsList.isEmpty());
 	}
 	
 	/**
@@ -62,8 +62,8 @@ public class TestNewsMapper {
      */
 	@Test
 	public void testGetNewsListByPublic() {
-	    List<News> newsList = newsMapper.getNewsListByPublicIdAndPage("7", page.getPageNo(), page.getPageSize());
-        assertNotNull(newsList);
+	    List<News> newsList = newsMapper.getNewsListByPublicIdAndPage(7, page.getPageNo(), page.getPageSize());
+        assertFalse(newsList.isEmpty());
 	}
 	
 	/**
@@ -186,7 +186,6 @@ public class TestNewsMapper {
      * 测试用例: 测试getCommentById方法
      * 测试数据: 使用不存在的评论Id
      * 预期结果: 返回空引用
-     * @param id
      */
     @Test
     public void testGetCommentByIdNotExist() {

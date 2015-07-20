@@ -6,13 +6,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:forEach items="${newsList}" var="news">
-	<h1>${news.title}</h1>
-	<div>${news.summary}</div>
-	<c:if test="${news.firstPicUrl != null}">
-		<img src="${news.firstPicUrl}">
-	</c:if>
-	
-</c:forEach>
+Welcome to the manage system.
+Choose:
+<a href="news/list">资讯管理</a>
+<a href="repair/list">报修管理</a>
+<a href="lost/list">招领管理</a>
 </body>
 </html>

@@ -27,7 +27,7 @@ public interface NewsMapper {
      * @return 资讯列表
      */
     public List<News> getNewsListByUserIdAndPage(
-            @Param("userId") String userId, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+            @Param("userId") int userId, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
 
     /**
      * 通过公众号用户ID及分页获取订阅的资讯列表
@@ -36,7 +36,7 @@ public interface NewsMapper {
      * @param pageSize - 每页数量
      * @return 资讯列表
      */
-    public List<News> getNewsListByPublicIdAndPage(@Param("publicId") String publicId, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+    public List<News> getNewsListByPublicIdAndPage(@Param("publicId") int publicId, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
     
     /**
      * 通过资讯ID获取资讯
@@ -57,14 +57,14 @@ public interface NewsMapper {
      * @param bean - 新闻Bean
      * @return 执行结果
      */
-    public boolean addNews(News bean);
+    public boolean addNews(News news);
     
     /**
      * 更新新闻
      * @param bean - 新闻Bean
      * @return 执行结果
      */
-    public boolean updateNews(News bean);
+    public boolean updateNews(News news);
     
     /**
      * 删除新闻

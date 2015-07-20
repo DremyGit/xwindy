@@ -26,7 +26,7 @@ public class NewsController {
      */
     @RequestMapping("/list")
     public ModelAndView newsListView(Page page) {
-        List<News> newsList = newsService.getNewsListByPage(page);
+        List<News> newsList = newsService.getFirstPageOfNewsList();
 
         ModelAndView view = new ModelAndView("news/list");
         view.addObject("newsList", newsList);

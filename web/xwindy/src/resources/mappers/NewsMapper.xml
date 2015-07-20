@@ -5,17 +5,17 @@
 <mapper namespace="com.xwindy.web.mapper.NewsMapper">
 	<!-- 资讯 -->
 	<resultMap type="News" id="NewsResult">
-		<id property="id" column="id" />
-		<result property="publicId" column="public_id" />
-		<result property="publicName" column="public_name" />
-		<result property="publicIP" column="public_ip" />
-		<result property="title" column="title" />
-		<result property="content" column="content" />
-		<result property="url" column="url_from" />
-		<result property="datetime" column="datetime" />
-		<result property="push" column="push" />
-		<result property="clickNum" column="click" />
-		<result property="commentNum" column="comment_number" />
+		<id 	property="id" column="id" />
+		<result property="publicId" 	column="public_id" />
+		<result property="publicName" 	column="public_name" />
+		<result property="publicIP" 	column="public_ip" />
+		<result property="title" 		column="title" />
+		<result property="content" 		column="content" />
+		<result property="url" 			column="url_from" />
+		<result property="datetime" 	column="datetime" />
+		<result property="push" 		column="push" />
+		<result property="clickNum" 	column="click" />
+		<result property="commentNum" 	column="comment_number" />
 	</resultMap>
 	<select id="getNewsListByPage"
 			resultMap="NewsResult">
@@ -33,7 +33,7 @@
 	<select id="getNewsListByPublicIdAndPage"
 			resultMap="NewsResult">
 			SELECT * FROM news_and_public_view
-			WHERE id = #{publicId}
+			WHERE public_id = #{publicId}
 			ORDER BY id DESC
 			<include refid="pageLimitSql" />
 	</select>
@@ -70,12 +70,12 @@
 	
 	<!-- 评论 -->
 	<resultMap type="Comment" id="CommentResult">
-		<id property="id" column="id"/>
-		<result property="userId" column="user_id"/>
+		<id 	property="id" 		column="id"/>
+		<result property="userId" 	column="user_id"/>
 		<result property="username" column="username"/>
-		<result property="newsId" column="news_id"/>
-		<result property="userIP" column="user_ip"/>
-		<result property="content" column="comment_content"/>
+		<result property="newsId" 	column="news_id"/>
+		<result property="userIP" 	column="user_ip"/>
+		<result property="content" 	column="comment_content"/>
 		<result property="datetime" column="datetime"/>
 	</resultMap>
 	<select id="getCommentById"
