@@ -72,12 +72,6 @@ public interface NewsMapper {
      * @return 执行结果
      */
     public boolean deleteNewsById(int id);
-//    
-//    public News getNewsById(int id);
-//    
-//    public int getNewsNum();
-//    
-//    public int getNewsNum(@Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
     
     /**
      * 通过评论Id获取评论

@@ -19,6 +19,7 @@ public class UserController {
      */
     @RequestMapping("/login")
     public ModelAndView loginView() {
+        //TODO: 用户登陆页面
         ModelAndView view = new ModelAndView("user/login");
         return view;
     }
@@ -31,6 +32,14 @@ public class UserController {
      */
     @RequestMapping(value = "/login.action", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> loginAction(String username, String password) { //TODO: 参数
+        //TODO: 登陆操作接口
+        Map<String, Object> result = new HashMap<String, Object>();
+        return result;
+    }
+    
+    @RequestMapping("/logout.action")
+    public @ResponseBody Map<String, Object> logoutAction() {
+      //TODO: 注销操作接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -41,6 +50,7 @@ public class UserController {
      */
     @RequestMapping("/register")
     public ModelAndView registerView() {
+        //TODO: 用户注册页面
         ModelAndView view = new ModelAndView("user/register");
         return view;
     }
@@ -51,6 +61,7 @@ public class UserController {
      */
     @RequestMapping(value = "/register.action", method=RequestMethod.POST)
     public @ResponseBody Map<String, Object> registerAction() { //TODO: 参数
+      //TODO: 注册操作接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -61,6 +72,7 @@ public class UserController {
      */
     @RequestMapping("/info")
     public ModelAndView userInfoView() {
+      //TODO: 用户信息页
         ModelAndView view = new ModelAndView("user/info");
         return view;
     }
@@ -71,6 +83,7 @@ public class UserController {
      */
     @RequestMapping("/info.action")
     public @ResponseBody Map<String, Object> userInfoAction() { //TODO: 参数
+      //TODO: 信息修改接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -82,6 +95,7 @@ public class UserController {
      */
     @RequestMapping("/subcenter/{classId}")
     public ModelAndView showLoginPage(int classId) {
+      //TODO: 订阅中心页
         ModelAndView view = new ModelAndView("user/subcenter");
         return view;
     }
@@ -93,6 +107,7 @@ public class UserController {
      */
     @RequestMapping("/subscribe.action")
     public @ResponseBody Map<String, Object> subscribeAction(int publicId) {
+      //TODO: 订阅操作接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -104,6 +119,7 @@ public class UserController {
      */
     @RequestMapping("/unsubscribe.action")
     public @ResponseBody Map<String, Object> unSubscribeAction(int publcId) {
+      //TODO: 取消订阅接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }

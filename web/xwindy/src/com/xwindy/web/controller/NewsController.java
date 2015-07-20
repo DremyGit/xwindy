@@ -40,6 +40,7 @@ public class NewsController {
      */
     @RequestMapping("/list.action")
     public @ResponseBody Map<String, Object> newsListAction(Page page) {
+        //TODO: 资讯列表接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -66,6 +67,7 @@ public class NewsController {
      */
     @RequestMapping("/commentsubmit.action")
     public @ResponseBody Map<String, Object> commentAddAction() {
+        //TODO: 评论提交接口
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }

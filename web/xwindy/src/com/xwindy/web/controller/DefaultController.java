@@ -10,6 +10,7 @@ public class DefaultController {
     
     @RequestMapping("/")
     public ModelAndView showIndexPage() {
+        //TODO: 首页
         ModelAndView view = new ModelAndView("index");
         return view;
     }

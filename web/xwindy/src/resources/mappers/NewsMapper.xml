@@ -68,12 +68,6 @@
 			WHERE id = #{id}
 	</delete>
 	
-	<sql id="pageLimitSql">
-		<if test="pageNo != null">
-			LIMIT ${(pageNo * pageSize)}, ${pageSize}
-		</if>
-	</sql>
-	
 	<!-- 评论 -->
 	<resultMap type="Comment" id="CommentResult">
 		<id property="id" column="id"/>
@@ -126,4 +120,11 @@
 			FROM news_comment
 			WHERE news_id = #{newsId}
 	</select>
+	
+	
+	<sql id="pageLimitSql">
+		<if test="pageNo != null">
+			LIMIT ${(pageNo * pageSize)}, ${pageSize}
+		</if>
+	</sql>
 </mapper>
