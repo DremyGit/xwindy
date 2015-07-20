@@ -1,6 +1,9 @@
 package com.xwindy.web.model;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.xwindy.web.util.SysUtil;
 
 /**
  * 新闻Bean
@@ -23,6 +26,8 @@ public class News {
 	
 	private String content;
 	
+	private String summary;
+	
 	private String datetime;
 	
 	private String url;
@@ -32,6 +37,8 @@ public class News {
 	private int clickNum;
 	
 	private int commentNum;
+	
+	private String firstPicUrl;
 	
 	
 
@@ -101,6 +108,22 @@ public class News {
 
 	public void setContent(String content) {
 		this.content = content;
+		
+		setSummary(content);
+		setFirstPicUrl(content);
+	}
+	
+	public void setSummary(String content) {
+       content = SysUtil.removeHtmlTag(content);
+        if(content.length() > 200) {
+            content = content.substring(0, 200);
+            content = content + "...";
+        }
+        this.summary = content;
+	}
+	
+	public String getSummary() {
+	    return summary;
 	}
 
 	
@@ -143,6 +166,18 @@ public class News {
 	public void setCommentNum(int commentNum) {
 		this.commentNum = commentNum;
 	}
+
+    public String getFirstPicUrl() {
+        return firstPicUrl;
+    }
+
+    public void setFirstPicUrl(String content) {
+        Pattern regex = Pattern.compile("<img .*?src=\"(.*?.jpg)\"");
+        Matcher regexMatcher = regex.matcher(content);
+        if (regexMatcher.find()) {
+            this.firstPicUrl = regexMatcher.group(1);
+        }
+    }
 	
 	
 }

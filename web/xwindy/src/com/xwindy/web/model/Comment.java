@@ -7,7 +7,7 @@ public class Comment {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
     
     /**
      * 评论内容
@@ -79,16 +79,16 @@ public class Comment {
      * 取得用户名
      * @return - 用户名
      */
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * 设置用户名
      * @param userName - 用户名
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     /**

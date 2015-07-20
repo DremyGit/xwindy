@@ -24,7 +24,7 @@ public class UserController {
     }
     
     /**
-     * 处理登陆操作
+     * 处理登陆操作接口
      * @param username - 用户名
      * @param password - 密码
      * @return 登陆处理结果集对象
@@ -46,11 +46,11 @@ public class UserController {
     }
     
     /**
-     * 处理注册操作
+     * 处理注册操作接口
      * @return - 注册操作结果
      */
     @RequestMapping(value = "/register.action", method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> registerAction() { //TODO:
+    public @ResponseBody Map<String, Object> registerAction() { //TODO: 参数
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -66,11 +66,11 @@ public class UserController {
     }
     
     /**
-     * 处理用户信息修改操作
+     * 处理用户信息修改操作接口
      * @return - 修改操作结果
      */
     @RequestMapping("/info.action")
-    public @ResponseBody Map<String, Object> userInfoAction() {
+    public @ResponseBody Map<String, Object> userInfoAction() { //TODO: 参数
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
@@ -87,8 +87,8 @@ public class UserController {
     }
     
     /**
-     * 处理订阅操作
-     * @param publicId
+     * 处理订阅操作接口
+     * @param publicId - 公众号id
      * @return 处理结果
      */
     @RequestMapping("/subscribe.action")
@@ -98,7 +98,7 @@ public class UserController {
     }
     
     /**
-     * 处理取消订阅操作
+     * 处理取消订阅操作接口
      * @param publcId - 公众号id
      * @return 处理结果
      */
