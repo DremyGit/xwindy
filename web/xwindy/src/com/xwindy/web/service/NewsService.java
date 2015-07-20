@@ -12,6 +12,7 @@ import com.xwindy.web.mapper.NewsMapper;
 import com.xwindy.web.model.Comment;
 import com.xwindy.web.model.News;
 import com.xwindy.web.util.Page;
+import com.xwindy.web.util.SysUtil;
 
 @Service
 public class NewsService {
@@ -78,6 +79,7 @@ public class NewsService {
     public Map<String, Object> addNews(News news) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
+            news.setDatetime(SysUtil.nowtime());
             newsMapper.addNews(news);
             result.put("isSuccess", "true");
         } catch (DataIntegrityViolationException e) {
@@ -95,6 +97,7 @@ public class NewsService {
     public Map<String, Object> updateNews(News news) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
+            news.setDatetime(SysUtil.nowtime());
             newsMapper.updateNews(news);
             result.put("isSuccess", "true");
         } catch (DataIntegrityViolationException e) {

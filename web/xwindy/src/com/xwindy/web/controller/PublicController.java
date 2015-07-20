@@ -28,7 +28,7 @@ public class PublicController {
      * 所有公众号登录后的主页面
      * @return 公众号主页
      */
-    @RequestMapping("/")
+    @RequestMapping("")
     public ModelAndView publicHomeView() {
         //TODO: 公众号主页
         ModelAndView view = new ModelAndView("public/index");
@@ -76,19 +76,12 @@ public class PublicController {
     }
     
     /**
-     * 资讯号资讯编辑发布页
-     * @param id - 资讯id(id存在则读取,不存在则新建)
-     * @return 资讯编辑发布页
+     * 资讯号资讯发布页
+     * @return 资讯发布页
      */
-    @RequestMapping("/news/edit/{id}")
-    public ModelAndView newsEditView(@PathVariable("id") int id) {
-        ModelAndView view = new ModelAndView("public/newsEdit");
-        News news = null;
-        if (id != 0) {
-            news = newsService.getNewsById(id);
-        }
-        view.addObject("news", news);
-        return view;
+    @RequestMapping("/news/add")
+    public ModelAndView newsAddView() {
+        return new ModelAndView("public/news/add");
     }
     
     /**
@@ -100,6 +93,22 @@ public class PublicController {
     public @ResponseBody Map<String, Object> newsAddAction(News news) {
         Map<String, Object> result = newsService.addNews(news);
         return result;
+    }
+    
+    /**
+     * 资讯号资讯编辑页
+     * @param id - 资讯id
+     * @return 资讯编辑页
+     */
+    @RequestMapping("/news/edit/{id}")
+    public ModelAndView newsEditView(@PathVariable("id") int id) {
+        ModelAndView view = new ModelAndView("public/news/edit");
+        News news = null;
+        if (id != 0) {
+            news = newsService.getNewsById(id);
+        }
+        view.addObject("news", news);
+        return view;
     }
     
     /**

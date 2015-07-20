@@ -124,7 +124,7 @@
 	
 	<sql id="pageLimitSql">
 		<if test="pageNo != null">
-			LIMIT ${(pageNo * pageSize)}, ${pageSize}
+			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
 		</if>
 	</sql>
 </mapper>
