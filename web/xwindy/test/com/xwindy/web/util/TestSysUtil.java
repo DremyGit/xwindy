@@ -444,5 +444,48 @@ public class TestSysUtil {
 		String str2 = "1 < 2 and 4 > 3";
 		assertEquals("1  3", SysUtil.removeHtmlTag(str2));
 	}
+	
+	/**
+	 * 测试用例: 测试base64Encode方法
+	 * 测试数据: 使用数字和字母的字符串
+	 * 预期结果: 返回正确的编码字符串
+	 */
+	@Test
+	public void testBase64EncodeForNumAndChar() {
+	    String numStr = "123";
+	    String numCode = SysUtil.base64Encode(numStr);
+	    assertEquals("MTIz", numCode);
+	    
+	    String charStr = "abc";
+	    String charCode = SysUtil.base64Encode(charStr);
+	    assertEquals("YWJj", charCode);
+	}
+	
+	/**
+	 * 测试用例: 测试base64Encode方法
+	 * 测试数据: 使用含有UTF-8编码的中文的字符串
+	 * 预期结果: 返回正确的编码字符串
+	 */
+	@Test
+	public void testBase64EncodeForChinese() {
+	    String chineseStr = "你好";
+	    String chineseCode = SysUtil.base64Encode(chineseStr);
+	    assertEquals("5L2g5aW9", chineseCode);
+	}
+	
+	/**
+	 * 测试用例: 测试base64Decode及base64Encode方法
+	 * 测试数据: 使用含有数字,字母和UTF-8编码的中文的字符串
+	 * 预期结果: 编码再解码后的字符串和原字符串相同
+	 */
+	@Test
+	public void testBase64Decode() {
+	    String str = "字符串123测试abc";
+	    String code = SysUtil.base64Encode(str);
+	    String codeDecode = SysUtil.base64Decode(code);
+	    assertEquals(str, codeDecode);
+	}
+	
+	
 
 }

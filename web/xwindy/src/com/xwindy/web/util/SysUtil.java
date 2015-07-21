@@ -1,6 +1,7 @@
 package com.xwindy.web.util;
 
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 
 
 /**
@@ -364,5 +368,71 @@ public class SysUtil {
 		}
 		return request.getRemoteAddr();
 	}
+	
+	/**
+	 * String类型的Base64编码
+	 * @param str - 需要编码的字符串
+	 * @return Base64编码后的字符串
+	 */
+	public static String base64Encode(String str) {
+	    try {
+	        byte[]  strByte = str.getBytes("utf-8");
+	        String code = Base64.encode(strByte);
+	        return code;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+	    
+	    
+	}
+	
+	/**
+	 * String类型的Base64解码
+	 * @param code - 需要解码的Base64字符串
+	 * @return 解码后的字符串
+	 */
+	public static String base64Decode(String code) {
+	    byte[] bytes;
+        try {
+            bytes = Base64.decode(code);
+            String str = new String(bytes, "utf-8");
+            return str;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+	}
+	
+	/**
+	 * String类型的MD5加密
+	 * @param str - 需要加密的字符串
+	 * @return MD5加密后的字符串
+	 */
+    public static String md5(String str) {
+        if (str == null)
+            return null;
+        StringBuffer res = new StringBuffer();
+        try {
+            // 将字符串转为字节数组
+            byte[] strTemp = str.getBytes("UTF-8");
+            // 加密器
+            MessageDigest mdTemp = MessageDigest.getInstance("MD5");
+            // 执行加密
+            mdTemp.update(strTemp);
+            // 加密结果
+            byte[] md = mdTemp.digest();
+            for (int i = 0; i < md.length; i++) {
+                if (Integer.toHexString(0xFF & md[i]).length() == 1) {
+                    res.append("0").append(Integer.toHexString(0xFF & md[i]));
+                } else {
+                    res.append(Integer.toHexString(0xFF & md[i]));
+                }
+            }
+            return res.toString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 	
 }

@@ -3,11 +3,19 @@ package com.xwindy.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.xwindy.web.service.UserService;
+import com.xwindy.web.util.SysUtil;
 
 @Controller
 @RequestMapping("/user")
@@ -24,16 +32,33 @@ public class UserController {
         return view;
     }
     
+
     /**
-     * 处理登陆操作接口
-     * @param username - 用户名
-     * @param password - 密码
-     * @return 登陆处理结果集对象
+     * 处理登陆操作接口, 设置session, 并根据是否自动登录设置cookie
+     * @param account - 账户名, 用户的用户名或学生用户的学号
+     * @param password - 登录密码
+     * @param autoLogin - 是否自动登录
+     * @param request - HttpServletRequest对象
+     * @param response - HttpServletResponse对象
+     * @return 包含登录处理结果的Map<String, Object>对象
      */
     @RequestMapping(value = "/login.action", method = RequestMethod.POST)
-    public @ResponseBody Map<String, Object> loginAction(String username, String password) { //TODO: 参数
-        //TODO: 登陆操作接口
+    public @ResponseBody Map<String, Object> loginAction(String account, String password, boolean autoLogin, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
+        result = userService.userLogin(account, password);
+        if (!SysUtil.object2Bool(result.get("isRight"))) {
+            return result;
+        }
+        int userId = SysUtil.str2Int(result.get("userId").toString());
+        HttpSession session = request.getSession();
+        session.setAttribute("isLogin", "true");
+        session.setAttribute("userType", result.get("userType"));
+        session.setAttribute("userId", userId);
+        
+        if (autoLogin) {
+            userService.setAutoLoginCookie(userId, response);
+        }
+        
         return result;
     }
     
@@ -123,4 +148,7 @@ public class UserController {
         Map<String, Object> result = new HashMap<String, Object>();
         return result;
     }
+    
+    @Autowired
+    private UserService userService;
 }

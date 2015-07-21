@@ -3,6 +3,13 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xwindy.web.mapper.UserMapper">
+
+	<select id="getUserById"
+			resultType="User">
+			SELECT * FROM plate_users
+			WHERE id = #{id}
+	</select>
+
 	<select id="getStudentById"
 			resultType="Student">
 			SELECT * FROM plate_users
@@ -19,6 +26,13 @@
 			resultType="Student">
 			SELECT * FROM plate_users
 			WHERE username = #{username}
+	</select>
+	
+	<select id="getUserByUsernameOrStuNumAndPassword"
+			resultType="User">
+			SELECT * FROM plate_users
+			WHERE password = #{password}
+			AND (username = #{account} OR school_number = #{account})
 	</select>
 	
 	<select id="searchPublicerListByUsername"

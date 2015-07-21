@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
+import com.xwindy.web.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -83,15 +84,45 @@ public class TestUserMapper {
     }
     
     /**
+     * 测试用例: 测试getUserByUsernameOrStuNumAndPassword方法
+     * 测试数据: 使用存在的学生用户学号
+     * 预期结果: 返回相应的用户对象
+     */
+    @Test
+    public void testGetUserByUsernameOrStuNumAndPasswordBySchoolIdExisted() {
+        String account = "2014211234";
+        String password = "e10adc3949ba59abbe56e057f20f883e";
+        User user = userMapper.getUserByUsernameOrStuNumAndPassword(account, password);
+        assertNotNull(user);
+        
+        assertEquals("user", user.getUsername());
+    }
+    
+    /**
+     * 测试用例: 测试getUserByUsernameOrStuNumAndPassword方法
+     * 测试数据: 使用不存在的学生用户学号
+     * 预期结果: 返回空引用
+     */
+    @Test
+    public void testGetUserByUsernameOrStuNumAndPasswordBySchoolIdNotExisted() {
+        String account = "2014210000";
+        String password = "e10adc3949ba59abbe56e057f20f883e";
+        User user = userMapper.getUserByUsernameOrStuNumAndPassword(account, password);
+        assertNull(user);
+    }
+    
+    /**
      * 测试用例: 测试searchPublicerListByUsername方法
      * 测试数据: 使用存在的公众号用户名片断
-     * 预期结果: 返回相应的公众号列表非空
+     * 预期结果: 返回相应的公众号列表非空且包含片断
      */
     @Test
     public void testSearchPublicerListByUserNameExisted() {
         String username = "通知";
         List<Publicer> publicerList = userMapper.searchPublicerListByUsername(username);
         assertFalse(publicerList.isEmpty());
+        
+        assertTrue(publicerList.get(0).getUsername().indexOf("通知") >= 0);
     }
     
     /**

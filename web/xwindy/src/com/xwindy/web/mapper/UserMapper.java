@@ -2,10 +2,20 @@ package com.xwindy.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
+import com.xwindy.web.model.User;
 
 public interface UserMapper {
+    
+    /**
+     * 通过用户id获取用户对象
+     * @param id - 用户id
+     * @return 用户对象
+     */
+    public User getUserById(int id);
     
     /**
      * 通过用户id获取学生对象
@@ -13,7 +23,7 @@ public interface UserMapper {
      * @return 学生对象
      */
     public Student getStudentById(int id);
-    
+
     /**
      * 通过用户id获取公众号对象
      * @param id - 用户id
@@ -27,6 +37,15 @@ public interface UserMapper {
      * @return 学生对象
      */
     public Student getStudentByUsername(String username);
+    
+    /**
+     * 通过用户名或学号和密码获取用户对象
+     * @param account - 用户名或学号
+     * @param password - 密码
+     * @return 用户对象
+     */
+    public User getUserByUsernameOrStuNumAndPassword(@Param("account") String account, @Param("password") String password);
+
     
     /**
      * 通过用户名模糊搜索资讯公众号列表
