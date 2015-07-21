@@ -6,6 +6,8 @@ public class Publicer extends User {
     
     private String introduce;
     
+    private boolean isSub;
+    
     public Publicer() {}
     
     public Publicer(String username, String password, String userType,
@@ -19,7 +21,7 @@ public class Publicer extends User {
     @Override
     public String toString() {
         return "Publicer [publicClass=" + publicClass + ", introduce=" + introduce + ", userType=" + userType
-                + ", getPublicClass()=" + getPublicClass() + ", getIntroduce()=" + getIntroduce() + ", getId()="
+                + ", isSub=" + isSub + ", getPublicClass()=" + getPublicClass() + ", getIntroduce()=" + getIntroduce() + ", getId()="
                 + getId() + ", getUsername()=" + getUsername() + ", getPassword()=" + getPassword() + ", getUserType()="
                 + getUserType() + ", getTelNumber()=" + getTelNumber() + ", getEmail()=" + getEmail()
                 + ", getLastActive()=" + getLastActive() + ", getHeader()=" + getHeader() + ", getClass()=" + getClass()
@@ -40,6 +42,14 @@ public class Publicer extends User {
 
     public void setIntroduce(String introduce) {
         this.introduce = introduce;
+    }
+
+    public boolean isIsSub() {
+        return isSub;
+    }
+
+    public void setIsSub(boolean isSub) {
+        this.isSub = isSub;
     }
     
     

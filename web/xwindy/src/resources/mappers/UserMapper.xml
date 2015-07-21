@@ -28,6 +28,12 @@
 			WHERE username = #{username}
 	</select>
 	
+	<select id="getStudentByStudentId"
+			resultType="Student">
+			SELECT * FROM plate_users
+			WHERE school_number = #{studentId} AND user_type = "XS";
+	</select>
+	
 	<select id="getUserByUsernameOrStuNumAndPassword"
 			resultType="User">
 			SELECT * FROM plate_users
@@ -48,7 +54,7 @@
 			INSERT INTO plate_users
 			(username, password, user_type, school_number, tel_number, email, sport_pass, header, lib_pass, public_class)
 			VALUES
-			(#{username}, #{password}, #{userType}, #{schoolNumber}, #{telNumber}, #{email}, #{sportPass}, #{header}, #{libPass}, 0)
+			(#{username}, #{password}, "XS", #{schoolNumber}, #{telNumber}, #{email}, #{sportPass}, #{header}, #{libPass}, 0)
 	</insert>
 	
 	<insert id="addPublicer"
@@ -62,7 +68,7 @@
 	<update id="updateStudent"
 			parameterType="Student">
 			UPDATE plate_users
-			SET username = #{username}, password = #{password}, user_type = #{userType}, school_number = #{schoolNumber},
+			SET username = #{username}, password = #{password}, school_number = #{schoolNumber},
 				tel_number = #{telNumber}, email = #{email}, sport_pass = #{sportPass}, header = #{header}, lib_pass = #{libPass}
 			WHERE id = #{id}
 	</update>
@@ -78,4 +84,42 @@
 	<delete id="deleteUserById">
 			DELETE FROM plate_users WHERE id = #{id}
 	</delete>
+	
+	<select id="getPublicClassById"
+			resultType="PublicClass">
+			SELECT * FROM public_class
+			WHERE id = #{id}
+	</select>
+	
+	<select id="getAllPublicClassList"
+			resultType="PublicClass">
+			SELECT * FROM public_class
+			ORDER BY 'order' ASC
+	</select>
+	
+	<select id="getPublicerListByPublicClassIdAndUserIdAndPage"
+			resultType="Publicer">
+			SELECT public.id AS id, public.username AS username, public.header, public.introduce, NOT ISNULL(`user`.id) AS isSub
+			FROM plate_users AS public
+			LEFT OUTER JOIN subscribe ON subscribe.public_id = public.id
+			LEFT OUTER JOIN plate_users AS `user` ON `user`.id = subscribe.student_id AND `user`.id = #{userId}
+			WHERE public.public_class = #{publicClassId}
+			<include refid="pageLimitSql" />
+	</select>
+	
+	<insert id="addSubscribeByPublicIdAndUserId">
+			INSERT INTO subscribe (public_id, student_id)
+			VALUES (#{publicId}, #{userId})
+	</insert>
+	
+	<delete id="deleteSubscribeByPublicIdAndUserId">
+			DELETE FROM subscribe
+			WHERE public_id = #{publicId} AND student_id = #{userId}
+	</delete>
+	
+	<sql id="pageLimitSql">
+		<if test="pageNo != null">
+			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
+		</if>
+	</sql>
 </mapper>

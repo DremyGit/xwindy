@@ -1,6 +1,7 @@
 package com.xwindy.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,12 +10,17 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xwindy.web.model.Publicer;
+import com.xwindy.web.model.Student;
 import com.xwindy.web.service.UserService;
+import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
 
 @Controller
@@ -27,7 +33,6 @@ public class UserController {
      */
     @RequestMapping("/login")
     public ModelAndView loginView() {
-        //TODO: 用户登陆页面
         ModelAndView view = new ModelAndView("user/login");
         return view;
     }
@@ -62,66 +67,161 @@ public class UserController {
         return result;
     }
     
+    /**
+     * 处理注销登录接口, 清除Session和Cookie中的信息
+     * @param request - HttpServletRequest对象
+     * @param response - HttpServletResponse对象
+     * @return 包含处理结果的Map<String, Object>对象
+     */
     @RequestMapping("/logout.action")
-    public @ResponseBody Map<String, Object> logoutAction() {
-      //TODO: 注销操作接口
+    public @ResponseBody Map<String, Object> logoutAction(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
+        userService.userLogout(request, response);
+        result.put("isSuccess", true);
         return result;
     }
     
+
     /**
-     * 显示用户注册页面
-     * @return - 用户注册页面
+     * 依据Session中是否存在学生学号, 若为空则进入教务系统账号验证界面, 否则直接进入账号注册界面
+     * 若已登录, 则到个人信息页
+     * @param request - HttpServletRequest对象
+     * @return 根据判断返回相应的页面视图
      */
     @RequestMapping("/register")
-    public ModelAndView registerView() {
-        //TODO: 用户注册页面
-        ModelAndView view = new ModelAndView("user/register");
+    public ModelAndView registerView(HttpServletRequest request) {
+        ModelAndView view = null;
+        HttpSession session = request.getSession();
+        if (isLogin(session)) {
+            view = new ModelAndView("user/info");
+            return view;
+        }
+        String stuId = SysUtil.object2Str(session.getAttribute("stuId"));
+        if (SysUtil.isEmptyString(stuId)) {
+            view = new ModelAndView("user/checkId");
+            return view;
+        }
+        view = new ModelAndView("user/register");
         return view;
     }
     
     /**
-     * 处理注册操作接口
-     * @return - 注册操作结果
+     * 处理注册时学号和教务系统密码检查, 并把学号存入Session
+     * @param stuId - 学生学号
+     * @param stuPass - 教务系统密码
+     * @param request - HttpServletRequest对象
+     * @return 含有检查结果的Map<String, Object>对象
+     */
+    @RequestMapping("/checkid.action")
+    public @ResponseBody Map<String, Object> checkStuId(String stuId, String stuPass, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        boolean isExisted = userService.isStuIdExisted(stuId);
+        result.put("isExisted", isExisted);
+        if(isExisted) {
+            return result;
+        }
+        
+        boolean isCheckedOk = userService.checkStuIdAndPassWord(stuId, stuPass);
+        result.put("isCheckedOk", isCheckedOk);
+        if(!isCheckedOk) {
+            return result;
+        }
+        result.put("isSuccess", true);
+        HttpSession session = request.getSession();
+        session.setAttribute("stuId", stuId);
+        return result;
+    }
+    
+    
+
+    /**
+     * 处理学生注册操作, 其中学号从Student对象或Session中获取
+     * @param student - 需要注册的学生对象
+     * @param request - HttpServletRequest对象
+     * @return 含有注册结果的Map<String, Object>对象
      */
     @RequestMapping(value = "/register.action", method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> registerAction() { //TODO: 参数
-      //TODO: 注册操作接口
+    public @ResponseBody Map<String, Object> registerAction(Student student, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        HttpSession session = request.getSession();
+        String stuId = SysUtil.object2Str(session.getAttribute("stuId"));
+        if (SysUtil.isEmptyString(student.getSchoolNumber()) && SysUtil.isEmptyString(stuId)) {
+            result.put("reason", "无效的学号");
+            return result;
+        }
+        
+        if (SysUtil.isEmptyString(student.getSchoolNumber())) {
+            student.setSchoolNumber(stuId);
+        }
+        
+        if (!userService.studentRegister(student)) {
+            result.put("reason", "注册失败");
+            return result;
+        }
+        result.put("isSuccess", true);
         return result;
     }
     
     /**
-     * 显示用户信息页
-     * @return 用户信息页面
+     * 显示学生用户信息页(需要登录)
+     * @param request - HttpServletRequest对象
+     * @return 学生用户信息页面
      */
     @RequestMapping("/info")
-    public ModelAndView userInfoView() {
-      //TODO: 用户信息页
+    public ModelAndView userInfoLoginView(HttpServletRequest request) {
         ModelAndView view = new ModelAndView("user/info");
+        HttpSession session = request.getSession();
+        int id = (int) session.getAttribute("userId");
+        view.addObject("user", userService.getStudentById(id));
         return view;
     }
     
     /**
-     * 处理用户信息修改操作接口
+     * 处理用户信息修改操作接口(不包括用户名密码)
      * @return - 修改操作结果
      */
     @RequestMapping("/info.action")
-    public @ResponseBody Map<String, Object> userInfoAction() { //TODO: 参数
-      //TODO: 信息修改接口
+    public @ResponseBody Map<String, Object> userInfoAction(
+            @RequestParam(value = "telNumber", required = true) String telNumber,
+            @RequestParam(value = "email", required = true) String email,
+            @RequestParam(value = "header", required = true) String header,
+            HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        HttpSession session = request.getSession();
+        int id = (int) session.getAttribute("userId");
+        if (!isLogin(session)) {
+            result.put("reason", "未登录");
+            return result;
+        }
+        if (!userService.updateStudent(id, telNumber, email, header)) {
+            result.put("reason", "更新失败");
+            return result;
+        }
+        result.put("isSuccess", true);
         return result;
     }
     
     /**
-     * 显示订阅中心页
+     * 显示订阅中心页(需要登录)
      * @param classId - 公众号分类id
      * @return 订阅中心页
      */
     @RequestMapping("/subcenter/{classId}")
-    public ModelAndView showLoginPage(int classId) {
-      //TODO: 订阅中心页
+    public ModelAndView subcenterLoginView(@PathVariable("classId") int classId, Page page, HttpServletRequest request) {
         ModelAndView view = new ModelAndView("user/subcenter");
+        view.addObject("classList", userService.getAllPublicClassList());
+        
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+        if (classId == 0) {
+            List<Publicer> recommendPublicerList = userService.getRecommendPublicerListByUserId(userId);
+            view.addObject("publicerList", recommendPublicerList);
+            return view;
+        }
+        view.addObject("publicerList", userService.getPublicerListByPublicClassIdAndUserIdAndPage(classId, userId, page));
         return view;
     }
     
@@ -131,9 +231,11 @@ public class UserController {
      * @return 处理结果
      */
     @RequestMapping("/subscribe.action")
-    public @ResponseBody Map<String, Object> subscribeAction(int publicId) {
-      //TODO: 订阅操作接口
+    public @ResponseBody Map<String, Object> subscribeAction(int publicId, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+        result.put("isSuccess", userService.addSubscribeByPublicIdAndUserId(publicId, userId));
         return result;
     }
     
@@ -143,10 +245,21 @@ public class UserController {
      * @return 处理结果
      */
     @RequestMapping("/unsubscribe.action")
-    public @ResponseBody Map<String, Object> unSubscribeAction(int publcId) {
-      //TODO: 取消订阅接口
+    public @ResponseBody Map<String, Object> unSubscribeAction(int publicId, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("userId");
+        result.put("isSuccess", userService.deleteSubscribeByPublicIdAndUserId(publicId, userId));
         return result;
+    }
+    
+    /**
+     * 判断用户是否登录
+     * @param session - HttpSession对象
+     * @return 是否登录
+     */
+    public boolean isLogin(HttpSession session) {
+        return SysUtil.object2Bool(session.getAttribute("isLogin"));
     }
     
     @Autowired

@@ -10,7 +10,7 @@
 <body>
 <div>Account:<input type="text" id="account" /></div>
 <div>Password:<input type="password" id="password" /></div>
-<div><input type="checkbox" id="autoLogin" val="true" />自动登录</div>
+<div><input type="checkbox" id="autoLogin" />自动登录</div>
 <div><button id="submit">登录</button></div>
 <script src="assets/js/jquery-1.11.2.min.js"></script>
 <script>
@@ -18,6 +18,9 @@ $("#submit").click(function () {
 	var account = $("#account").val();
 	var password= $("#password").val();
 	var autoLogin = $("input[id='autoLogin']:checked").val();
+	
+	if (autoLogin) alert("autoLoginChoose: " + autoLogin);
+	
 	$.ajax({
 		url: "user/login.action",
 		type: "POST",
@@ -30,6 +33,7 @@ $("#submit").click(function () {
 			var res = eval(data);
 			if(res.isRight) {
 				alert("登录成功" + "isRight: " + res.isRight + "userId: " + res.userId + "userType: " + res.userType);
+				window.location.reload(true);
 			} else {
 				alert("isRight: " + res.isRight);
 			}
@@ -38,6 +42,7 @@ $("#submit").click(function () {
 			allert("连接错误");
 		}
 	});
+	
 });
 </script>
 </body>
