@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwindy.web.mapper.LostAndFoundMapper">
+	<select id="getAllLostAndFoundByPage"
+			resultType="LostAndFound">
+			SELECT laf.*, user.username AS sendUsername
+			FROM lost_and_found as laf
+			LEFT JOIN plate_users AS user ON laf.send_id = user.id
+			<include refid="pageLimitSql" />
+	</select>
+	
+	<select id="getLostAndFoundById"
+			resultType="LostAndFound">
+			SELECT laf.*, user.username AS sendUsername
+			FROM lost_and_found as laf
+			LEFT JOIN plate_users AS user ON laf.send_id = user.id
+			WHERE laf.id = #{id}
+	</select>
+	
+	<select id="searchLostAndFoundByKeyWordAndPage"
+			resultType="LostAndFound">
+			SELECT laf.*, user.username AS sendUsername
+			FROM lost_and_found as laf
+			LEFT JOIN plate_users AS user ON laf.send_id = user.id
+			WHERE laf.key_word LIKE '%${keyWord}%' OR laf.content LIKE '%${keyWord}%'
+			<include refid="pageLimitSql" />
+	</select>
+	
+	<insert id="addLostAndFound"
+			parameterType="LostAndFound"
+			useGeneratedKeys="true"
+			keyColumn="id">
+			INSERT INTO lost_and_found
+			(send_id, send_ip, type, `local`, key_word, send_time, content, pic_url, phone, `status`)
+			VALUE
+			(#{sendId}, #{sendIp}, #{type}, #{local}, #{keyWord}, #{sendTime}, #{content}, #{picUrl}, #{phone}, 1)
+	</insert>
+	
+	<update id="updateLostAndFound"
+			parameterType="LostAndFound">
+			UPDATE lost_and_found
+			SET `local` = #{local}, key_word = #{keyWord}, content = #{content},
+				pic_url = #{picUrl}, phone = #{phone}, `status` = #{status}
+			WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteLostAndFoundById">
+			DELETE FROM lost_and_found
+			WHERE id = #{id}
+	</delete>
+	
+	<sql id="pageLimitSql">
+		<if test="pageNo != null">
+			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
+		</if>
+	</sql>
+</mapper>
