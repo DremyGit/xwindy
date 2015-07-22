@@ -17,9 +17,37 @@
 <div>${news.commentNum}</div>
 <div>${news.content}</div>
 <h1>Comment</h1>
+<textarea id="comment-content" rows="6" cols="100"></textarea><br>
+<button id="submit">提交</button><br>
 <c:forEach items="${commentList}" var="comment">
 	<div>${comment.username}</div>
 	<div>${comment.content}</div>
 </c:forEach>
+<script src="assets/js/jquery-1.11.2.min.js"></script>
+<script>
+$("#submit").click(function () {
+	var content = $("#comment-content").val();
+	$.ajax({
+		url: "news/commentsubmit.action",
+		type: "POST",
+		dataType: "JSON",
+		data: {
+			newsId: '${news.id}',
+			content: content
+		},
+		success: function (data) {
+			var res = eval(data);
+			if (res.isSuccess) {
+				window.location.reload(true);
+			} else {
+				alert(res.reason);
+			}
+		},
+		error: function () {
+			alert("连接错误");
+		}
+	})
+})
+</script>
 </body>
 </html>

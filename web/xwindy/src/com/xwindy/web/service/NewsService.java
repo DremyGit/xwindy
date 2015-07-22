@@ -9,8 +9,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.xwindy.web.mapper.NewsMapper;
+import com.xwindy.web.mapper.UserMapper;
 import com.xwindy.web.model.Comment;
 import com.xwindy.web.model.News;
+import com.xwindy.web.model.Publicer;
 import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
 
@@ -54,6 +56,25 @@ public class NewsService {
     }
     
     /**
+     * 通过登录用户id和分页对象获取用户订阅资讯列表
+     * @param userId - 登录用户id
+     * @param page - 分页对象
+     * @return 资讯列表
+     */
+    public List<News> getSubNewsListByUserIdAndPage(int userId, Page page) {
+        return newsMapper.getNewsListByUserIdAndPage(userId, page.getPageNo(), page.getPageSize());
+    }
+    
+    /**
+     * 通过登录用户id获取默认数量的第一页订阅资讯列表
+     * @param userId - 登录用户id
+     * @return 资讯列表
+     */
+    public List<News> getFirstPageOfSubNewsListByUserId(int userId) {
+        return getSubNewsListByUserIdAndPage(userId, new Page(1, DefaultNewsListPageSize));
+    }
+    
+    /**
      * 通过资讯id获取资讯
      * @param id - 资讯id
      * @return 资讯对象
@@ -72,6 +93,18 @@ public class NewsService {
     }
     
     /**
+     * 通过文章id添加文章点击数
+     * @param id
+     */
+    public void addClickNumberById(int id) {
+        try {
+            newsMapper.addClickNumberById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * 添加资讯
      * @param news - 资讯对象
      * @return 处理结果
@@ -81,27 +114,53 @@ public class NewsService {
         try {
             news.setDatetime(SysUtil.nowtime());
             newsMapper.addNews(news);
-            result.put("isSuccess", "true");
+            result.put("isSuccess", true);
         } catch (DataIntegrityViolationException e) {
-            result.put("isSuccess", "false");
+            result.put("isSuccess", false);
         }
         return result;
     }
     
     
     /**
-     * 更新资讯
+     * 更新资讯(公众号只能编辑自己发布的文章)
      * @param news - 资讯对象
      * @return 处理结果
      */
     public Map<String, Object> updateNews(News news) {
+        
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        
+        News newsOld = newsMapper.getNewsById(news.getId());
+        Publicer publicer = userMapper.getPublicerById(news.getPublicId());
+        if (newsOld.getPublicId() != news.getPublicId() || !publicer.getUserType().equals("GLY")) {
+            result.put("reason", "操作被拒绝");
+        }
+        
+        try {
+            newsMapper.updateNews(news);
+            result.put("isSuccess", true);
+        } catch (Exception e) {
+            result.put("isSuccess", false);
+        }
+        return result;
+    }
+    
+    /**
+     * 添加评论
+     * @param comment - 需要添加的评论对象
+     * @return 处理结果
+     */
+    public Map<String, Object> addComment(Comment comment) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
-            news.setDatetime(SysUtil.nowtime());
-            newsMapper.updateNews(news);
-            result.put("isSuccess", "true");
-        } catch (DataIntegrityViolationException e) {
-            result.put("isSuccess", "false");
+            comment.setDatetime(SysUtil.nowtime());
+            newsMapper.addComment(comment);
+            result.put("isSuccess", true);
+        } catch (Exception e) {
+            result.put("isSuccess", false);
+            e.printStackTrace();
         }
         return result;
     }
@@ -116,4 +175,7 @@ public class NewsService {
      */
     @Autowired
     private NewsMapper newsMapper;
+    
+    @Autowired
+    private UserMapper userMapper;
 }

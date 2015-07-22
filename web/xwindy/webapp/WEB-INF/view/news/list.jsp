@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:forEach items="${newsList}" var="news">
-	<h1>${news.title}</h1>
+	<h1><a href="news/${news.id}">${news.title}</a></h1>
 	<div>${news.summary}</div>
 	<c:if test="${news.firstPicUrl != null}">
 		<img src="${news.firstPicUrl}">

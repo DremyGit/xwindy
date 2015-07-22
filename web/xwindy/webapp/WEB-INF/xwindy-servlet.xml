@@ -48,8 +48,9 @@
    	<mvc:resources mapping="/common/js/**" location="/common/js/" cache-period="31556926"/> 
    	<mvc:resources mapping="/common/css/**" location="/common/css/" cache-period="31556926"/> -->
     
+    <!-- AOP切面处理 -->
     <aop:aspectj-autoproxy />
-    <bean id="userAspect" class="com.xwindy.web.aspect.UserAspect"></bean>
+    <bean id="loginInterceptor" class="com.xwindy.web.aspect.LoginInterceptor"></bean>
     
 
 		<!-- DBCP 数据库连接池 -->
