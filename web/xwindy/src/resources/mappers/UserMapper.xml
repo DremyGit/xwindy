@@ -88,12 +88,13 @@
 	<select id="getPublicClassById"
 			resultType="PublicClass">
 			SELECT * FROM public_class
-			WHERE id = #{id}
+			WHERE id = #{id} and id != 0
 	</select>
 	
 	<select id="getAllPublicClassList"
 			resultType="PublicClass">
 			SELECT * FROM public_class
+			WHERE id != 0
 			ORDER BY 'order' ASC
 	</select>
 	

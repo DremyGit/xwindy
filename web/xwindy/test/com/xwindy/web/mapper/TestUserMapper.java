@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xwindy.web.model.PublicClass;
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
 import com.xwindy.web.model.User;
@@ -118,11 +119,10 @@ public class TestUserMapper {
      */
     @Test
     public void testSearchPublicerListByUserNameExisted() {
-        String username = "通知";
+        String username = "测试";
         List<Publicer> publicerList = userMapper.searchPublicerListByUsername(username);
         assertFalse(publicerList.isEmpty());
-        
-        assertTrue(publicerList.get(0).getUsername().indexOf("通知") >= 0);
+        assertTrue(publicerList.get(0).getUsername().indexOf("测试") >= 0);
     }
     
     /**
@@ -187,9 +187,9 @@ public class TestUserMapper {
     /**
      * 测试用例: 测试addPublicer方法
      * 测试数据: 使用缺少必要信息的公众号信息(分类id外键错误)
-     * 预期结果: 抛出DataIntegrityViolationException异常
+     * 预期结果: 抛出org.springframework.dao.DataIntegrityViolationException异常
      */
-    @Test(expected=DataIntegrityViolationException.class)
+    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
     public void testAddPublicerByNotEnoughInfo() {
         Publicer publicer = new Publicer("public", "123123", "GZH", null, null, null, -1, null);
         int res = userMapper.addPublicer(publicer);
@@ -228,7 +228,15 @@ public class TestUserMapper {
         assertEquals("Test", publicer.getIntroduce());
     }
     
-    //TODO: 使用无外键约束的用户id, 测试deleteUserById方法
+    @Test
+    public void deleteUserByIdByIdNormally() {
+        Student student = userMapper.getStudentById(15);
+        assertNotNull(student);
+        
+        userMapper.deleteUserById(15);
+        student = userMapper.getStudentById(15);
+        assertNull(student);
+    }
     
     /**
      * 测试用例: 测试deleteUserById方法
@@ -256,6 +264,87 @@ public class TestUserMapper {
         assertNull(publicer);
     }
     
+    /**
+     * 测试用例: 测试getPublicClassById方法
+     * 测试数据: 使用存在的公众号分类id
+     * 预期结果: 返回相应公众号
+     */
+    @Test
+    public void testGetPublicClassByIdExisted() {
+        PublicClass publicClass = userMapper.getPublicClassById(1);
+        assertNotNull(publicClass);
+    }
+    
+    /**
+     * 测试用例: 测试getPublicClassById方法
+     * 测试数据: 使用分类id为0
+     * 预期结果: 返回空引用
+     */
+    @Test
+    public void testGetPublicClassByIdNotExisted() {
+        PublicClass publicClass = userMapper.getPublicClassById(0);
+        assertNull(publicClass);
+    }
+    
+    /**
+     * 测试用例: 测试getAllPublicClassList方法
+     * 测试数据: 无
+     * 预期结果: 返回非空公众号分类列表
+     */
+    @Test
+    public void testGetAllPublicClassList() {
+        List<PublicClass> publicClassList = userMapper.getAllPublicClassList();
+        assertFalse(publicClassList.isEmpty());
+    }
+    
+    /**
+     * 测试用例: 测试getPublicerListByPublicClassIdAndUserIdAndPage方法
+     * 测试数据: 使用存在的公众号分类id,用户id和分页数
+     * 预期结果: 返回非空公众号列表
+     */
+    @Test
+    public void testGetPublicerListByPublicClassIdAndUserIdAndPageExisted() {
+        List<Publicer> publicerList = userMapper.getPublicerListByPublicClassIdAndUserIdAndPage(1, 4, 1, 10);
+        assertFalse(publicerList.isEmpty());
+    }
+    
+    /**
+     * 测试用例: 测试addSubscribeByPublicIdAndUserId方法
+     * 测试数据: 使用表中不存在的公众号id和用户id组合
+     * 预期结果: 返回增加的行数为1
+     */
+    @Test
+    public void testAddSubscribeByPublicIdAndUserIdNotRepeted() {
+        int res = userMapper.addSubscribeByPublicIdAndUserId(6, 4);
+        assertEquals(1, res);
+    }
+    
+//    /**
+//     * 测试用例: 测试addSubscribeByPublicIdAndUserId方法
+//     * 测试数据: 使用表中已存在的公众号id和用户id组合(外键重复)
+//     * 预期结果: 抛出org.springframework.dao.DataIntegrityViolationException异常
+//     */
+//    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
+//    public void testAddSubscribeByPublicIdAndUserIdExisted() {
+//        int addRows = userMapper.addSubscribeByPublicIdAndUserId(6, 4);
+//        assertEquals(1, addRows);
+//        
+//        userMapper.addSubscribeByPublicIdAndUserId(6, 4);
+//    }
+    
+    /**
+     * 测试用例: 测试deleteSubscribeByPublicIdAndUserId方法
+     * 测试数据: 表中存在的公众号id和用户id组合
+     * 预期结果: 删除1行记录
+     */
+    @Test
+    public void testDeleteSubscribeByPublicIdAndUserId() {
+        int addRows = userMapper.addSubscribeByPublicIdAndUserId(6, 4);
+        assertEquals(1, addRows);
+        
+        int deleteRows = userMapper.deleteSubscribeByPublicIdAndUserId(6, 4);
+        assertEquals(1, deleteRows);
+    }
     
     
     @Autowired
