@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xwindy.web.model.LostAndFound;
 import com.xwindy.web.model.News;
+import com.xwindy.web.service.LostAndFoundService;
 import com.xwindy.web.service.NewsService;
 import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
@@ -45,7 +47,7 @@ public class PublicController {
      * 资讯号资讯管理列表页
      * @return 资讯列表页
      */
-    @RequestMapping("/news/list")
+    @RequestMapping("/news")
     public ModelAndView newsManageView(HttpServletRequest request) {
         
         HttpSession session = request.getSession();
@@ -79,7 +81,7 @@ public class PublicController {
      * @param id - 资讯id
      * @return 资讯详情页
      */
-    @RequestMapping("/news/id/{id}")
+    @RequestMapping("/news/{id}")
     public ModelAndView newsDetailView(@PathVariable("id") int id, HttpServletRequest request) {
        
         ModelAndView view = new ModelAndView("public/news/detail");
@@ -184,7 +186,7 @@ public class PublicController {
      * 维修号维修列表页
      * @return 维修列表页
      */
-    @RequestMapping("/repair/list")
+    @RequestMapping("/repair")
     public ModelAndView repaireManageView(HttpServletRequest request) {
         // TODO: 维修号维修列表页
         ModelAndView view = new ModelAndView("public/repair/list");
@@ -233,10 +235,15 @@ public class PublicController {
      * 招领号发布列表页
      * @return 资讯列表页
      */
-    @RequestMapping("/lost/list")
+    @RequestMapping("/lost")
     public ModelAndView lostManageView(HttpServletRequest request) {
-        //TODO: 招领号发布列表页
-        ModelAndView view = new ModelAndView("public/news/list");
+        HttpSession session = request.getSession();
+        int publicId = getPublicIdBySession(session);
+        
+        Page page = new Page(1, DefaultPageSize);
+        List<LostAndFound> lafList = lafService.getLostAndFoundListByPublicIdAndPage(publicId, page);
+        ModelAndView view = new ModelAndView("public/lost/list");
+        view.addObject("lafList", lafList);
         return view;
     }
     
@@ -247,8 +254,12 @@ public class PublicController {
      */
     @RequestMapping("/lost/list.action")
     public @ResponseBody Map<String, Object> lostListAction(Page page, HttpServletRequest request) {
-        //TODO: 资讯列表获取接口
+        HttpSession session = request.getSession();
+        int publicId = getPublicIdBySession(session);
+        
+        List<LostAndFound> lafList = lafService.getLostAndFoundListByPublicIdAndPage(publicId, page);
         Map<String, Object> result = new HashMap<String, Object>();
+        result.put("lafList", lafList);
         return result;
     }
     
@@ -259,45 +270,47 @@ public class PublicController {
 //     */
 //    @RequestMapping("/lost/id/{id}")
 //    public ModelAndView lostDetailView(@PathVariable("id") int id, HttpServletRequest request) {
-//        //TODO: 招领详情页
+//        
 //        ModelAndView view = new ModelAndView("public/lost/detail");
 //        return view;
 //    }
     
     /**
-     * 招领号资讯编辑发布页
-     * @param id - 招领id
-     * @return 招领号编辑发布页
+     * 招领号招领信息发布页
+     * @param request - HttpServletRequest对象
+     * @return 招领号招领信息发布页
      */
-    @RequestMapping("/lost/id/{id}")
-    public ModelAndView lostEditView(@PathVariable("id") int id, HttpServletRequest request) {
-        //TODO: 资讯号资讯编辑发布页
-        ModelAndView view = new ModelAndView("public/lost/edit");
+    @RequestMapping("/lost/add")
+    public ModelAndView lostAddView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("public/lost/add");
         return view;
     }
     
     /**
-     * 处理招领发布操作接口
-     * @return 处理结果
+     * 招领号招领信息编辑页(只允许公众号编辑自己发布的招领信息）
+     * @param id - 招领id
+     * @return 招领号招领信息编辑页
      */
-    @RequestMapping("/lost/add.action")
-    public @ResponseBody Map<String, Object> lostAddAction(HttpServletRequest request) {
-        //TODO: 处理资讯发布操作接口
-        Map<String, Object> result = new HashMap<String, Object>();
-        return result;
+    @RequestMapping("/lost/edit/{id}")
+    public ModelAndView lostEditView(@PathVariable("id") int id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        int publicId = getPublicIdBySession(session);
+        
+        ModelAndView view = new ModelAndView("public/lost/edit");
+        LostAndFound laf = lafService.getLostAndFoundById(id);
+        if (laf.getSendId() == publicId) {
+            view.addObject("laf", laf);
+        }
+        return view;
     }
     
+    /**
+     * 处理招领发布操作接口, 使用"/lost/add.action"接口
+     */
+
    /**
-    * 处理招领编辑操作接口
-    * @param id - 招领id
-    * @return 处理结果
+    * 处理招领编辑操作接口, 使用"/lost/edit.action"接口
     */
-   @RequestMapping("/lost/edit.action")
-   public @ResponseBody Map<String, Object> lostEditAction(HttpServletRequest request) {
-       //TODO: 处理资讯编辑操作接口
-       Map<String, Object> result = new HashMap<String, Object>();
-       return result;
-   }
     
    /**
     * 获取Session中的用户id
@@ -316,11 +329,21 @@ public class PublicController {
    public String getUserTypeBySession(HttpSession session) {
        return SysUtil.object2Str(session.getAttribute("userType"));
    }
+   
+   private static final int DefaultPageSize = 20;
+   
    /**
     * 自动装配的NewsService
     */
    @Autowired
    private NewsService newsService;
+   
+   
+   /**
+    * 自动装配的失物招领业务层
+    */
+   @Autowired
+   private LostAndFoundService lafService;
     
     
     

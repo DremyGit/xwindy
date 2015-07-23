@@ -22,6 +22,17 @@ public interface LostAndFoundMapper {
     public List<LostAndFound> getAllLostAndFoundByPage(Page page); 
     
     /**
+     * 通过招领公众号id和分页对象获取其发布的失物招领信息
+     * @param publicId - 招领号id
+     * @param pageNo - 页码
+     * @param pageSize - 分页大小
+     * @return 失物招领信息列表
+     */
+    public List<LostAndFound> getLostAndFoundListByPublicIdAndPage(
+            @Param("publicId") int publicId, @Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+    
+    
+    /**
      * 通过失物招领id获取单条失物招领信息
      * @param id - 失物招领信息
      * @return 失物招领信息

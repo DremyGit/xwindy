@@ -28,7 +28,7 @@ $("#submit").click(function () {
 		},
 		success: function (data) {
 			var res = eval(data);
-			if (res.isSuccess == "true") {
+			if (res.isSuccess) {
 				alert("发布成功");
 			} else {
 				alert("发布失败");

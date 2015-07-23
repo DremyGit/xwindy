@@ -10,8 +10,8 @@
 <body>
 Welcome to the manage system.
 Choose:
-<a href="public/news/list">资讯管理</a>
-<a href="public/repair/list">报修管理</a>
-<a href="public/lost/list">招领管理</a>
+<a href="public/news">资讯管理</a>
+<a href="public/repair">报修管理</a>
+<a href="public/lost">招领管理</a>
 </body>
 </html>

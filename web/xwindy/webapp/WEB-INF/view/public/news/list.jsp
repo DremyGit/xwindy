@@ -10,7 +10,7 @@
 <body>
 <c:forEach items="${newsList}" var="news">
 <div>
-	<span><a href="public/news/id/${news.id}">${news.title}</a></span>
+	<span><a href="public/news/${news.id}">${news.title}</a></span>
 	<span>clickNum:${news.clickNum}</span>
 	<span>commentNum:${news.commentNum}</span>
 	<span><a href="public/news/edit/${news.id}">编辑</a></span>

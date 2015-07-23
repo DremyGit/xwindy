@@ -31,14 +31,24 @@ public class LostAndFoundService {
     }
     
     /**
+     * 通过招领公众号id和分页对象获取其发布的失物招领信息
+     * @param publicId - 招领号id
+     * @param page - 分页对象
+     * @return 失物招领信息列表
+     */
+    public List<LostAndFound> getLostAndFoundListByPublicIdAndPage(int publicId, Page page) {
+        return lafMapper.getLostAndFoundListByPublicIdAndPage(publicId, page.getPageNo(), page.getPageSize());
+    }
+    
+    /**
      * 通过失物招领id获取单条失物招领信息
      * @param id - 失物招领id
      * @return 失物招领信息
      */
-    public LostAndFound getLAFById(int id) {
+    public LostAndFound getLostAndFoundById(int id) {
         return lafMapper.getLostAndFoundById(id);
     }
-    
+
     /**
      * 添加失物招领信息
      * @param laf - 失物招领对象
@@ -91,6 +101,8 @@ public class LostAndFoundService {
     public List<LostAndFound> searchLostAndFoundByKeyWordAndPage(String keyWord, Page page) {
         return lafMapper.searchLostAndFoundByKeyWordAndPage(keyWord, page.getPageNo(), page.getPageSize());
     }
+    
+   
     
     /**
      * 自动装配的失物招领Mapper对象

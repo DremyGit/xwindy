@@ -60,7 +60,7 @@ public class LostAndFoundController {
      */
     @RequestMapping("/detail.action")
     public @ResponseBody Map<String, Object> getLAFAction(int id) {
-        LostAndFound laf = lafService.getLAFById(id);
+        LostAndFound laf = lafService.getLostAndFoundById(id);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("laf", laf);
         return result;
@@ -117,6 +117,7 @@ public class LostAndFoundController {
      */
     @RequestMapping(value = "/edit.action", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> editLostLoginAction(
+            @RequestParam("id") int id,
             @RequestParam("local") String local,
             @RequestParam("keyWord") String keyWord,
             @RequestParam("content") String content,
@@ -128,6 +129,7 @@ public class LostAndFoundController {
         int userId = getUserIdBySession(session);
         
         LostAndFound laf = new LostAndFound();
+        laf.setId(id);
         laf.setSendId(userId);
         laf.setSendIp(SysUtil.getRealIp(request));
         laf.setLocal(local);

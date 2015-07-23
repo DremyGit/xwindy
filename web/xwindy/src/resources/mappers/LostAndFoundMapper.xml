@@ -8,7 +8,18 @@
 			SELECT laf.*, user.username AS sendUsername
 			FROM lost_and_found as laf
 			LEFT JOIN plate_users AS user ON laf.send_id = user.id
+			ORDER BY laf.id DESC
 			<include refid="pageLimitSql" />
+	</select>
+	
+	<select id="getLostAndFoundListByPublicIdAndPage"
+			resultType="LostAndFound">
+			SELECT laf.*, user.username AS sendUsername
+			FROM lost_and_found as laf
+			LEFT JOIN plate_users AS user ON laf.send_id = user.id
+			WHERE user.id = #{publicId}
+			ORDER BY laf.id DESC
+			<include refid="pageLimitSql" /> 
 	</select>
 	
 	<select id="getLostAndFoundById"
@@ -17,6 +28,7 @@
 			FROM lost_and_found as laf
 			LEFT JOIN plate_users AS user ON laf.send_id = user.id
 			WHERE laf.id = #{id}
+			ORDER BY laf.id DESC
 	</select>
 	
 	<select id="searchLostAndFoundByKeyWordAndPage"
@@ -25,6 +37,7 @@
 			FROM lost_and_found as laf
 			LEFT JOIN plate_users AS user ON laf.send_id = user.id
 			WHERE laf.key_word LIKE '%${keyWord}%' OR laf.content LIKE '%${keyWord}%'
+			ORDER BY laf.id DESC
 			<include refid="pageLimitSql" />
 	</select>
 	
