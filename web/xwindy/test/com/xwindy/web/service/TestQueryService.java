@@ -17,14 +17,14 @@ import static org.junit.Assert.*;
 public class TestQueryService {
     
     /**
-     * 测试用例: 测试getLib方法
+     * 测试用例: 测试getLibByStuNumAndPassword方法
      * 测试数据: 使用正确的账户,且账户内借阅列表不为空
      * 预期结果: 返回登录成功,且借阅列表不为空
      */
     @Test
-    public void testGetLibByTrueStuInfo() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getLib("2014217211", "2014217211");
-        assertEquals("true", result.get("loginSuccess"));
+    public void testGetLibByStuNumAndPasswordByTrueStuInfo() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getLibByStuNumAndPassword("2014217211", "2014217211");
+        assertEquals(true, result.get("isSuccess"));
         
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> borrowList = (List<Map<String, Object>>) result.get("borrowList");
@@ -32,16 +32,14 @@ public class TestQueryService {
     }
     
     /**
-     * 测试用例: 测试getLib方法
+     * 测试用例: 测试getLibByStuNumAndPassword方法
      * 测试数据: 使用正确的账户,且账户内借阅列表为空
      * 预期结果: 返回登录成功,且借阅列表为空
-     * @throws IOException 
-     * @throws ClientProtocolException 
      */
     @Test
-    public void testGetLibByTrueStuInfoNull() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getLib("2014218104", "2014218104");
-        assertEquals("true", result.get("loginSuccess"));
+    public void testGetLibByStuNumAndPasswordByTrueStuInfoNull() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getLibByStuNumAndPassword("2014218104", "2014218104");
+        assertEquals(true, result.get("isSuccess"));
         
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> borrowList = (List<Map<String, Object>>) result.get("borrowList");
@@ -54,20 +52,20 @@ public class TestQueryService {
      * 预期结果: 返回登录失败
      */
     @Test
-    public void testGetLibByFalseStuInfo() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getLib("2014217211", "123456");
-        assertEquals("false", result.get("loginSuccess"));
+    public void testGetLibByStuNumAndPasswordByFalseStuInfo() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getLibByStuNumAndPassword("2014217211", "123456");
+        assertEquals(false, result.get("isSuccess"));
     }
     
     /**
-     * 测试用例: 测试getSport方法
+     * 测试用例: 测试getSportByStuNumAndPassword方法
      * 测试数据: 使用正确的账户,且账户内借阅列表不为空
      * 预期结果: 返回登录成功,且查询信息不为空
      */
     @Test
-    public void testGetSportByTrueStuInfo() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getSport("2014217211", "888888");
-        assertEquals("true", result.get("loginSuccess"));
+    public void testGetSportByStuNumAndPasswordByTrueStuInfo() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getSportByStuNumAndPassword("2014217211", "888888");
+        assertEquals(true, result.get("isSuccess"));
         
         @SuppressWarnings("unchecked")
         Map<String, Object> sportInfo = (Map<String, Object>) result.get("sportInfo");
@@ -75,16 +73,14 @@ public class TestQueryService {
     }
     
     /**
-     * 测试用例: 测试getSport方法
+     * 测试用例: 测试getSportByStuNumAndPassword方法
      * 测试数据: 使用正确的账户,且账户内借阅列表为空
      * 预期结果: 返回登录成功,且查询信息为空
-     * @throws IOException 
-     * @throws ClientProtocolException 
      */
     @Test
-    public void testGetSportByTrueStuInfoNull() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getSport("2013217211", "888888");
-        assertEquals("true", result.get("loginSuccess"));
+    public void testGetSportByStuNumAndPasswordByTrueStuInfoNull() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getSportByStuNumAndPassword("2013217211", "888888");
+        assertEquals(true, result.get("isSuccess"));
         
         @SuppressWarnings("unchecked")
         Map<String, Object> sportInfo = (Map<String, Object>) result.get("sportInfo");
@@ -92,14 +88,14 @@ public class TestQueryService {
     }
     
     /**
-     * 测试用例: 测试getSport方法
+     * 测试用例: 测试getSportByStuNumAndPassword方法
      * 测试数据: 使用错误的账户
      * 预期结果: 返回登录失败
      */
     @Test
-    public void testGetSportByFalseStuInfo() throws ClientProtocolException, IOException {
-        Map<String, Object> result = queryService.getSport("2014217211", "123456");
-        assertEquals("false", result.get("loginSuccess"));
+    public void testGetSportByStuNumAndPasswordByFalseStuInfo() throws ClientProtocolException, IOException {
+        Map<String, Object> result = queryService.getSportByStuNumAndPassword("2014217211", "123456");
+        assertEquals(false, result.get("isSuccess"));
     }
     
     

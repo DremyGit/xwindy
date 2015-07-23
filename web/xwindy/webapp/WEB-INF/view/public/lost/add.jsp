@@ -49,7 +49,7 @@ $("#submit").click(function () {
 			if (res.isSuccess) {
 				alert("发布成功");
 			} else {
-				alert("发布失败, 原因:" + laf.reason);
+				alert("发布失败, 原因:" + res.reason);
 			}
 		},
 		error: function (data) {
