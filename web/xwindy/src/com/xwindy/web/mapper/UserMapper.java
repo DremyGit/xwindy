@@ -46,7 +46,11 @@ public interface UserMapper {
      */
     public Publicer getPublicerById(int id);
     
-
+    /**
+     * 获取所有的维修公众号
+     * @return 维修公众号对象列表
+     */
+    public List<Publicer> getAllRepairerList();
     
     /**
      * 通过用户名或学号和密码获取用户对象

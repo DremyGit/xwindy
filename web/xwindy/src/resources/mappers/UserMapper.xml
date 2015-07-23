@@ -34,6 +34,12 @@
 			WHERE school_number = #{studentId} AND user_type = "XS";
 	</select>
 	
+	<select id="getAllRepairerList"
+			resultType="Publicer">
+			SELECT * FROM plate_users
+			WHERE user_type = "BX"
+	</select>
+	
 	<select id="getUserByUsernameOrStuNumAndPassword"
 			resultType="User">
 			SELECT * FROM plate_users

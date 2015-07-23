@@ -223,6 +223,14 @@ public class UserService {
         }
         return false;
     }
+    
+    /**
+     * 获取所有的维修公众号
+     * @return 维修公众号列表
+     */
+    public List<Publicer> getAllRepairerList() {
+        return userMapper.getAllRepairerList();
+    }
 
     
     

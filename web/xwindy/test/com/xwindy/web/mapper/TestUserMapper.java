@@ -85,6 +85,17 @@ public class TestUserMapper {
     }
     
     /**
+     * 测试用例: 测试getAllRepairList方法
+     * 测试数据: 数据库中已存在维修公众号
+     * 预期结果: 返回非空列表
+     */
+    @Test
+    public void testGetAllRepairerList() {
+        List<Publicer> repairerList = userMapper.getAllRepairerList();
+        assertFalse(repairerList.isEmpty());
+    }
+    
+    /**
      * 测试用例: 测试getUserByUsernameOrStuNumAndPassword方法
      * 测试数据: 使用存在的学生用户学号
      * 预期结果: 返回相应的用户对象

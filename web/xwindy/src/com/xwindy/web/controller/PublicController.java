@@ -18,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xwindy.web.model.LostAndFound;
 import com.xwindy.web.model.News;
+import com.xwindy.web.model.Repair;
 import com.xwindy.web.service.LostAndFoundService;
 import com.xwindy.web.service.NewsService;
+import com.xwindy.web.service.RepairService;
 import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
 
@@ -188,8 +190,13 @@ public class PublicController {
      */
     @RequestMapping("/repair")
     public ModelAndView repaireManageView(HttpServletRequest request) {
-        // TODO: 维修号维修列表页
+        
+        HttpSession session = request.getSession();
+        int publicId = getPublicIdBySession(session);
+        
         ModelAndView view = new ModelAndView("public/repair/list");
+        Page page = new Page(1, DefaultPageSize);
+        view.addObject("repairList", repairService.getRepairListByPublicIdAndPage(publicId, page));
         return view;
     }
 
@@ -200,8 +207,12 @@ public class PublicController {
      */
     @RequestMapping("/repair/list.action")
     public @ResponseBody Map<String, Object> repaireListAction(Page page, HttpServletRequest request) {
-        // TODO: 维修号维修列表接口
+        
+        HttpSession session = request.getSession();
+        int publicId = getPublicIdBySession(session);
+        
         Map<String, Object> result = new HashMap<String, Object>();
+        result.put("repairList", repairService.getRepairListByPublicIdAndPage(publicId, page));
         return result;
     }
 
@@ -210,10 +221,12 @@ public class PublicController {
      * @param id - 维修id
      * @return 维修号维修详情页
      */
-    @RequestMapping("/repair/id/{id}")
+    @RequestMapping("/repair/{id}")
     public ModelAndView repairEditView(@PathVariable("id") int id, HttpServletRequest request) {
-        // TODO: 维修号维修详情页
+        
+        
         ModelAndView view = new ModelAndView("public/repair/detail");
+        view.addObject(repairService.getRepairById(id));
         return view;
     }
 
@@ -221,12 +234,23 @@ public class PublicController {
      * 处理维修编辑操作接口
      * 
      * @param id - 维修id
+     * @param status - 处理状态: 0待处理, 1已处理, 2拒绝处理
      * @return 处理结果
      */
     @RequestMapping("/repair/edit.action")
-    public @ResponseBody Map<String, Object> repairEditAction(HttpServletRequest request) {
-        // TODO: 处理维修编辑操作接口
+    public @ResponseBody Map<String, Object> repairEditAction(
+            @RequestParam("id")     int id,
+            @RequestParam("status") int status,
+            HttpServletRequest request) {
+        
+        Repair repair = repairService.getRepairById(id);
+        repair.setStatus(status);
+        if (repair.getStatus() != 0) {
+            repair.setResolvetime(SysUtil.nowtime());
+        }
+        
         Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", repairService.updateRepair(repair));
         return result;
     }
     
@@ -333,10 +357,16 @@ public class PublicController {
    private static final int DefaultPageSize = 20;
    
    /**
-    * 自动装配的NewsService
+    * 自动装配的资讯业务层
     */
    @Autowired
    private NewsService newsService;
+   
+   /**
+    * 自动装配的报修业务层
+    */
+   @Autowired
+   private RepairService repairService;
    
    
    /**
