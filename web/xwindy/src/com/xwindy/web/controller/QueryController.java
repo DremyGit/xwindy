@@ -6,10 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,39 +45,31 @@ public class QueryController {
     
  
     /**
-     * 处理查询图书馆借阅信息接口, 通过登录学生用户的图书馆账户进行查询
+     * 处理查询图书馆借阅信息接口
+     * 学生用户通过图书馆账户进行查询, 无需传入参数
+     * 管理员可通过学号和密码直接查询图书馆借阅信息
+     * @param stuNum - 学号
+     * @param password - 图书馆密码
+     * @param request - HttpServletRequest对象
      * @return 借阅信息结果集
      */
     @RequestMapping(value="/lib.action")
-    public @ResponseBody Map<String, Object> libQueryLoginAction(HttpServletRequest request) {
-        
-        HttpSession session = request.getSession();
-        int userId = getUserIdBySession(session);
-        
-        Map<String, Object> result = new HashMap<String, Object>();
-        result = queryService.getLibByStudentId(userId);
-        return result;
-    }
-    
-    /**
-     * [此接口仅供超级管理员调用]
-     * 通过学号和密码直接查询图书馆借阅信息
-     * @param stuNum - 学号
-     * @param password - 图书馆密码
-     * @param request - HttpServletRequest
-     * @return 借阅信息结果集
-     */
-    @RequestMapping(value="/libother.action")
-    public @ResponseBody Map<String, Object> libQueryParamLoginAction(
-            @Param("stuNum")   String stuNum,
-            @Param("password") String password,
+    public @ResponseBody Map<String, Object> libQueryLoginAction(
+            @RequestParam(value = "stuNum",   required = false) String stuNum,
+            @RequestParam(value = "password", required = false) String password,
             HttpServletRequest request) {
         
         Map<String, Object> result = new HashMap<String, Object>();
         HttpSession session = request.getSession();
+        int userId = getUserIdBySession(session);
+        
         if (!SysUtil.object2Str(session.getAttribute("userType")).equals("GLY")) {
-            result.put("isSuccess", false);
-            result.put("reason", "拒绝访问");
+            result = queryService.getLibByStudentId(userId);
+            return result;
+        }
+        
+        if (SysUtil.isEmptyString(stuNum) || SysUtil.isEmptyString(password)) {
+            result.put("reason", "用户名或密码为空");
             return result;
         }
         
@@ -108,46 +100,40 @@ public class QueryController {
     }
     
     /**
-     * 处理体育打卡查询接口, 通过登录学生用户的体育账户进行查询
-     * @param request - HttpServletRequest
+     * 处理体育打卡查询接口
+     * 学生通过体育账户进行查询, 无需传入参数
+     * 管理员可直接通过学号密码进行查询
+     * @param stuNum - 学号
+     * @param password - 图书馆密码
+     * @param request - HttpServletRequest对象
      * @return 查询结果集
      */
     @RequestMapping(value="/sport.action")
-    public @ResponseBody Map<String, Object> sportQueryLoginAction(HttpServletRequest request) {
+    public @ResponseBody Map<String, Object> sportQueryLoginAction(
+            @RequestParam(value = "stuNum",   required = false) String stuNum,
+            @RequestParam(value = "password", required = false) String password,
+            HttpServletRequest request) {
         
         HttpSession session = request.getSession();
         int userId = getUserIdBySession(session);
         
         Map<String, Object> result = new HashMap<String, Object>();
-        result = queryService.getSportByStudentId(userId);
-        return result;
-    }
-    
-    /**
-     * [此接口仅供超级管理员调用]
-     * 通过学号和密码直接查询体育打卡信息
-     * @param stuNum - 学号
-     * @param password - 密码
-     * @param request - HttpServleRequest对象
-     * @return 查询结果集
-     */
-    @RequestMapping(value="/sportother.action")
-    public @ResponseBody Map<String, Object> sportQueryParamLoginAction(
-            @Param("stuNum")   String stuNum,
-            @Param("password") String password,
-            HttpServletRequest request) {
+        result.put("isSuccess", false);
         
-        Map<String, Object> result = new HashMap<String, Object>();
-        HttpSession session = request.getSession();
         if (!SysUtil.object2Str(session.getAttribute("userType")).equals("GLY")) {
-            result.put("isSuccess", false);
-            result.put("reason", "拒绝访问");
+            result = queryService.getSportByStudentId(userId);
             return result;
         }
         
+        if (SysUtil.isEmptyString(stuNum) || SysUtil.isEmptyString(password)) {
+            result.put("reason", "用户名或密码为空");
+            return result;
+        }
         result.putAll(queryService.getSportByStuNumAndPassword(stuNum, password));
         return result;
     }
+    
+   
     
     
     public int getUserIdBySession(HttpSession session) {
