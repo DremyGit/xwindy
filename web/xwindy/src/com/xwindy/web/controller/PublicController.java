@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xwindy.web.model.LostAndFound;
 import com.xwindy.web.model.News;
 import com.xwindy.web.model.Repair;
+import com.xwindy.web.service.LogService;
 import com.xwindy.web.service.LostAndFoundService;
 import com.xwindy.web.service.NewsService;
 import com.xwindy.web.service.RepairService;
@@ -130,6 +131,10 @@ public class PublicController {
         news.setUrl(url);
         news.setPush(push);
         Map<String, Object> result = newsService.addNews(news);
+        
+        if (SysUtil.object2Bool(result.get("isSuccess"))) {
+            log.write("发布资讯: " + title, publicId, SysUtil.getRealIp(request));
+        }
         return result;
     }
     
@@ -181,6 +186,10 @@ public class PublicController {
         news.setUrl(url);
         news.setPublicIP(SysUtil.getRealIp(request));
         Map<String, Object> result = newsService.updateNews(news);
+        
+        if (SysUtil.object2Bool(result.get("isSuccess"))) {
+            log.write("编辑资讯: " + title, publicId, SysUtil.getRealIp(request));
+        }
         return result;
     }
 
@@ -250,7 +259,11 @@ public class PublicController {
         }
         
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("isSuccess", repairService.updateRepair(repair));
+        boolean isSuccess = repairService.updateRepair(repair);
+        result.put("isSuccess", isSuccess);
+        if (isSuccess) {
+            log.write("处理报修: 报修用户:" + repair.getStudentNumber().toString() , repair.getRepairerId(), SysUtil.getRealIp(request));
+        }
         return result;
     }
     
@@ -374,6 +387,12 @@ public class PublicController {
     */
    @Autowired
    private LostAndFoundService lafService;
+   
+   /**
+    * 自动装配的日志业务层
+    */
+   @Autowired
+   private LogService log;
     
     
     

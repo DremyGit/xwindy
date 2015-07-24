@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xwindy.web.model.Repair;
+import com.xwindy.web.service.LogService;
 import com.xwindy.web.service.RepairService;
 import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.SysUtil;
@@ -68,10 +69,24 @@ public class RepairController {
         
         Repair repair = new Repair(studentId, repairerId, local, content, phone, SysUtil.nowtime());
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("isSuccess", repairService.addRepair(repair));
+        boolean isSuccess = repairService.addRepair(repair);
+        result.put("isSuccess", isSuccess);
+        if (isSuccess) {
+            log.write("用户添加报修申请", studentId, SysUtil.getRealIp(request));
+        }
         return result;
     }
     
+    /**
+     * 处理修改报修接口
+     * @param id - 报修id
+     * @param repairerId - 目标报修号id
+     * @param local - 报修地点
+     * @param content - 报修内容
+     * @param phone 报修者电话
+     * @param request HttpServletRequest对象
+     * @return 添加结果Map<String, Object>对象
+     */
     @RequestMapping(value = "edit.action", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> editRepairLoginAction(
             @RequestParam("id")         int     id,
@@ -99,17 +114,39 @@ public class RepairController {
         return result;
     }
     
+    /**
+     * 从Session中获取登录用户的用户id
+     * @param session - HttpSession对象
+     * @return 登录用户id
+     */
     public int getUserIdBySession(HttpSession session) {
         return (int) session.getAttribute("userId");
     }
     
+    /**
+     * 从Session中判断用户是否登录
+     * @param session - HttpSession对象
+     * @return 用户是否登录
+     */
     public boolean isLogin(HttpSession session) {
         return SysUtil.object2Bool(session.getAttribute("isLogin"));
     }
     
+    /**
+     * 自动装配的报修业务层
+     */
     @Autowired
     private RepairService repairService;
     
+    /**
+     * 自动装配的用户业务层
+     */
     @Autowired
     private UserService userService;
+    
+    /**
+     * 自动装配的日志业务层
+     */
+    @Autowired
+    private LogService log;
 }

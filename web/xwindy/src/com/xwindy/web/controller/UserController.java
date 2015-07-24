@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
+import com.xwindy.web.service.LogService;
 import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
@@ -59,6 +60,8 @@ public class UserController {
             return result;
         }
         int userId = (int) result.get("userId");
+        userService.updateActiveTimeByUserId(userId);
+        
         HttpSession session = request.getSession();
         session.setAttribute("isLogin", "true");
         session.setAttribute("userType", result.get("userType"));
@@ -66,6 +69,9 @@ public class UserController {
         
         if (autoLogin) {
             userService.setAutoLoginCookie(userId, response);
+        }
+        if (!result.get("userType").equals("XS")) {
+            log.write("公众号用户登录", userId, SysUtil.getRealIp(request));
         }
         
         return result;
@@ -116,7 +122,7 @@ public class UserController {
      * @param request - HttpServletRequest对象
      * @return 含有检查结果的Map<String, Object>对象
      */
-    @RequestMapping(value = "/checkid.action", method = RequestMethod.GET)
+    @RequestMapping(value = "/checkid.action", method = RequestMethod.POST)
     public @ResponseBody Map<String, Object> checkStuId(
             @RequestParam(value = "stuId",   required = true) String stuId,
             @RequestParam(value = "stuPass", required = true) String stuPass,
@@ -163,11 +169,15 @@ public class UserController {
             student.setSchoolNumber(stuId);
         }
         
-        if (!userService.studentRegister(student)) {
+        int userId = userService.studentRegister(student);
+        System.out.println(userId);
+        if (userId == 0) {
             result.put("reason", "注册失败");
             return result;
         }
+        session.removeAttribute("stuId");
         result.put("isSuccess", true);
+        log.write("新用户注册", userId, SysUtil.getRealIp(request));
         return result;
     }
     
@@ -288,4 +298,7 @@ public class UserController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private LogService log;
 }

@@ -83,6 +83,13 @@ public interface UserMapper {
     public int addPublicer(Publicer publicer);
     
     /**
+     * 更新用户活动时间
+     * @param userId - 用户id
+     * @return 更改的行数
+     */
+    public int updateUserActiveTime(@Param("userId") int userId, @Param("datetime") String datetime);
+    
+    /**
      * 更新学生用户基本用户信息
      * @param student - 需要更新的学生对象
      * @return 更改的行数

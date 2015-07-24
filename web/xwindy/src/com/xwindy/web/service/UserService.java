@@ -83,6 +83,16 @@ public class UserService {
         }
     }
     
+    public void updateActiveTimeByUserId(int userId) {
+        try {
+            String datetime = SysUtil.nowtime();
+            userMapper.updateUserActiveTime(userId, datetime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     /**
      * 检验数据库中是否已有相同的学号存在
      * @param stuId - 学生学号
@@ -110,20 +120,18 @@ public class UserService {
     /**
      * 进行学生用户注册操作
      * @param student - 学生对象
-     * @return 插入结果
+     * @return 插入记录的id
      */
-    public boolean studentRegister(Student student) {
+    public int studentRegister(Student student) {
         
         //TODO: 验证注册信息的合法性
         try {
-            if (1 == userMapper.addStudent(student)) {
-                return true;
-            }
+            userMapper.addStudent(student);
+            return student.getId();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return 0;
         }
-        return false;
     }
     
     /**
