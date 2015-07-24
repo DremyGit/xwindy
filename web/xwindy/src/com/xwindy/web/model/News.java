@@ -1,50 +1,103 @@
 package com.xwindy.web.model;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.xwindy.web.util.SysUtil;
 
 /**
- * 新闻Bean
- * 对应数据库的news表
- * 
+ * 资讯类
  * @author Dremy
  *
  */
-public class News {
+public class News implements Serializable{
 
-	private int id;
+	/**
+     * 序列化id
+     */
+    private static final long serialVersionUID = 2371167105428688287L;
+
+    /**
+     * 资讯id
+     */
+    private int id;
+
+	/**
+	 * 资讯评论列表
+	 */
+	private List<Comment> commentList;
 	
+	/**
+	 * 资讯号id
+	 */
 	private int publicId;
 	
-	private String publicName;
+    /**
+     * 资讯号对象
+     */
+    private Publicer publicer;
 	
+    /**
+     * 发布者ip
+     */
 	private String publicIP;
 	
+	/**
+	 * 资讯标题
+	 */
 	private String title;
 	
+	/**
+	 * 资讯正文
+	 */
 	private String content;
 	
+	/**
+	 * 资讯简介
+	 */
 	private String summary;
 	
+	/**
+	 * 发布时间
+	 */
 	private String datetime;
 	
+	/**
+	 * 原文Url
+	 */
 	private String url;
 	
-	private boolean push;
+	/**
+	 * 推送状态: 0为不推送, 1为申请推送, 2为同意推送, 3为拒绝推送, 4为已推送
+	 */
+	private int push;
 	
+	/**
+	 * 点击次数
+	 */
 	private int clickNum;
 	
+	/**
+	 * 评论总数
+	 */
 	private int commentNum;
 	
+	/**
+	 * 首图Url
+	 */
 	private String firstPicUrl;
-	
-	
 
+	/**
+	 * 资讯类默认构造函数
+	 */
     public News() {};
 	
-	public News(int publicId, String publicIP, String title, String url, String content, String datetime, boolean push) {
+    /**
+     * 资讯类构造函数
+     */
+	public News(int publicId, String publicIP, String title, String url, String content, String datetime, int push) {
 	    
 	    this.publicId = publicId;
 	    this.publicIP = publicIP;
@@ -55,9 +108,12 @@ public class News {
 	    this.push = push;
 	}
 	
+	/**
+	 * 重写toString方法
+	 */
 	@Override
     public String toString() {
-        return "News [id=" + id + ", publicId=" + publicId + ", publicName=" + publicName + ", publicIP=" + publicIP
+        return "News [id=" + id + ", publicId=" + publicId + ", publicIP=" + publicIP
                 + ", title=" + title + ", content=" + content + ", datetime=" + datetime + ", url=" + url + ", push="
                 + push + ", clickNum=" + clickNum + ", commentNum=" + commentNum + "]";
     }
@@ -66,18 +122,26 @@ public class News {
 		return id;
 	}
 
-	public void setId(int id) {
+    public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getPublicName() {
-		return publicName;
-	}
+    public Publicer getPublicer() {
+        return publicer;
+    }
 
-	public void setPublicName(String publicName) {
-		this.publicName = publicName;
-	}
-	
+    public void setPublicer(Publicer publicer) {
+        this.publicer = publicer;
+    }
+    
+	public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
 	public int getPublicId() {
 		return publicId;
 	}
@@ -143,15 +207,15 @@ public class News {
 		this.url = urlFrom;
 	}
 
-	public boolean isPush() {
-		return push;
-	}
+	public int getPush() {
+        return push;
+    }
 
-	public void setPush(Boolean push) {
-			this.push = push;
-	}
+    public void setPush(int push) {
+        this.push = push;
+    }
 
-	public int getClickNum() {
+    public int getClickNum() {
 		return clickNum;
 	}
 

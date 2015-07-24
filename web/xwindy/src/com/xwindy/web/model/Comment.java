@@ -1,9 +1,16 @@
 package com.xwindy.web.model;
 
+import java.io.Serializable;
+
 import com.xwindy.web.util.SysUtil;
 
-public class Comment {
+public class Comment implements Serializable{
     
+    /**
+     * 实例化id
+     */
+    private static final long serialVersionUID = -671976702682619841L;
+
     /**
      * 用户名
      */
@@ -35,9 +42,14 @@ public class Comment {
     private String userIP;
     
     /**
-     * 新闻表ID
+     * 资讯表ID
      */
     private int newsId;
+    
+    /**
+     * 资讯对象
+     */
+    private News news;
     
     /**
      * 发布时间，字符串类型
@@ -169,6 +181,22 @@ public class Comment {
      */
     public void setNewsId(int newsId) {
         this.newsId = newsId;
+    }
+
+    /**
+     * 得到资讯对象
+     * @return 资讯对象
+     */
+    public News getNews() {
+        return news;
+    }
+
+    /**
+     * 设置资讯对象
+     * @param news - 资讯对象
+     */
+    public void setNews(News news) {
+        this.news = news;
     }
 
     /**

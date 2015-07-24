@@ -1,6 +1,18 @@
 package com.xwindy.web.model;
 
-public class PublicClass {
+import java.io.Serializable;
+
+/**
+ * 公众号分类
+ * @author Dremy
+ *
+ */
+public class PublicClass implements Serializable{
+
+    /**
+     * 序列化id
+     */
+    private static final long serialVersionUID = 5055287158557870005L;
 
     private int id;
     

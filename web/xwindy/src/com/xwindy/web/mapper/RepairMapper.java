@@ -51,4 +51,18 @@ public interface RepairMapper {
      */
     public List<Repair> getRepairListByUserId(int userId);
     
+    /**
+     * 通过报修用户id获取接受的报修总数
+     * @param publicId - 报修用户id
+     * @return 报修总数
+     */
+    public int getRepairTotalNumByPublicId(int publicId);
+    
+    /**
+     * 通过报修用户id获取尚未处理的条数
+     * @param publicId - 报修用户id
+     * @return 尚未处理的条数
+     */
+    public int getRepairNotFinishNumByPublicId(int publicId);
+    
 }

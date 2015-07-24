@@ -1,26 +1,67 @@
 package com.xwindy.web.model;
 
+import java.io.Serializable;
 
-public class User {
+/**
+ * 用户类
+ * @author Dremy
+ *
+ */
+public class User implements Serializable{
 
+    /**
+     * 序列化id
+     */
+    private static final long serialVersionUID = 1623484656491311326L;
+
+    /**
+     * 用户id
+     */
     private int id;
     
+    /**
+     * 用户名
+     */
     private String username;
     
+    /**
+     * 密码
+     */
     private String password;        
     
+    /**
+     * 用户类型
+     */
     protected String userType;
     
+    /**
+     * 电话号码
+     */
     private String telNumber;
     
+    /**
+     * email
+     */
     private String email;
     
+    /**
+     * 最后活动时间
+     */
     private String lastActive;
     
+    /**
+     * 头像Url
+     */
     private String header;
     
+    /**
+     * 用户类的默认构造函数
+     */
     public User() {}
     
+    /**
+     * 用户类的构造函数
+     */
     public User(String username, String password, String userType,
             String telNumber, String email, String header) {
         this.username = username;

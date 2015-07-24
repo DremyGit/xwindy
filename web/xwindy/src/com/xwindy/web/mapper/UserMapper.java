@@ -152,7 +152,20 @@ public interface UserMapper {
      */
     public int deleteSubscribeByPublicIdAndUserId(
             @Param("publicId") int publicId, @Param("userId") int userId);
+
+    /**
+     * 通过用户id获取订阅数
+     * @param userId - 用户id
+     * @return 订阅公众号的数量
+     */
+    public int getSubscribeNumByUserId(int userId);
     
+    /**
+     * 通过资讯公众号用户id获取粉丝数
+     * @param publicId - 公众号id
+     * @return 粉丝数
+     */
+    public int getSubscribeNumByPublicId(int publicId);
     
 
 }

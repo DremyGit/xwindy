@@ -12,7 +12,7 @@
 <c:forEach items="${lafList}" var="laf">
 	<li>
 		<div>${laf.id}</div>
-		<div>${laf.sendUsername}</div>
+		<div>${laf.sendUser.username}</div>
 		<div>${laf.sendIp}</div>
 		<div>${laf.type}</div>
 		<div>${laf.local}</div>

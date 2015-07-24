@@ -12,9 +12,9 @@
 <ul>
 <c:forEach items="${myRepairList}" var="myRepair">
 	<li>id: ${myRepair.id}</li>
-	<li>stu: ${myRepair.studentNumber}</li>
-	<li>name: ${myRepair.studentUsername}</li>
-	<li>repairer: ${myRepair.repairerName}</li>
+	<li>stu: ${myRepair.student.studentNumber}</li>
+	<li>name: ${myRepair.student.username}</li>
+	<li>repairer: ${myRepair.repairer.username}</li>
 	<li>local: ${myRepair.local}</li>
 	<li>content:${myRepair.content}</li>
 	<li>phone: ${myRepair.phone}</li>

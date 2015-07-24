@@ -1,12 +1,19 @@
 package com.xwindy.web.model;
 
+import java.io.Serializable;
+
 /**
  * 报修类
  * @author Dremy
  *
  */
-public class Repair {
+public class Repair implements Serializable{
     
+    /**
+     * 序列化id
+     */
+    private static final long serialVersionUID = -6442776189628449650L;
+
     /**
      * 报修表中的id
      */
@@ -18,14 +25,9 @@ public class Repair {
     private int studentId;
     
     /**
-     * 报修学生学号(外联)
+     * 报修学生对象
      */
-    private String studentNumber;
-    
-    /**
-     * 学生用户名(外联)
-     */
-    private String studentUsername;
+    private Student student;
     
     /**
      * 报修号id
@@ -33,9 +35,9 @@ public class Repair {
     private int repairerId;
     
     /**
-     * 报修号用户名(外联)
+     * 报修号对象
      */
-    private String repairerName;
+    private Publicer repairer;
     
     /**
      * 报修地点
@@ -58,7 +60,7 @@ public class Repair {
     private String datetime;
     
     /**
-     * 报修状态
+     * 报修状态: 0为待处理, 1为已处理, 2为拒绝处理
      */
     private int status;
     
@@ -156,31 +158,22 @@ public class Repair {
         this.resolvetime = resolvetime;
     }
 
-    public String getStudentNumber() {
-        return studentNumber;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getStudentUsername() {
-        return studentUsername;
+    public Publicer getRepairer() {
+        return repairer;
     }
 
-    public void setStudentUsername(String studentUsername) {
-        this.studentUsername = studentUsername;
+    public void setRepairer(Publicer repairer) {
+        this.repairer = repairer;
     }
 
-    public String getRepairerName() {
-        return repairerName;
-    }
-
-    public void setRepairerName(String repairerName) {
-        this.repairerName = repairerName;
-    }
-    
-    
     
 
 }

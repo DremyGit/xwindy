@@ -9,17 +9,18 @@
 </head>
 <body>
 <h1>${news.title}</h1>
-<div>${news.publicName}</div>
+<div>${news.publicer.username}</div>
 <div>${news.publicIP}</div>
 <div>${news.title}</div>
 <div>${news.datetime}</div>
 <div>${news.clickNum}</div>
 <div>${news.commentNum}</div>
 <div>${news.content}</div>
+<div>publicer: ${news.publicer.password}</div>
 <h1>Comment</h1>
 <textarea id="comment-content" rows="6" cols="100"></textarea><br>
 <button id="submit">提交</button><br>
-<c:forEach items="${commentList}" var="comment">
+<c:forEach items="${news.commentList}" var="comment">
 	<div>${comment.username}</div>
 	<div>${comment.content}</div>
 </c:forEach>

@@ -3,135 +3,208 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xwindy.web.mapper.UserMapper">
-
+	
+	<cache />
+	
+	<resultMap type="User" id="UserResult">
+		<id property="id" column="id" />
+		<result property="username" 	column="username"/>
+		<result property="password" 	column="password"/>
+		<result property="userType" 	column="user_type"/>
+		<result property="telNumber" 	column="tel_number"/>
+		<result property="email" 		column="email"/>
+		<result property="lastActive" 	column="last_active"/>
+		<result property="header" 		column="header"/>
+	</resultMap>
+	
+	<resultMap type="Student" id="StudentResult" extends="UserResult">
+		<result property="schoolNumber" column="school_number"/>
+		<result property="sportPass" 	column="sport_pass"/>
+		<result property="libPass" 		column="lib_pass"/>
+	</resultMap>
+	
+	<resultMap type="Student" id="StudentDetailResult" extends="StudentResult">
+		<association property="commentNum"
+			javaType="int"
+			column="id"
+			select="com.xwindy.web.mapper.CommentMapper.getCommentNumByUserId" />
+		<association property="subscribeNum"
+			javaType="int"
+			column="id"
+			select="getSubscribeNumByUserId"></association>
+	</resultMap>
+	
+	<resultMap type="Publicer" id="PublicerResult" extends="UserResult">
+		<result property="publicClass" 	column="public_class"/>
+		<result property="introduce" 	column="introduce"/>
+		<result property="isSub" 		column="isSub"/>
+	</resultMap>
+	
+	<resultMap type="Publicer" id="PublicerDetailResult" extends="PublicerResult">
+		<discriminator javaType="String" column="user_type">
+  			<case value="GZH" >
+  				<association property="newsNumber"
+			 		column="id"
+					select="com.xwindy.web.mapper.NewsMapper.getNewsNumByPublicId" />
+				<association property="lastNewsTime"
+					column="id"
+					select="com.xwindy.web.mapper.NewsMapper.getLastNewsTimeByPublicId" />
+				<association property="subscribeUserNum"
+					column="id"
+					select="getSubscribeNumByPublicId" />
+  			</case>
+  			<case value="BX">
+	  			<association property="repairTotalNum"
+					column="id"
+				 	select="com.xwindy.web.mapper.RepairMapper.getRepairTotalNumByPublicId" />
+				<association property="repairNotFinishNum"
+				 	column="id"
+				 	select="com.xwindy.web.mapper.RepairMapper.getRepairNotFinishNumByPublicId" />
+  			</case>
+		</discriminator>
+	</resultMap>
+	
 	<select id="getUserById"
-			resultType="User">
-			SELECT * FROM plate_users
-			WHERE id = #{id}
+		resultMap="UserResult">
+		SELECT * FROM plate_users
+		WHERE id = #{id}
 	</select>
 
 	<select id="getStudentById"
-			resultType="Student">
-			SELECT * FROM plate_users
-			WHERE id = #{id} AND user_type = "XS"
+		resultMap="StudentResult">
+		SELECT * FROM plate_users
+		WHERE id = #{id} AND user_type = "XS"
 	</select>
 	
 	<select id="getPublicerById"
-			resultType="Publicer">
-			SELECT * FROM plate_users
-			WHERE id = #{id} AND user_type != "XS"
+		resultMap="PublicerResult">
+		SELECT * FROM plate_users
+		WHERE id = #{id} AND user_type != "XS"
 	</select>
 	
 	<select id="getStudentByUsername"
-			resultType="Student">
-			SELECT * FROM plate_users
-			WHERE username = #{username}
+		resultMap="StudentResult">
+		SELECT * FROM plate_users
+		WHERE username = #{username}
 	</select>
 	
 	<select id="getStudentByStudentId"
-			resultType="Student">
-			SELECT * FROM plate_users
-			WHERE school_number = #{studentId} AND user_type = "XS";
+		resultMap="StudentResult">
+		SELECT * FROM plate_users
+		WHERE school_number = #{studentId} AND user_type = "XS";
 	</select>
 	
 	<select id="getAllRepairerList"
-			resultType="Publicer">
-			SELECT * FROM plate_users
-			WHERE user_type = "BX"
+		resultMap="PublicerResult">
+		SELECT * FROM plate_users
+		WHERE user_type = "BX"
 	</select>
 	
 	<select id="getUserByUsernameOrStuNumAndPassword"
-			resultType="User">
-			SELECT * FROM plate_users
-			WHERE password = #{password}
-			AND (username = #{account} OR school_number = #{account})
+		resultMap="UserResult">
+		SELECT * FROM plate_users
+		WHERE password = #{password}
+		AND (username = #{account} OR school_number = #{account})
 	</select>
 	
 	<select id="searchPublicerListByUsername"
-			parameterType="String"
-			resultType="Publicer">
-			SELECT * FROM plate_users
-			WHERE username LIKE '%${1}%' 
-			  AND user_type = "GZH"
+		parameterType="String"
+		resultMap="PublicerResult">
+		SELECT * FROM plate_users
+		WHERE username LIKE '%${1}%' AND user_type = "GZH"
 	</select>
 	
 	<insert id="addStudent"
-			parameterType="Student"
-			useGeneratedKeys="true"
-			keyProperty="id">
-			INSERT INTO plate_users
-			(username, password, user_type, school_number, tel_number, email, sport_pass, header, lib_pass, public_class)
-			VALUES
-			(#{username}, #{password}, "XS", #{schoolNumber}, #{telNumber}, #{email}, #{sportPass}, #{header}, #{libPass}, 0)
+		parameterType="Student"
+		useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO plate_users
+		(username, password, user_type, school_number, tel_number, email, sport_pass, header, lib_pass, public_class)
+		VALUES
+		(#{username}, #{password}, "XS", #{schoolNumber}, #{telNumber}, #{email}, #{sportPass}, #{header}, #{libPass}, 0)
 	</insert>
 	
 	<insert id="addPublicer"
-			parameterType="Publicer"
-			useGeneratedKeys="true"
-			keyProperty="id">
-			INSERT INTO plate_users
-			(public_class, username, password, user_type, tel_number, email, introduce, header)
-			VALUES
-			(#{publicClass}, #{username}, #{password}, #{userType}, #{telNumber}, #{email}, #{introduce}, #{header})
+		parameterType="Publicer"
+		useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO plate_users
+		(public_class, username, password, user_type, tel_number, email, introduce, header)
+		VALUES
+		(#{publicClass}, #{username}, #{password}, #{userType}, #{telNumber}, #{email}, #{introduce}, #{header})
 	</insert>
 	
 	<update id="updateUserActiveTime">
-			UPDATE plate_users
-			SET last_active = #{datetime}
-			WHERE id = #{userId}
+		UPDATE plate_users
+		SET last_active = #{datetime}
+		WHERE id = #{userId}
 	</update>
 	
 	<update id="updateStudent"
-			parameterType="Student">
-			UPDATE plate_users
-			SET username = #{username}, password = #{password}, school_number = #{schoolNumber},
-				tel_number = #{telNumber}, email = #{email}, sport_pass = #{sportPass}, header = #{header}, lib_pass = #{libPass}
-			WHERE id = #{id}
+		parameterType="Student">
+		UPDATE plate_users
+		SET username = #{username}, password = #{password}, school_number = #{schoolNumber},
+		    tel_number = #{telNumber}, email = #{email}, sport_pass = #{sportPass}, header = #{header}, lib_pass = #{libPass}
+		WHERE id = #{id}
 	</update>
 	
 	<update id="updatePublicer"
-			parameterType="Publicer">
-			UPDATE plate_users
-			SET public_class = #{publicClass}, username = #{username}, password = #{password}, user_type = #{userType}, 
-				tel_number = #{telNumber}, email = #{email}, introduce = #{introduce}, header = #{header}
-			WHERE id = #{id}
+		parameterType="Publicer">
+		UPDATE plate_users
+		SET public_class = #{publicClass}, username = #{username}, password = #{password}, user_type = #{userType}, 
+		    tel_number = #{telNumber}, email = #{email}, introduce = #{introduce}, header = #{header}
+		WHERE id = #{id}
 	</update>
 	
 	<delete id="deleteUserById">
-			DELETE FROM plate_users WHERE id = #{id}
+		DELETE FROM plate_users WHERE id = #{id}
 	</delete>
 	
 	<select id="getPublicClassById"
-			resultType="PublicClass">
-			SELECT * FROM public_class
-			WHERE id = #{id} and id != 0
+		resultType="PublicClass">
+		SELECT * FROM public_class
+		WHERE id = #{id} and id != 0
 	</select>
 	
 	<select id="getAllPublicClassList"
-			resultType="PublicClass">
-			SELECT * FROM public_class
-			WHERE id != 0
-			ORDER BY 'order' ASC
+		resultType="PublicClass">
+		SELECT * FROM public_class
+		WHERE id != 0
+		ORDER BY 'order' ASC
 	</select>
 	
 	<select id="getPublicerListByPublicClassIdAndUserIdAndPage"
-			resultType="Publicer">
-			SELECT public.id AS id, public.username AS username, public.header, public.introduce, NOT ISNULL(`user`.id) AS isSub
-			FROM plate_users AS public
-			LEFT OUTER JOIN subscribe ON subscribe.public_id = public.id
-			LEFT OUTER JOIN plate_users AS `user` ON `user`.id = subscribe.student_id AND `user`.id = #{userId}
-			WHERE public.public_class = #{publicClassId}
-			<include refid="pageLimitSql" />
+		resultMap="PublicerResult">
+		SELECT public.id AS id, public.username AS username, public.header, public.introduce, NOT ISNULL(`user`.id) AS isSub
+		FROM plate_users AS public
+		LEFT OUTER JOIN subscribe ON subscribe.public_id = public.id
+		LEFT OUTER JOIN plate_users AS `user` ON `user`.id = subscribe.student_id AND `user`.id = #{userId}
+		WHERE public.public_class = #{publicClassId}
+		<include refid="pageLimitSql" />
+	</select>
+	
+	<select id="getSubscribeNumByUserId"
+		resultType="int">
+		SELECT COUNT(0)
+		FROM subscribe
+		WHERE student_id = #{userId}
+	</select>
+	
+	<select id="getSubscribeNumByPublicId"
+		resultType="int">
+		SELECT COUNT(0)
+		FROM subscribe
+		WHERE public_id = #{publicId}
 	</select>
 	
 	<insert id="addSubscribeByPublicIdAndUserId">
-			INSERT INTO subscribe (public_id, student_id)
-			VALUES (#{publicId}, #{userId})
+		INSERT INTO subscribe (public_id, student_id)
+		VALUES (#{publicId}, #{userId})
 	</insert>
 	
 	<delete id="deleteSubscribeByPublicIdAndUserId">
-			DELETE FROM subscribe
-			WHERE public_id = #{publicId} AND student_id = #{userId}
+		DELETE FROM subscribe
+		WHERE public_id = #{publicId} AND student_id = #{userId}
 	</delete>
 	
 	<sql id="pageLimitSql">

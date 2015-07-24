@@ -24,6 +24,11 @@ import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
 
+/**
+ * 用户控制层
+ * @author dremy
+ *
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {

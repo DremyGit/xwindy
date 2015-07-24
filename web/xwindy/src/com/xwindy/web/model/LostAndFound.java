@@ -1,6 +1,18 @@
 package com.xwindy.web.model;
 
-public class LostAndFound {
+import java.io.Serializable;
+
+/**
+ * 失物招领类
+ * @author dremy
+ *
+ */
+public class LostAndFound  implements Serializable{
+
+    /**
+     * 序列化id
+     */
+    private static final long serialVersionUID = -683151812021533813L;
 
     /**
      * 失物招领表id
@@ -13,9 +25,9 @@ public class LostAndFound {
     private int sendId;
     
     /**
-     * 发布者用户名
+     * 发布用户
      */
-    private String sendUsername;
+    private User sendUser;
     
     /**
      * 发布者IP
@@ -99,12 +111,16 @@ public class LostAndFound {
         this.sendId = sendId;
     }
 
-    public String getSendUsername() {
-        return sendUsername;
+    public User getSendUser() {
+        return sendUser;
     }
 
-    public void setSendUsername(String sendUsername) {
-        this.sendUsername = sendUsername;
+    public void setSendUser(User sendUser) {
+        this.sendUser = sendUser;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
     public String getSendIp() {

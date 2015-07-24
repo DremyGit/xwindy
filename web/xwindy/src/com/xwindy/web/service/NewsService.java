@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.xwindy.web.mapper.CommentMapper;
 import com.xwindy.web.mapper.NewsMapper;
 import com.xwindy.web.mapper.UserMapper;
 import com.xwindy.web.model.Comment;
@@ -84,15 +85,6 @@ public class NewsService {
     }
     
     /**
-     * 通过资讯id获取资讯评论列表
-     * @param newsId
-     * @return
-     */
-    public List<Comment> getCommentListByNewsId(int newsId) {
-        return newsMapper.getCommentListByNewsId(newsId);
-    }
-    
-    /**
      * 通过文章id添加文章点击数
      * @param id
      */
@@ -156,7 +148,7 @@ public class NewsService {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
             comment.setDatetime(SysUtil.nowtime());
-            newsMapper.addComment(comment);
+            commentMapper.addComment(comment);
             result.put("isSuccess", true);
         } catch (Exception e) {
             result.put("isSuccess", false);
@@ -171,11 +163,16 @@ public class NewsService {
     
     
     /**
-     * 自动装配的newsMapper
+     * 自动装配的资讯Mapper
      */
     @Autowired
     private NewsMapper newsMapper;
     
+    @Autowired
+    private CommentMapper commentMapper;
+    /**
+     * 自动装配的用户Mapper
+     */
     @Autowired
     private UserMapper userMapper;
 }

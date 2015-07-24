@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.xwindy.web.model.Comment;
 import com.xwindy.web.model.News;
 
 public interface NewsMapper {
@@ -50,68 +49,42 @@ public interface NewsMapper {
      * @param id - 资讯ID
      * @return 执行结果
      */
-    public boolean addClickNumberById(int id);
+    public int addClickNumberById(int id);
     
     /**
      * 添加资讯
      * @param bean - 新闻Bean
      * @return 执行结果
      */
-    public boolean addNews(News news);
+    public int addNews(News news);
     
     /**
      * 更新新闻
      * @param bean - 新闻Bean
      * @return 执行结果
      */
-    public boolean updateNews(News news);
+    public int updateNews(News news);
     
     /**
      * 删除新闻
      * @param id - 新闻Bean
      * @return 执行结果
      */
-    public boolean deleteNewsById(int id);
+    public int deleteNewsById(int id);
     
     /**
-     * 通过评论Id获取评论
-     * @param id - 评论Id
-     * @return 评论对象
+     * 通过公众号id获取发布的资讯条数
+     * @param publicId - 公众号id
+     * @return 发布的资讯条数
      */
-    public Comment getCommentById(int id);
-
-    /**
-     * 通过新闻Id获取评论列表
-     * @param newsId - 新闻Id
-     * @return 评论列表
-     */
-    public List<Comment> getCommentListByNewsId(int newsId);
+    public int getNewsNumByPublicId(int publicId);
     
     /**
-     * 获取所有评论...竟然没分页...
-     * @return
+     * 通过公众号id获取最后发布资讯的时间
+     * @param publicId - 公众号id
+     * @return 最后发布资讯的时间
      */
-    public List<Comment> getAllCommentList();
+    public String getLastNewsTimeByPublicId(int publicId);
     
-    /**
-     * 添加评论
-     * @param comment - 评论对象
-     * @return 处理结果
-     */
-    public int addComment(Comment comment);
-    
-    /**
-     * 通过Id删除评论
-     * @param id - 评论Id
-     * @return 处理结果
-     */
-    public int deleteCommentById(int id);
-    
-    /**
-     * 通过资讯Id获取评论数目
-     * @param newsId - 新闻Id
-     * @return 评论数目
-     */
-    public int getCommentNumByNewsId(int newsId);
     
 }

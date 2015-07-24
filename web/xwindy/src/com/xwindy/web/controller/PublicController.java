@@ -28,7 +28,7 @@ import com.xwindy.web.util.SysUtil;
 
 /**
  * 公众号管理Controller, 不包括超级管理员
- * @author dremy
+ * @author Dremy
  *
  */
 @Controller
@@ -129,7 +129,9 @@ public class PublicController {
         news.setTitle(title);
         news.setContent(content);
         news.setUrl(url);
-        news.setPush(push);
+        if (push) {
+            news.setPush(1);
+        }
         Map<String, Object> result = newsService.addNews(news);
         
         if (SysUtil.object2Bool(result.get("isSuccess"))) {
@@ -262,7 +264,7 @@ public class PublicController {
         boolean isSuccess = repairService.updateRepair(repair);
         result.put("isSuccess", isSuccess);
         if (isSuccess) {
-            log.write("处理报修: 报修用户:" + repair.getStudentNumber().toString() , repair.getRepairerId(), SysUtil.getRealIp(request));
+            log.write("处理报修: 报修用户:" + repair.getStudent().getSchoolNumber(), repair.getRepairerId(), SysUtil.getRealIp(request));
         }
         return result;
     }
@@ -345,54 +347,54 @@ public class PublicController {
      * 处理招领发布操作接口, 使用"/lost/add.action"接口
      */
 
-   /**
-    * 处理招领编辑操作接口, 使用"/lost/edit.action"接口
-    */
+    /**
+     * 处理招领编辑操作接口, 使用"/lost/edit.action"接口
+     */
     
-   /**
-    * 获取Session中的用户id
-    * @param session - HttpSession对象
-    * @return 用户id
-    */
-   public int getPublicIdBySession(HttpSession session) {
-       return (int) session.getAttribute("userId");
-   }
+    /**
+     * 获取Session中的用户id
+     * @param session - HttpSession对象
+     * @return 用户id
+     */
+    public int getPublicIdBySession(HttpSession session) {
+        return (int) session.getAttribute("userId");
+    }
   
-   /**
-    * 获取Session中的用户类型
-    * @param session - HttpSession对象
-    * @return 用户类型
-    */
-   public String getUserTypeBySession(HttpSession session) {
-       return SysUtil.object2Str(session.getAttribute("userType"));
-   }
+    /**
+     * 获取Session中的用户类型
+     * @param session - HttpSession对象
+     * @return 用户类型
+     */
+    public String getUserTypeBySession(HttpSession session) {
+        return SysUtil.object2Str(session.getAttribute("userType"));
+    }
    
-   private static final int DefaultPageSize = 20;
+    private static final int DefaultPageSize = 20;
    
-   /**
-    * 自动装配的资讯业务层
-    */
-   @Autowired
-   private NewsService newsService;
+    /**
+     * 自动装配的资讯业务层
+     */
+    @Autowired
+    private NewsService newsService;
    
-   /**
-    * 自动装配的报修业务层
-    */
-   @Autowired
-   private RepairService repairService;
+    /**
+     * 自动装配的报修业务层
+     */
+    @Autowired
+    private RepairService repairService;
    
    
-   /**
-    * 自动装配的失物招领业务层
-    */
-   @Autowired
-   private LostAndFoundService lafService;
+    /**
+     * 自动装配的失物招领业务层
+     */
+    @Autowired
+    private LostAndFoundService lafService;
    
-   /**
-    * 自动装配的日志业务层
-    */
-   @Autowired
-   private LogService log;
+    /**
+     * 自动装配的日志业务层
+     */
+    @Autowired
+    private LogService log;
     
     
     

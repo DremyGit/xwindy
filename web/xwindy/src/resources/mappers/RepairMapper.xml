@@ -3,49 +3,62 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xwindy.web.mapper.RepairMapper">
+
 	<insert id="addRepair"
-			parameterType="Repair"
-			useGeneratedKeys="true"
-			keyColumn="id">
-			INSERT INTO repair
-			(student_id, repairer_id, `local`, content, phone, datetime, status)
-			VALUES
-			(#{studentId}, #{repairerId}, #{local}, #{content}, #{phone}, #{datetime}, 0)
+		parameterType="Repair"
+		useGeneratedKeys="true"
+		keyColumn="id">
+		INSERT INTO repair
+		(student_id, repairer_id, `local`, content, phone, datetime, status)
+		VALUES
+		(#{studentId}, #{repairerId}, #{local}, #{content}, #{phone}, #{datetime}, 0)
 	</insert>
 	
 	<update id="updateRepair"
-			parameterType="Repair">
-			UPDATE repair
-			SET repairer_id = #{repairerId}, `local` = #{local}, content = #{content},
-				phone = #{phone}, status = #{status}, resolvetime = #{resolvetime}
-			WHERE id = #{id}
+		parameterType="Repair">
+		UPDATE repair
+		SET repairer_id = #{repairerId}, `local` = #{local}, content = #{content},
+			phone = #{phone}, status = #{status}, resolvetime = #{resolvetime}
+		WHERE id = #{id}
 	</update>
 	
 	<select id="getRepairById"
-			resultType="Repair">
-			<include refid="getRepairSql" />
-			WHERE repair.id = #{id}
+		resultType="Repair">
+		<include refid="getRepairSql" />
+		WHERE repair.id = #{id}
 	</select>
 	
 	<select id="getRepairListByPublicIdAndPage"
-			resultType="Repair">
-			<include refid="getRepairSql" />
-			WHERE repair.repairer_id = #{repairerId}
-			ORDER BY repair.id DESC
-			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
+		resultType="Repair">
+		<include refid="getRepairSql" />
+		WHERE repair.repairer_id = #{repairerId}
+		ORDER BY repair.id DESC
+		LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
 	</select>
 	
 	<select id="getRepairListByUserId"
-			resultType="Repair">
-			<include refid="getRepairSql" />
-			WHERE repair.student_id = #{userId}
-			ORDER BY repair.id DESC
+		resultType="Repair">
+		<include refid="getRepairSql" />
+		WHERE repair.student_id = #{userId}
+		ORDER BY repair.id DESC
+	</select>
+	
+	<select id="getRepairTotalNumByPublicId">
+		SELECT COUNT(0)
+		FROM repair
+		WHERE repairer_id = #{publicId}
+	</select>
+	
+	<select id="getRepairNotFinishNumByPublicId">
+		SELECT COUNT(0)
+		FROM repair
+		WHERE repairer_id = #{publicId} AND status != 0
 	</select>
 	
 	<sql id="getRepairSql">
-			SELECT repair.*, `user`.school_number AS studentNumber, `user`.username as studentUsername, publicer.username as repairerName
-			FROM repair
-			LEFT JOIN plate_users AS `user` ON repair.student_id = user.id
-			LEFT JOIN plate_users AS publicer ON repair.repairer_id = publicer.id
+		SELECT repair.*, `user`.school_number AS studentNumber, `user`.username as studentUsername, publicer.username as repairerName
+		FROM repair
+		LEFT JOIN plate_users AS `user` ON repair.student_id = user.id
+		LEFT JOIN plate_users AS publicer ON repair.repairer_id = publicer.id
 	</sql>
 </mapper>
