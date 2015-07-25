@@ -23,7 +23,7 @@
 			select="com.xwindy.web.mapper.UserMapper.getPublicerById" />
 	</resultMap>
 	
-	<resultMap type="News" id="NewsDetail" extends="NewsResult">
+	<resultMap type="News" id="NewsAndCommentResult" extends="NewsResult">
 		<collection property="commentList"
 			ofType="Comment"
 			javaType="arrayList"
@@ -34,6 +34,14 @@
 	<select id="getNewsListByPage"
 		resultMap="NewsResult">
 		SELECT * FROM news
+		ORDER BY id DESC
+		<include refid="pageLimitSql" />
+	</select>
+	
+	<select id="getNewsPushListByPage"
+		resultMap="NewsResult">
+		SELECT * FROM news
+		WHERE push != 0
 		ORDER BY id DESC
 		<include refid="pageLimitSql" />
 	</select>
@@ -56,8 +64,14 @@
 	
 	<select id="getNewsById"
 		parameterType="int"
-		resultMap="NewsDetail">
+		resultMap="NewsResult">
 		SELECT * FROM news_and_public_view
+		WHERE id = #{id}
+	</select>
+	
+	<select id="getNewsAndCommentById"
+		resultMap="NewsAndCommentResult">
+		SELECT * FROM news
 		WHERE id = #{id}
 	</select>
 	
@@ -89,6 +103,20 @@
 		DELETE FROM news
 		WHERE id = #{id}
 	</delete>
+	
+	<select id="getNewsNumByPublicId"
+		resultType="int">
+		SELECT COUNT(0) FROM news
+		WHERE public_id = #{publicId}
+	</select>
+	
+	<select id="getLastNewsTimeByPublicId"
+		resultType="String">
+		SELECT datetime FROM news
+		WHERE public_id = #{publicId}
+		ORDER BY id DESC
+		LIMIT 0, 1
+	</select>
 	
 	<sql id="pageLimitSql">
 		<if test="pageNo != null">

@@ -37,7 +37,7 @@ public class TestNewsMapper {
 	@Test
 	public void testGetAllNewsList() {
 		List<News> newsList = new ArrayList<News>();
-		newsList = newsMapper.getNewsListByPage(page.getPageNo(), page.getPageSize());
+		newsList = newsMapper.getNewsListByPage(page);
 		assertEquals(30, newsList.size());
 	}
 	

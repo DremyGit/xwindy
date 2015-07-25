@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.xwindy.web.model.News;
+import com.xwindy.web.util.Page;
 
 public interface NewsMapper {
 
@@ -16,7 +17,14 @@ public interface NewsMapper {
      * @param pageSize - 每页数量
      * @return - 资讯列表
      */
-    public List<News> getNewsListByPage(@Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+    public List<News> getNewsListByPage(Page page);
+    
+    /**
+     * 通过分页对象获取需要推送的资讯列表
+     * @param page - 分页对象
+     * @return 资讯列表
+     */
+    public List<News> getNewsPushListByPage(Page page);
     
     /**
      * 通过用户ID及分页获取订阅的资讯列表
@@ -43,6 +51,13 @@ public interface NewsMapper {
      * @return 资讯详情
      */
     public News getNewsById(int id);
+    
+    /**
+     * 通过资讯id获取资讯和所有评论
+     * @param id - 资讯id
+     * @return 资讯详情
+     */
+    public News getNewsAndCommentById(int id);
     
     /**
      * 资讯点击数增加1

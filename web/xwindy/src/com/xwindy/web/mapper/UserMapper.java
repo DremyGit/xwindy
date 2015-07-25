@@ -8,6 +8,7 @@ import com.xwindy.web.model.PublicClass;
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
 import com.xwindy.web.model.User;
+import com.xwindy.web.util.Page;
 
 public interface UserMapper {
     
@@ -26,6 +27,13 @@ public interface UserMapper {
     public Student getStudentById(int id);
     
     /**
+     * 通过用户id获取学生详细信息
+     * @param id - 用户id
+     * @return 学生对象
+     */
+    public Student getStudentDetailById(int id);
+    
+    /**
      * 通过用户名获取学生对象
      * @param username - 学生用户名
      * @return 学生对象
@@ -38,6 +46,13 @@ public interface UserMapper {
      * @return 学生对象
      */
     public Student getStudentByStudentId(String studentId);
+    
+    /**
+     * 通过分页对象获取学生详细信息列表
+     * @param page - 分页对象
+     * @return 学生对象列表
+     */
+    public List<Student> getStudentDetailListByPage(Page page);
 
     /**
      * 通过用户id获取公众号对象
@@ -45,6 +60,20 @@ public interface UserMapper {
      * @return 公众号对象
      */
     public Publicer getPublicerById(int id);
+    
+    /**
+     * 通过用户id获取公众号详细信息
+     * @param id - 用户id
+     * @return 公众号对象
+     */
+    public Publicer getPublicerDetailById(int id);
+    
+    /**
+     * 通过分页对象获取公众号详细信息列表
+     * @param page - 分页对象
+     * @return 公众号对象列表
+     */
+    public List<Publicer> getPublicerDetailListByPage(Page page);
     
     /**
      * 获取所有的维修公众号

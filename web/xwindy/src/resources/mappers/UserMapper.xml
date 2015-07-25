@@ -41,27 +41,25 @@
 	</resultMap>
 	
 	<resultMap type="Publicer" id="PublicerDetailResult" extends="PublicerResult">
-		<discriminator javaType="String" column="user_type">
-  			<case value="GZH" >
-  				<association property="newsNumber"
-			 		column="id"
-					select="com.xwindy.web.mapper.NewsMapper.getNewsNumByPublicId" />
-				<association property="lastNewsTime"
-					column="id"
-					select="com.xwindy.web.mapper.NewsMapper.getLastNewsTimeByPublicId" />
-				<association property="subscribeUserNum"
-					column="id"
-					select="getSubscribeNumByPublicId" />
-  			</case>
-  			<case value="BX">
-	  			<association property="repairTotalNum"
-					column="id"
-				 	select="com.xwindy.web.mapper.RepairMapper.getRepairTotalNumByPublicId" />
-				<association property="repairNotFinishNum"
-				 	column="id"
-				 	select="com.xwindy.web.mapper.RepairMapper.getRepairNotFinishNumByPublicId" />
-  			</case>
-		</discriminator>
+		<association property="newsNumber"
+					javaType="int"
+	 		column="id"
+			select="com.xwindy.web.mapper.NewsMapper.getNewsNumByPublicId" />
+		<association property="lastNewsTime"
+			javaType="String"
+			column="id"
+			select="com.xwindy.web.mapper.NewsMapper.getLastNewsTimeByPublicId" />
+		<association property="subscribeUserNum"
+			column="id"
+			select="getSubscribeNumByPublicId" />
+ 			<association property="repairTotalNum"
+ 				javaType="int"
+			column="id"
+		 	select="com.xwindy.web.mapper.RepairMapper.getRepairTotalNumByPublicId" />
+		<association property="repairNotFinishNum"
+			javaType="int"
+		 	column="id"
+		 	select="com.xwindy.web.mapper.RepairMapper.getRepairNotFinishNumByPublicId" />
 	</resultMap>
 	
 	<select id="getUserById"
@@ -74,6 +72,34 @@
 		resultMap="StudentResult">
 		SELECT * FROM plate_users
 		WHERE id = #{id} AND user_type = "XS"
+	</select>
+	
+	<select id="getStudentDetailById"
+		resultMap="StudentDetailResult">
+		SELECT * FROM plate_users
+		WHERE id = #{id} AND user_type = "XS"
+	</select>
+	
+	<select id="getStudentDetailListByPage"
+		resultMap="StudentDetailResult">
+		SELECT * FROM plate_users
+		WHERE user_type = "XS"
+		ORDER BY id ASC
+		<include refid="pageLimitSql" />
+	</select>
+	
+	<select id="getPublicerDetailById"
+		resultMap="PublicerDetailResult">
+		SELECT * FROM plate_users
+		WHERE id = #{id} AND user_type != "XS"
+	</select>
+	
+	<select id="getPublicerDetailListByPage"
+		resultMap="PublicerDetailResult">
+		SELECT * FROM plate_users
+		WHERE user_type != "XS"
+		ORDER BY id ASC
+		<include refid="pageLimitSql" />
 	</select>
 	
 	<select id="getPublicerById"

@@ -144,6 +144,42 @@ public class UserService {
     }
     
     /**
+     * 通过用户id获取学生用户的全部信息
+     * @param id - 用户id
+     * @return 学生对象
+     */
+    public Student getStudentDetailById(int id) {
+        return userMapper.getStudentDetailById(id);
+    }
+    
+    /**
+     * 通过分页对象获取学生详细信息列表
+     * @param page - 分页对象
+     * @return 学生对象列表
+     */
+    public List<Student> getStudentDetailListByPage(Page page) {
+        return userMapper.getStudentDetailListByPage(page);
+    }
+    
+    /**
+     * 通过用户id获取公众号用户的全部信息
+     * @param id - 用户id
+     * @return 公众号对象
+     */
+    public Publicer getPublicerDetailById(int id) {
+        return userMapper.getPublicerDetailById(id);
+    }
+    
+    /**
+     * 通过分页对象获取公众号详细信息列表
+     * @param page - 分页对象
+     * @return 公众号对象列表
+     */
+    public List<Publicer> getPublicerDetailListByPage(Page page) {
+        return userMapper.getPublicerDetailListByPage(page);
+    }
+    
+    /**
      * 进行学生用户基本信息更新操作
      * @param student - 学生对象
      * @return 更新结果

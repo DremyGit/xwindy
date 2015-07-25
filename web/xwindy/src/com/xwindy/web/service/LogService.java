@@ -1,11 +1,14 @@
 package com.xwindy.web.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xwindy.web.mapper.LogMapper;
 import com.xwindy.web.model.Log;
+import com.xwindy.web.util.Page;
 import com.xwindy.web.util.SysUtil;
 
 /**
@@ -23,8 +26,6 @@ import com.xwindy.web.util.SysUtil;
 @Service
 public class LogService {
     
-    
-    
     /**
      * 写日志
      * @param content - 日志内容
@@ -40,6 +41,15 @@ public class LogService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * 通过分页对象获取系统日志列表
+     * @param page - 分页对象
+     * @return 系统日志列表
+     */
+    public List<Log> getLogListByPage(Page page) {
+        return logMapper.getLogListByPage(page);
     }
     
     /**

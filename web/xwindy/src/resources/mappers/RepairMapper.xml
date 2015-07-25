@@ -43,13 +43,15 @@
 		ORDER BY repair.id DESC
 	</select>
 	
-	<select id="getRepairTotalNumByPublicId">
+	<select id="getRepairTotalNumByPublicId"
+		resultType="int">
 		SELECT COUNT(0)
 		FROM repair
 		WHERE repairer_id = #{publicId}
 	</select>
 	
-	<select id="getRepairNotFinishNumByPublicId">
+	<select id="getRepairNotFinishNumByPublicId"
+		resultType="int">
 		SELECT COUNT(0)
 		FROM repair
 		WHERE repairer_id = #{publicId} AND status != 0

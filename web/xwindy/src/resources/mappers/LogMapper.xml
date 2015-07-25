@@ -16,6 +16,13 @@
 			select="com.xwindy.web.mapper.UserMapper.getUserById" />
 	</resultMap>
 	
+	<select id="getLogListByPage"
+		resultMap="LogResult">
+		SELECT * FROM `log`
+		ORDER BY id DESC
+		LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
+	</select>
+	
 	<insert id="addLog"
 		parameterType="Log"
 		useGeneratedKeys="true"

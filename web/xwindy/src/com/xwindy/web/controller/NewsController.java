@@ -92,7 +92,7 @@ public class NewsController {
      */
     @RequestMapping("/{id}")
     public ModelAndView newsDetailView(@PathVariable("id") int id) {
-        News news = newsService.getNewsById(id);
+        News news = newsService.getNewsAndCommentById(id);
         newsService.addClickNumberById(id);
         
         ModelAndView view = new ModelAndView("news/news");

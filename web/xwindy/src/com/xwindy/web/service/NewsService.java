@@ -26,7 +26,16 @@ public class NewsService {
      * @return 资讯列表
      */
     public List<News> getNewsListByPage(Page page) {
-        return newsMapper.getNewsListByPage(page.getPageNo(), page.getPageSize());
+        return newsMapper.getNewsListByPage(page);
+    }
+    
+    /**
+     * 通过分页对象获取需要推送的资讯列表
+     * @param page - 分页对象
+     * @return 资讯列表
+     */
+    public List<News> getNewsPushListByPage(Page page) {
+        return newsMapper.getNewsPushListByPage(page);
     }
     
     /**
@@ -82,6 +91,15 @@ public class NewsService {
      */
     public News getNewsById(int id) {
         return newsMapper.getNewsById(id);
+    }
+    
+    /**
+     * 通过资讯id获取资讯对象(包含评论列表)
+     * @param id - 资讯id
+     * @return 资讯对象(包含评论列表)
+     */
+    public News getNewsAndCommentById(int id) {
+        return newsMapper.getNewsAndCommentById(id);
     }
     
     /**
@@ -155,6 +173,15 @@ public class NewsService {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    /**
+     * 通过分页对象获取所有评论
+     * @param page - 分页对象
+     * @return 评论列表
+     */
+    public List<Comment> getAllCommentListByPage(Page page) {
+        return commentMapper.getAllCommentListByPage(page);
     }
     
     
