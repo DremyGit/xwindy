@@ -83,6 +83,12 @@
 		WHERE id = #{id} 
 	</update>
 	
+	<update id="toggleNewsState">
+		UPDATE news
+		SET state = #{toState}
+		WHERE id = #{id}
+	</update>
+	
 	<insert id="addNews"
 		parameterType="News">
 		INSERT INTO news

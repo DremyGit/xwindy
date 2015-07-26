@@ -275,6 +275,19 @@ public class UserService {
     public List<Publicer> getAllRepairerList() {
         return userMapper.getAllRepairerList();
     }
+    
+    public boolean toggleUserState(int userId, int nowState) {
+        int toState = 0;
+        if (nowState == 0) {
+            toState = 1;
+        }
+        try {
+            userMapper.updateUserState(userId,toState);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     
     

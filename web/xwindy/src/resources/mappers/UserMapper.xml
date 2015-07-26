@@ -166,6 +166,12 @@
 		WHERE id = #{userId}
 	</update>
 	
+	<update id="toggleUserState">
+		UPDATE plate_users
+		SET state = #{toState}
+		WHERE id = #{userId}
+	</update>
+	
 	<update id="updateStudent"
 		parameterType="Student">
 		UPDATE plate_users

@@ -73,6 +73,12 @@
 		WHERE user_id = #{userId}
 	</select>
 	
+	<update id="toggleCommentState">
+		UPDATE news_comment
+		SET state = #{toState}
+		WHERE id = #{id}
+	</update>
+	
 	
 	<sql id="pageLimitSql">
 		<if test="pageNo != null">

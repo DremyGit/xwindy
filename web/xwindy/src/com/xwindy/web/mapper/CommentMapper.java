@@ -2,6 +2,8 @@ package com.xwindy.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.xwindy.web.model.Comment;
 import com.xwindy.web.util.Page;
 
@@ -55,6 +57,14 @@ public interface CommentMapper {
      * @return 评论数目
      */
     public int getCommentNumByUserId(int userId);
+    
+    /**
+     * 通过评论id修改评论状态
+     * @param id - 评论id
+     * @param toState - 修改的状态
+     * @return 修改的行数
+     */
+    public int toggleCommentStateById(@Param("id") int id, @Param("toState") int toState);
     
 
     

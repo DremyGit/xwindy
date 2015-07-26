@@ -101,5 +101,13 @@ public interface NewsMapper {
      */
     public String getLastNewsTimeByPublicId(int publicId);
     
+    /**
+     * 修改资讯的状态
+     * @param id - 资讯id
+     * @param toStatus - 需要改成的状态
+     * @return 修改的行数
+     */
+    public int toggleNewsState(@Param("id") int id, @Param("toState") int toState);
+    
     
 }

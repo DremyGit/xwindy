@@ -196,5 +196,13 @@ public interface UserMapper {
      */
     public int getSubscribeNumByPublicId(int publicId);
     
+    /**
+     * 通过用户id和状态更新用户状态
+     * @param userId - 用户id
+     * @param toState - 需要更新到的状态
+     * @return 更新的行数
+     */
+    public int updateUserState(@Param("userId") int userId, @Param("toState") int toState);
+    
 
 }

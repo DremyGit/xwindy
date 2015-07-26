@@ -184,6 +184,43 @@ public class NewsService {
         return commentMapper.getAllCommentListByPage(page);
     }
     
+    /**
+     * 通过资讯id和当前状态修改资讯状态
+     * @param id - 资讯id
+     * @param nowState - 当前状态
+     * @return 处理结果
+     */
+    public boolean toggleNewsState(int id, int nowState) {
+        int toState = 0;
+        if (nowState == 0) {
+            toState = 1;
+        }
+        try {
+            newsMapper.toggleNewsState(id, toState);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 通过评论id和当前状态修改评论状态
+     * @param id - 评论id
+     * @param nowState - 当前状态
+     * @return 处理结果
+     */
+    public boolean toggleCommentState(int id, int nowState) {
+        int toState = 0;
+        if (nowState == 0) {
+            toState = 1;
+        }
+        try {
+            commentMapper.toggleCommentStateById(id, toState);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     
     
     private static final int DefaultNewsListPageSize = 10;
