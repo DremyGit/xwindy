@@ -39,6 +39,7 @@
 		<result property="publicClass" 	column="public_class"/>
 		<result property="introduce" 	column="introduce"/>
 		<result property="isSub" 		column="isSub"/>
+		<result property="recommendNum" column="recommend_num"/>
 	</resultMap>
 	
 	<resultMap type="Publicer" id="PublicerDetailResult" extends="PublicerResult">
@@ -85,21 +86,21 @@
 		resultMap="StudentDetailResult">
 		SELECT * FROM plate_users
 		WHERE user_type = "XS"
-		ORDER BY id ASC
+		ORDER BY id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	
 	<select id="getPublicerDetailById"
 		resultMap="PublicerDetailResult">
 		SELECT * FROM plate_users
-		WHERE id = #{id} AND user_type != "XS"
+		WHERE id = #{id}
 	</select>
 	
 	<select id="getPublicerDetailListByPage"
 		resultMap="PublicerDetailResult">
 		SELECT * FROM plate_users
 		WHERE user_type != "XS"
-		ORDER BY id ASC
+		ORDER BY id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	

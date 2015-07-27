@@ -39,36 +39,6 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td>校区新闻</td>
-        <td>100</td>
-        <td>10</td>
-        <td>127.0.0.1</td>
-        <td>不推送</td>
-        <td>正常</td>
-        <td>2015-07-27 01:14</td>
-        <td>
-            <a href="news.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td>校区新闻</td>
-        <td>100</td>
-        <td>10</td>
-        <td>127.0.0.1</td>
-        <td>不推送</td>
-        <td class="td-red">隐藏</td>
-        <td>2015-07-27 01:14</td>
-        <td>
-            <a href="news.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="显示"><span class="glyphicon glyphicon-ok-circle"></span></a>
-        </td>
-    </tr>
 <c:forEach items="${newsList}" var="news">
     <tr>
         <td>${news.id}</td>
@@ -88,7 +58,7 @@
         <td>${news.state==0?"<span class=td-red>隐藏</span>":"正常"}</td>
         <td>${news.datetime}</td>
         <td>
-            <a href="admin/newsedit/${news.id}" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+            <a href="admin/news/${news.id}" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
     <c:choose>
         <c:when test="${news.state == 1}">
             <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>

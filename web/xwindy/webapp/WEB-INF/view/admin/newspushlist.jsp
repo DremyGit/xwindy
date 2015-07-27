@@ -27,6 +27,7 @@
         <th id="th-news-id">序号</th>
         <th id="th-news-title">资讯标题</th>
         <th id="th-news-user">公众号</th>
+        <th id="th-news-click">点击数</th>
         <th id="th-news-comment">评论数</th>
         <th id="th-news-ip">发布者IP</th>
         <th id="th-news-pushstate">推送状态</th>
@@ -35,46 +36,30 @@
     </tr>
     </thead>
     <tbody>
+<c:forEach items="${newsList}" var="news">
     <tr>
-        <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td>校区新闻</td>
-        <td>10</td>
-        <td>127.0.0.1</td>
-        <td class="td-red">请求推送</td>
-        <td>2015-07-27 01:14</td>
+        <td>${news.id}</td>
+        <td><a href="news/${news.id}" title="${news.title}">${news.title}</a></td>
+        <td>${news.publicer.username}</td>
+        <td>${news.clickNum}</td>
+        <td>${news.commentNum}</td>
+        <td>${news.publicIP}</td>
         <td>
+    <c:choose>
+        <c:when test="${news.push == 1}"><span class="td-red">请求推送</span></c:when>
+        <c:when test="${news.push == 2}"><span class="td-green">已推送</span></c:when>
+        <c:when test="${news.push == 3}"><span class="td-blue">拒绝推送</span></c:when>
+    </c:choose>
+        </td>
+        <td>${news.datetime}</td>
+        <td>
+    <c:if test="${news.push == 1}">
             <a href="javascript:" title="允许推送"><span class="glyphicon glyphicon-ok"></span></a>
             <a href="javascript:" title="拒绝推送"><span class="glyphicon glyphicon-remove"></span></a>
+    </c:if>
         </td>
     </tr>
-    <tr>
-        <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td>校区新闻</td>
-        <td>10</td>
-        <td>127.0.0.1</td>
-        <td class="td-green">已推送</td>
-        <td>2015-07-27 01:14</td>
-        <td>
-            <a href="javascript:" title="允许推送"><span class="glyphicon glyphicon-ok"></span></a>
-            <a href="javascript:" title="拒绝推送"><span class="glyphicon glyphicon-remove"></span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td>校区新闻</td>
-        <td>10</td>
-        <td>127.0.0.1</td>
-        <td class="td-blue">拒绝推送</td>
-        <td>2015-07-27 01:14</td>
-        <td>
-            <a href="javascript:" title="允许推送"><span class="glyphicon glyphicon-ok"></span></a>
-            <a href="javascript:" title="拒绝推送"><span class="glyphicon glyphicon-remove"></span></a>
-        </td>
-    </tr>
-
+</c:forEach>
 
 
 

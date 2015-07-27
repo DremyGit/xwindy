@@ -61,6 +61,11 @@ public class Comment implements Serializable{
      */
     private long datetimeLong;
     
+    /**
+     * 评论状态
+     */
+    private int state;
+    
     
     /**
      * 评论对象的默认构造函数
@@ -247,6 +252,22 @@ public class Comment implements Serializable{
      */
     public void setDatetimeLong(String datetime) {
         this.datetimeLong = SysUtil.dateStr2Long("yyyy-MM-dd HH:mm:ss", datetime);
+    }
+
+    /**
+     * 获取评论状态
+     * @return 评论状态
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * 设置评论状态
+     * @param state 评论状态值
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
     

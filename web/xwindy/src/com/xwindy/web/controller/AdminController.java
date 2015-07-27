@@ -126,14 +126,17 @@ public class AdminController {
     
     @RequestMapping("/user")
     public ModelAndView studentAddView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/useredit");
+        ModelAndView view = new ModelAndView("admin/user");
+        view.addObject("mode", "add");
         return view;
     }
 
-    @RequestMapping("/user/{id}")
+    @RequestMapping("/user/{userId}")
     public ModelAndView studentDetailEditView(@PathVariable("userId") int userId, HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/useredit");
+        ModelAndView view = new ModelAndView("admin/user");
         view.addObject("student", userService.getStudentDetailById(userId));
+        view.addObject("publicer", userService.getPublicerDetailById(userId));
+        view.addObject("mode", "edit");
         return view;
     }
     
@@ -242,7 +245,7 @@ public class AdminController {
      * @param request - HttpServletRequest对象
      * @return 资讯详情修改页
      */
-    @RequestMapping("/news/{id}")
+    @RequestMapping("/news/{newsId}")
     public ModelAndView newsDetailEditView(@PathVariable("newsId") int newsId, HttpServletRequest request) {
         ModelAndView view = new ModelAndView("admin/newsedit");
         view.addObject("news", newsService.getNewsById(newsId));

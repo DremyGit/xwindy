@@ -12,9 +12,9 @@
             width: 200px;
         }
     </style>
-    <link rel="stylesheet" href="js/kindeditor/themes/default/default.css" />
-    <script charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
-    <script charset="utf-8" src="js/kindeditor/lang/zh_CN.js"></script>
+    <link rel="stylesheet" href="assets/js/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="assets/js/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="assets/js/kindeditor/lang/zh_CN.js"></script>
     <script>
         var editor;
         KindEditor.ready(function(K) {
@@ -25,8 +25,8 @@
                 allowPreviewEmoticons : false,
                 allowImageUpload : true,
                 allowImageRemote: false,
-                cssPath: "css/edit.css",
-                uploadJson: "../upload_json.php",
+                cssPath: ["../assets/css/edit.css","../../assets/css/edit.css"],
+                uploadJson: "/upload_json.php",
                 items : [
                     'source', 'preview', '|', 'formatblock', 'bold', 'italic', '|', 'justifyleft',
                     'justifycenter', 'justifyright', 'insertunorderedlist', '|', 'link', 'image',
@@ -35,7 +35,7 @@
                 pasteType: 1,
                 dialogAlignType: ""
             });
-            editor.html("<p></p>");
+//             editor.html('<p></p>');
         });
     </script>
 
@@ -56,11 +56,11 @@
         <table class="table table-hover">
             <tr>
                 <td class="td-label" id="label-title">资讯标题 </td>
-                <td><input type="text" id="title" class="form-control"></td>
+                <td><input type="text" id="title" class="form-control" value="${news.title}"></td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <textarea id="content" name="content" style="width:700px;height:200px;visibility:hidden;"><p></p></textarea>
+                    <textarea id="content" name="content" style="width:700px;height:200px;visibility:hidden;">${news.content}</textarea>
                 </td>
             </tr>
             <tr>

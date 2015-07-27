@@ -41,33 +41,28 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+<c:forEach items="${commentList}" var="comment">
+    <tr> 
+        <td>${comment.id}</td>
+        <td><a href="news/${comment.news.id}" title="${comment.news.title}">${comment.news.title}</a></td>
+        <td class="td-left">${comment.content}</td>
         <td>1</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td class="td-left">这个干的不错!!!</td>
-        <td>1</td>
-        <td>测试用户</td>
-        <td>127.0.0.1</td>
-        <td>2015-07-27 09:52:03</td>
-        <td>正常</td>
+        <td>${comment.username}</td>
+        <td>${comment.userIP}</td>
+        <td>${comment.datetime}</td>
+        <td>${comment.state==0?"<span class=td-red>屏蔽</span>":"正常"}</td>
         <td>
+    <c:choose>
+        <c:when test="${comment.state == 1}">
             <a href="javascript:" title="屏蔽"><span class="glyphicon glyphicon-ban-circle"></span></a>
+        </c:when>
+        <c:when test="${comment.state == 0}">
+            <a href="javascript:" title="显示"><span class="glyphicon glyphicon-ok-circle"></span></a>
+        </c:when>
+    </c:choose>
         </td>
     </tr>
-    <tr>
-        <td>2</td>
-        <td><a href="#" title="宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩">宣城校区学生在安徽省第三届工程训练综合能..</a></td>
-        <td class="td-left">这个干的不错!!!,宣城校区学生在安徽省第三届工程训练综合能力竞赛中喜获佳绩<br>
-        好样的!!</td>
-        <td>2</td>
-        <td>测试用户</td>
-        <td>127.0.0.1</td>
-        <td>2015-07-27 09:52:03</td>
-        <td>正常</td>
-        <td>
-            <a href="javascript:" title="屏蔽"><span class="glyphicon glyphicon-ban-circle"></span></a>
-        </td>
-    </tr>
+</c:forEach>
     </tbody>
 </table>
 

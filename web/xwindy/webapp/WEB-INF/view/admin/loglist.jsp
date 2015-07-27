@@ -29,22 +29,18 @@
         <th id="th-news-user">触发用户</th>
         <th id="th-news-comment">记录时间</th>
         <th id="th-news-ip">用户IP</th>
-        <th id="th-news-option">操作</th>
     </tr>
     </thead>
     <tbody>
+<c:forEach items="${logList}" var="log">
     <tr>
-        <td>1</td>
-        <td>新用户注册, 用户名 测试用户</td>
-        <td>测试用户</td>
-        <td>2015-07-27 02:01:28</td>
-        <td>127.0.0.1</td>
-        <td>
-            <a href="news.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
-        </td>
+        <td>${log.id}</td>
+        <td>${log.content}</td>
+        <td>${log.user.username}</td>
+        <td>${log.datetime}</td>
+        <td>${log.userIp}</td>
     </tr>
-
+</c:forEach>
 
 
 

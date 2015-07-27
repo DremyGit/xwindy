@@ -43,32 +43,6 @@
         </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>12312</td>
-        <td>fhgsm123</td>
-        <td>2014217211</td>
-        <td>22</td>
-        <td>10</td>
-        <td>2015-07-26 22:21</td>
-        <td>正常</td>
-        <td>
-            <a href="student.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="禁用"><span class="glyphicon glyphicon-ban-circle"></span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>12312</td>
-        <td>fhgsm123</td>
-        <td>2014217211</td>
-        <td>22</td>
-        <td>10</td>
-        <td>2015-07-26 22:21</td>
-        <td class="td-red">禁用</td>
-        <td>
-            <a href="student.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="启用"><span class="glyphicon glyphicon-ok-circle"></span></a>
-        </td>
-    </tr>
 <c:forEach items="${studentList}" var="student">
     <tr>
         <td>${student.id}</td>

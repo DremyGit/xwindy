@@ -11,6 +11,7 @@
 		<result property="userIP" 	column="user_ip"/>
 		<result property="content" 	column="comment_content"/>
 		<result property="datetime" column="datetime"/>
+		<result property="state" 	column="state" />
 	</resultMap>
 	
 	<resultMap type="Comment" id="CommentNewsResult" extends="CommentResult">
@@ -42,6 +43,7 @@
 		SELECT news_comment.*, plate_users.username
 		FROM news_comment
 		LEFT JOIN plate_users ON news_comment.user_id = plate_users.id
+		ORDER BY news_comment.id DESC
 		<include refid="pageLimitSql"></include>
 	</select>
 	

@@ -55,6 +55,11 @@ public class Publicer extends User implements Serializable{
     private int repairNotFinishNum;
     
     /**
+     * 公众号推荐指数
+     */
+    private int recommendNum;
+    
+    /**
      * 公众号类默认构造函数
      */
     public Publicer() {}
@@ -145,6 +150,14 @@ public class Publicer extends User implements Serializable{
 
     public void setRepairNotFinishNum(int repairNotFinishNum) {
         this.repairNotFinishNum = repairNotFinishNum;
+    }
+
+    public int getRecommendNum() {
+        return recommendNum;
+    }
+
+    public void setRecommendNum(int recommendNum) {
+        this.recommendNum = recommendNum;
     }
     
     

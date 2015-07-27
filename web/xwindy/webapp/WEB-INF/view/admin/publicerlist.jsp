@@ -19,7 +19,7 @@
     <li><a href="admin"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 主页</a></li>
     <li class="active">公众号用户管理</li>
     <a href="javascript:" id="nav-search"><span class="glyphicon glyphicon-search"></span> 搜索</a>
-    <a class="btn btn-primary btn-sm" href="publicer.html">添加新用户</a>
+    <a class="btn btn-primary btn-sm" href="admin/user">添加新用户</a>
 </ol>
 <div style="display: none;" id="div-search"><input type="text" id="input-search" class="form-control" placeholder="输入用户名或学号敲回车进行搜索"><br></div>
 
@@ -39,20 +39,6 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>12312</td>
-        <td>fhgsm123</td>
-        <td>资讯号</td>
-        <td>22</td>
-        <td>10</td>
-        <td>2015-07-27</td>
-        <td>2015-07-26 22:21</td>
-        <td>正常</td>
-        <td>
-            <a href="student.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-            <a href="javascript:" title="禁用"><span class="glyphicon glyphicon-ban-circle"></span></a>
-        </td>
-    </tr>
 <c:forEach items="${publicerList}" var="publicer">
     <tr>
         <td>${publicer.id}</td>
@@ -73,7 +59,7 @@
         <td>${publicer.lastActive}</td>
         <td>${publicer.state==0?"<span class=td-red>禁用</span>":"正常"}</td>
         <td>
-            <a href="student.html" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+            <a href="admin/user/${publicer.id}" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
     <c:choose>
         <c:when test="${publicer.state == 1}">
             <a href="javascript:" title="禁用"><span class="glyphicon glyphicon-ban-circle"></span></a>
