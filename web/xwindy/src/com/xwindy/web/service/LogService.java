@@ -53,6 +53,14 @@ public class LogService {
     }
     
     /**
+     * 获取系统日志总数
+     * @return 系统日志总数
+     */
+    public int getLogTotalNum() {
+        return logMapper.getLogTotalNum();
+    }
+    
+    /**
      * 自动装配的logMapper对象
      */
     @Autowired

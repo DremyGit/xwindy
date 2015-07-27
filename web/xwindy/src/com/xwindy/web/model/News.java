@@ -70,7 +70,7 @@ public class News implements Serializable{
 	private String url;
 	
 	/**
-	 * 推送状态: 0为不推送, 1为申请推送, 2为同意推送, 3为拒绝推送, 4为已推送
+	 * 推送状态: 0为不推送, 1为申请推送, 2为已推送, 3为拒绝推送
 	 */
 	private int push;
 	
@@ -88,6 +88,11 @@ public class News implements Serializable{
 	 * 首图Url
 	 */
 	private String firstPicUrl;
+	
+	/**
+	 * 资讯状态 0为隐藏, 1为显示
+	 */
+	private int state;
 
 	/**
 	 * 资讯类默认构造函数
@@ -241,6 +246,14 @@ public class News implements Serializable{
         if (regexMatcher.find()) {
             this.firstPicUrl = regexMatcher.group(1);
         }
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 	
 	

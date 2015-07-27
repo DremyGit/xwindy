@@ -17,6 +17,7 @@
 		<result property="push" 		column="push" />
 		<result property="clickNum" 	column="click" />
 		<result property="commentNum" 	column="comment_number" />
+		<result property="state" 		column="state" />
 		<association property="publicer"
 			javaType="Publicer"
 			column="public_id"
@@ -122,6 +123,17 @@
 		WHERE public_id = #{publicId}
 		ORDER BY id DESC
 		LIMIT 0, 1
+	</select>
+	
+	<select id="getNewsTotalNum"
+		resultType="int">
+		SELECT COUNT(0) FROM news
+	</select>
+	
+	<select id="getNewsPushNum"
+		resultType="int">
+		SELECT COUNT(0) FROM news
+		WHERE push != 0
 	</select>
 	
 	<sql id="pageLimitSql">

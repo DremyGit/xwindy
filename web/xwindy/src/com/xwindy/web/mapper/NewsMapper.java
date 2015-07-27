@@ -109,5 +109,15 @@ public interface NewsMapper {
      */
     public int toggleNewsState(@Param("id") int id, @Param("toState") int toState);
     
+    /**
+     * 获取资讯总数
+     * @return 资讯总数
+     */
+    public int getNewsTotalNum();
     
+    /**
+     * 获取推送资讯数
+     * @return 推送资讯数
+     */
+    public int getNewsPushNum();
 }

@@ -66,6 +66,10 @@ public interface CommentMapper {
      */
     public int toggleCommentStateById(@Param("id") int id, @Param("toState") int toState);
     
-
+    /**
+     * 得到评论总数
+     * @return 评论总数
+     */
+    public int getCommentTotalNum();
     
 }

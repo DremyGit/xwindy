@@ -222,6 +222,31 @@ public class NewsService {
         }
     }
     
+    /**
+     * 获取资讯总数(包括隐藏)
+     * @return 资讯总数
+     */
+    public int getNewsTotalNum() {
+        return newsMapper.getNewsTotalNum();
+    }
+    
+    /**
+     * 获取推送资讯数
+     * @return 推送资讯数
+     */
+    public int getNewsPushNum() {
+        return newsMapper.getNewsPushNum();
+    }
+    
+    /**
+     * 获取评论总数
+     * @return 评论总数
+     */
+    public int getCommentTotalNum() {
+        return commentMapper.getCommentTotalNum();
+    }
+    
+
     
     private static final int DefaultNewsListPageSize = 10;
     

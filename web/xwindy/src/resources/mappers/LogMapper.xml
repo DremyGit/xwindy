@@ -32,4 +32,10 @@
 		VALUES
 		(#{id}, #{userId}, #{userIp}, #{content}, #{datetime})
 	</insert>
+	
+	<select id="getLogTotalNum"
+		resultType="int">
+		SELECT COUNT(0)
+		FROM `log`
+	</select>
 </mapper>

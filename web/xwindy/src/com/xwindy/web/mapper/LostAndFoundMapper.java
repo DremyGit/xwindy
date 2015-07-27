@@ -70,4 +70,10 @@ public interface LostAndFoundMapper {
      */
     public int deleteLostAndFoundById(int id);
     
+    /**
+     * 获取失物招领总数
+     * @return 失物招领总数
+     */
+    public int getLostAndFoundTotalNum();
+    
 }

@@ -288,6 +288,22 @@ public class UserService {
             return false;
         }
     }
+    
+    /**
+     * 获取学生用户总数
+     * @return 学生用户总数
+     */
+    public int getStudentNum() {
+        return userMapper.getStudentNum();
+    }
+    
+    /**
+     * 获取公众用户总数
+     * @return 公众用户总数
+     */
+    public int getPublicerNum() {
+        return userMapper.getPublicerNum();
+    }
 
     
     

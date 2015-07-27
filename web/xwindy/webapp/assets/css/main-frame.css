@@ -1,0 +1,66 @@
+body{
+    min-width: 850px;
+    padding: 0 10px;
+    padding-bottom: 50px;
+    font-size: 14px;
+}
+
+table{
+    font-size: 14px;
+}
+
+.table-list .glyphicon{
+    margin: 5px 10px;
+    font-size: 16px;
+}
+.table-list thead{
+    background-color: #eeeeee;
+}
+.table-list thead th{
+    text-align: center !important;
+}
+.table-list tbody tr:nth-child(even){
+    background-color: #fafafa;
+}
+.table-list tbody td{
+    text-align: center;
+    font-size: 14px;
+}
+
+.table-list .td-red{
+    color: red;
+}
+.table-list .td-blue{
+    color: blue;
+}
+.table-list .td-green{
+    color: green;
+}
+.table-list .td-grey{
+    color: grey;
+}
+
+
+.breadcrumb #nav-search{
+    margin-left: 100px;
+}
+#input-search{
+    width: 400px;
+}
+
+
+.breadcrumb{
+    font-size: 14px;
+}
+.panel tr:first-child td{
+    border-top: none;
+}
+.td-label{
+    padding-top: 13px !important;
+}
+
+.panel #submit{
+    margin: 0 auto;
+    display: block;
+    width: 100px;
+}

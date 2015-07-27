@@ -102,6 +102,14 @@ public class LostAndFoundService {
         return lafMapper.searchLostAndFoundByKeyWordAndPage(keyWord, page.getPageNo(), page.getPageSize());
     }
     
+    /**
+     * 获取失物招领总数
+     * @return 失物招领总数
+     */
+    public int getLostAndFoundTotalNum() {
+        return lafMapper.getLostAndFoundTotalNum();
+    }
+    
    
     
     /**

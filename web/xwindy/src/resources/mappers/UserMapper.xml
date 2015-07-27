@@ -15,6 +15,7 @@
 		<result property="email" 		column="email"/>
 		<result property="lastActive" 	column="last_active"/>
 		<result property="header" 		column="header"/>
+		<result property="state" 		column="state"/>
 	</resultMap>
 	
 	<resultMap type="Student" id="StudentResult" extends="UserResult">
@@ -238,6 +239,20 @@
 		DELETE FROM subscribe
 		WHERE public_id = #{publicId} AND student_id = #{userId}
 	</delete>
+	
+	<select id="getStudentNum" 
+		resultType="int">
+		SELECT COUNT(0)
+		FROM plate_users
+		WHERE user_type = 'XS'
+	</select>
+	
+	<select id="getPublicerNum"
+		resultType="int">
+		SELECT COUNT(0)
+		FROM plate_users
+		WHERE user_type != 'XS'
+	</select>
 	
 	<sql id="pageLimitSql">
 		<if test="pageNo != null">

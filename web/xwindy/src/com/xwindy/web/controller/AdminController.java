@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xwindy.web.service.LogService;
+import com.xwindy.web.service.LostAndFoundService;
 import com.xwindy.web.service.NewsService;
 import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.Page;
+import com.xwindy.web.util.Pagination;
 import com.xwindy.web.util.SysUtil;
 
 /**
@@ -39,16 +41,39 @@ public class AdminController {
         return view;
     }
     
+    @RequestMapping("/frame/top")
+    public ModelAndView adminFrameTopView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/top");
+        return view;
+    }
+    
+    @RequestMapping("/frame/menu")
+    public ModelAndView adminFrameMenuView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/menu");
+        return view;
+    }
+    
+    @RequestMapping("/main")
+    public ModelAndView adminFrameMainView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/main");
+        return view;
+    }
+    
     /**
      * 学生用户列表页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
      * @return 学生列表用户页
      */
     @RequestMapping("/student")
-    public ModelAndView studentListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/student/list");
-        Page page = new Page(1, 30);
+    public ModelAndView studentListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/studentlist");
+        Page page = new Page(p, pageSize);
         view.addObject("studentList", userService.getStudentDetailListByPage(page));
+        Pagination pag = new Pagination("admin/student?p=",page, userService.getStudentNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
     
@@ -99,29 +124,34 @@ public class AdminController {
         return result;
     }
     
-    /**
-     * 学生信息详情编辑页
-     * @param userId - 用户id
-     * @param request - HttpServletRequest对象
-     * @return 学生详情编辑页
-     */
-    @RequestMapping("/student/{id}")
+    @RequestMapping("/user")
+    public ModelAndView studentAddView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/useredit");
+        return view;
+    }
+
+    @RequestMapping("/user/{id}")
     public ModelAndView studentDetailEditView(@PathVariable("userId") int userId, HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/student/edit");
+        ModelAndView view = new ModelAndView("admin/useredit");
         view.addObject("student", userService.getStudentDetailById(userId));
         return view;
     }
     
     /**
      * 公众号列表页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
      * @return 公众号列表
      */
     @RequestMapping("/public")
-    public ModelAndView publicerListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/public/list");
-        Page page = new Page(1, 30);
+    public ModelAndView publicerListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/publicerlist");
+        Page page = new Page(p, pageSize);
         view.addObject("publicerList", userService.getPublicerDetailListByPage(page));
+        Pagination pag = new Pagination("admin/public?p=",page, userService.getPublicerNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
     
@@ -138,42 +168,53 @@ public class AdminController {
         return result;
     }
     
-    /**
-     * 公众号详情修改页
-     * @param userId
-     * @param request - HttpServletRequest对象
-     * @return 公众号详情修改页
-     */
-    @RequestMapping("/public/{id}")
-    public ModelAndView publicerDetailEditView(@PathVariable("userId") int userId, HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/public/edit");
-        view.addObject("publicer", userService.getPublicerDetailById(userId));
-        return view;
-    }
+//    /**
+//     * 公众号详情修改页
+//     * @param userId
+//     * @param request - HttpServletRequest对象
+//     * @return 公众号详情修改页
+//     */
+//    @RequestMapping("/public/{id}")
+//    public ModelAndView publicerDetailEditView(@PathVariable("userId") int userId, HttpServletRequest request) {
+//        ModelAndView view = new ModelAndView("admin/public/edit");
+//        view.addObject("publicer", userService.getPublicerDetailById(userId));
+//        return view;
+//    }
     
     /**
      * 资讯列表页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
      * @return 资讯列表页
      */
     @RequestMapping("/news")
-    public ModelAndView newsListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/news/list");
-        Page page = new Page(1, 30);
+    public ModelAndView newsListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/newslist");
+        Page page = new Page(p, pageSize);
         view.addObject("newsList", newsService.getNewsListByPage(page));
+        Pagination pag = new Pagination("admin/news?p=",page, newsService.getNewsTotalNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
+
     
     /**
      * 资讯推送管理页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
      * @return 资讯推送管理页
      */
     @RequestMapping("/news/push")
-    public ModelAndView newsPushListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/news/pushList");
-        Page page = new Page(1, 30);
+    public ModelAndView newsPushListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/newspushlist");
+        Page page = new Page(p, pageSize);
         view.addObject("newsList", newsService.getNewsPushListByPage(page));
+        Pagination pag = new Pagination("admin/news/push?p=",page, newsService.getNewsPushNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
     
@@ -203,21 +244,26 @@ public class AdminController {
      */
     @RequestMapping("/news/{id}")
     public ModelAndView newsDetailEditView(@PathVariable("newsId") int newsId, HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/news/edit");
+        ModelAndView view = new ModelAndView("admin/newsedit");
         view.addObject("news", newsService.getNewsById(newsId));
         return view;
     }
     
     /**
      * 评论列表页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
      * @return 评论列表页
      */
     @RequestMapping("/comment")
-    public ModelAndView commentListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/comment/list");
-        Page page = new Page(1, 30);
+    public ModelAndView commentListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/commentlist");
+        Page page = new Page(p, pageSize);
         view.addObject("commentList", newsService.getAllCommentListByPage(page));
+        Pagination pag = new Pagination("admin/comment?p=",page, newsService.getCommentTotalNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
     
@@ -236,14 +282,19 @@ public class AdminController {
     
     /**
      * 系统日志页
+     * @param p - 页码
      * @param request - HttpServletRequest对象
-     * @return 系统日志页 
+     * @return 系统日志页  
      */
     @RequestMapping("/log")
-    public ModelAndView logListView(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("admin/log/list");
-        Page page = new Page(1, 30);
+    public ModelAndView logListView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/loglist");
+        Page page = new Page(1, pageSize);
         view.addObject("logList", logService.getLogListByPage(page));
+        Pagination pag = new Pagination("admin/log?p=",page, logService.getLogTotalNum(), viewPageNum);
+        view.addObject("pag", pag);
         return view;
     }
     
@@ -260,7 +311,32 @@ public class AdminController {
         return result;
     }
     
+    /**
+     * 失物招领列表页
+     * @param p - 页码
+     * @param request - HttpservletRequest对象
+     * @return 失物招领管理页
+     */
+    @RequestMapping("/lost")
+    public ModelAndView lostView(
+            @RequestParam(value="p", defaultValue="1", required=false) int p,
+            HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/lostlist");
+        Page page = new Page(p, pageSize);
+        Pagination pag = new Pagination("admin/lost?p=",page, lafService.getLostAndFoundTotalNum(), viewPageNum);
+        view.addObject("pag", pag);
+        return view;
+    }
     
+    @RequestMapping("/resource")
+    public ModelAndView sysResourceView(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView("admin/resource");
+        return view;
+    }
+    
+    public static final int pageSize = 20;
+    
+    public static final int viewPageNum = 9;
     
     
     @Autowired
@@ -271,5 +347,8 @@ public class AdminController {
     
     @Autowired
     private LogService logService;
+    
+    @Autowired
+    private LostAndFoundService lafService;
     
 }

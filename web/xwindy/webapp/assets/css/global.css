@@ -1,0 +1,95 @@
+/* page */
+body{
+    background-color:#f3f3f3;
+    font-family: "Microsoft Yahei";
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    color: #333;
+}
+#body{
+    margin-top: 30px;
+}
+a, a:visited{
+    color: #333;
+}
+a:hover{
+    color: #888;
+}
+nav{
+    height:50px;
+    padding:15px;
+    background-color: #00ccff;
+    font-size:16px;
+}
+nav a, nav a:visited,nav a:hover{
+    color: #fff;
+}
+
+#logo-div{
+    float:left;;
+}
+#logo{
+    width: 100px;
+}
+
+#nav-text{
+    margin-top: -10px;
+}
+#nav-ul{
+    padding:0;
+}
+#nav-ul li{
+    list-style: none;
+    float:left;
+}
+#nav-ul li a{
+    padding: 20px;
+}
+#nav-user{
+    float: right;
+}
+#nav-user a{
+    padding: 0 20px;
+}
+
+/* button */
+.btn{
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border:none;
+    padding: 5px 20px;
+}
+.btn-default{
+    background-color: #00ccff;
+    color: #fff;
+
+}
+.btn-default:hover{
+    background-color: #3399cc;
+    color: #fff;
+}
+
+/*sidebar*/
+
+
+.title-bar>h3{
+    margin: 0 15px;
+    padding-top: 12px;
+    font-size: 16px;
+}
+.title-bar{
+    height: 40px;
+    background: #3399cc;
+    color: #fff;;
+}
+
+
+.card{
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 1px 1px 3px #e6e6e6;
+    margin-bottom: 20px;
+}

@@ -25,4 +25,10 @@ public interface LogMapper {
      * @return 系统日志列表
      */
     public List<Log> getLogListByPage(Page page);
+    
+    /**
+     * 获取系统日志总数
+     * @return 系统日志总数
+     */
+    public int getLogTotalNum();
 }

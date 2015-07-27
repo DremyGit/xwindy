@@ -55,6 +55,11 @@ public class User implements Serializable{
     private String header;
     
     /**
+     * 用户账号状态
+     */
+    private int state;
+    
+    /**
      * 用户类的默认构造函数
      */
     public User() {}
@@ -134,6 +139,14 @@ public class User implements Serializable{
 
     public void setHeader(String header) {
         this.header = header;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     

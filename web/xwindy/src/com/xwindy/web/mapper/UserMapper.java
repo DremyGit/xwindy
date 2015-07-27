@@ -204,5 +204,9 @@ public interface UserMapper {
      */
     public int updateUserState(@Param("userId") int userId, @Param("toState") int toState);
     
+    
+    public int getStudentNum();
+    
+    public int getPublicerNum();
 
 }

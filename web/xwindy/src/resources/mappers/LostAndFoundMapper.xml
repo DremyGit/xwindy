@@ -80,4 +80,10 @@
 			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
 		</if>
 	</sql>
+	
+	<select id="getLostAndFoundTotalNum"
+		resultType="int">
+		SELECT COUNT(0)
+		FROM lost_and_found
+	</select>
 </mapper>
