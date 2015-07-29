@@ -13,6 +13,14 @@ import com.xwindy.web.util.Page;
  *
  */
 public interface LostAndFoundMapper {
+    
+    
+    /**
+     * 通过分页对象获取所有可见招领信息
+     * @param page - 分页对象
+     * @return 招领信息列表
+     */
+    public List<LostAndFound> getLostAndFoundListVisibleByPage(Page page);
 
     /**
      * 通过分页对象获取全部失物招领信息

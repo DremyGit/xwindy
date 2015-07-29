@@ -40,6 +40,10 @@ table{
     color: grey;
 }
 
+.table-list .td-left{
+    text-align: left !important;
+}
+
 
 .breadcrumb #nav-search{
     margin-left: 100px;

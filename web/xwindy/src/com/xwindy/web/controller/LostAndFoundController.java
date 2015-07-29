@@ -37,7 +37,7 @@ public class LostAndFoundController {
     public ModelAndView lostView() {
         ModelAndView view = new ModelAndView("lost/index");
         Page page = new Page(1, LAFDefaultPageSize);
-        view.addObject("lafList", lafService.getAllLAFListByPage(page));
+        view.addObject("lafList", lafService.getLostAndFoundListVisibleByPage(page));
         return view;
     }
     

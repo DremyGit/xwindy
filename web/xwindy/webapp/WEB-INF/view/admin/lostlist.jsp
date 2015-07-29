@@ -8,9 +8,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/main-frame.css" rel="stylesheet">
     <style>
-        .td-left{
-            text-align: left !important;
-        }
+
         #th-comment-content{
             width: 25%;
         }
@@ -122,7 +120,46 @@
             <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
         </td>
     </tr>
-
+<c:forEach items="${lostList}" var="lost">
+    <tr>
+        <td>${lost.id}</td>
+        <td>${lost.sendUser.username }</td>
+        <td>${lost.type?'<span class="td-green">拾</span>':'<span class="td-blue">失</span>'}</td>
+        <td>${lost.keyWord}</td>
+        <td>${lost.content }</td>
+        <td><img src="${lost.picUrl}"/></td>
+        <td>${lost.sendIp}</td>
+        <td>${lost.sendTime }</td>
+    <c:choose>
+        <c:when test="${lost.status == 0}"><td class="td-red">已隐藏</td></c:when>
+        <c:when test="${lost.status == 1}"><td class="td-blue">进行中</td></c:when>
+        <c:when test="${lost.status == 2}"><td class="td-green">已完成</td></c:when>
+        <c:when test="${lost.status == 3}"><td class="td-grey">已取消</td></c:when>
+    </c:choose>
+        <td>
+    <c:choose>
+        <c:when test="${lost.status == 0}">
+            <a href="javascript:" title="显示"><span class="glyphicon glyphicon-ok-circle"></span></a>
+        </c:when>
+        <c:when test="${lost.status == 1}">
+            <a href="javascript:" title="设为完成"><span class="glyphicon glyphicon-ok-circle"></span></a>
+            <a href="javascript:" title="设为取消"><span class="glyphicon glyphicon-remove-circle"></span></a>
+            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
+        </c:when>
+        <c:when test="${lost.status == 2}">
+            <a href="javascript:" title="设为进行"><span class="glyphicon glyphicon-ok-circle"></span></a>
+            <a href="javascript:" title="设为取消"><span class="glyphicon glyphicon-remove-circle"></span></a>
+            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
+        </c:when>
+        <c:when test="${lost.status == 3}">
+            <a href="javascript:" title="设为进行"><span class="glyphicon glyphicon-ok-circle"></span></a>
+            <a href="javascript:" title="设为完成"><span class="glyphicon glyphicon-remove-circle"></span></a>
+            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
+        </c:when>
+    </c:choose>
+        </td>
+    </tr>
+</c:forEach>
     </tbody>
 </table>
 

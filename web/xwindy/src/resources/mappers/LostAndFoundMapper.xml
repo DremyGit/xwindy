@@ -22,6 +22,14 @@
 			select="com.xwindy.web.mapper.UserMapper.getUserById" />
 	</resultMap>
 	
+	<select id="getLostAndFoundListVisibleByPage"
+		resultMap="LostAndFoundResult">
+		SELECT * FROM lost_and_found
+		WHERE state != 0
+		ORDER BY id DESC
+		<include refid="pageLimitSql"></include>
+	</select>
+	
 	<select id="getAllLostAndFoundByPage"
 		resultMap="LostAndFoundResult">
 		SELECT * FROM lost_and_found

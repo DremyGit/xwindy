@@ -20,6 +20,15 @@ import com.xwindy.web.util.Page;
  */
 @Service
 public class LostAndFoundService {
+    
+    /**
+     * 通过分页对象获取全部可见招领信息列表
+     * @param page - 分页对象
+     * @return 招领信息列表
+     */
+    public List<LostAndFound> getLostAndFoundListVisibleByPage(Page page) {
+        return lafMapper.getLostAndFoundListVisibleByPage(page);
+    }
 
     /**
      * 通过分页对象获取全部的失物招领信息

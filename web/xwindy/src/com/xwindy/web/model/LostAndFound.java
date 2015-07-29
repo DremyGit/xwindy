@@ -70,7 +70,7 @@ public class LostAndFound  implements Serializable{
     private String phone;
     
     /**
-     * 招领状态: 1为进行中, 2为成功, 0为关闭
+     * 招领状态:  0为隐藏, 1为进行中, 2为成功, 3为取消
      */
     private int status;
     

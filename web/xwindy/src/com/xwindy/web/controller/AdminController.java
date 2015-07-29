@@ -326,6 +326,7 @@ public class AdminController {
             HttpServletRequest request) {
         ModelAndView view = new ModelAndView("admin/lostlist");
         Page page = new Page(p, pageSize);
+        view.addObject("lostList", lafService.getAllLAFListByPage(page));
         Pagination pag = new Pagination("admin/lost?p=",page, lafService.getLostAndFoundTotalNum(), viewPageNum);
         view.addObject("pag", pag);
         return view;

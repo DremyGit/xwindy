@@ -35,7 +35,7 @@
 <c:forEach items="${logList}" var="log">
     <tr>
         <td>${log.id}</td>
-        <td>${log.content}</td>
+        <td class="td-left">${log.content}</td>
         <td>${log.user.username}</td>
         <td>${log.datetime}</td>
         <td>${log.userIp}</td>
