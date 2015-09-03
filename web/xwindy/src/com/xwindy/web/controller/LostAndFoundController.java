@@ -107,6 +107,7 @@ public class LostAndFoundController {
     
     /**
      * 处理修改失物招领信息接口
+     * @param id - 失物招领id
      * @param local - 拾/失物地点
      * @param keyWord - 物品关键词
      * @param content - 简介信息

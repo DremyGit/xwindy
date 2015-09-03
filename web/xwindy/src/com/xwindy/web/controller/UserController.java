@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xwindy.web.mapper.NewsMapper;
 import com.xwindy.web.model.Publicer;
 import com.xwindy.web.model.Student;
 import com.xwindy.web.service.LogService;
@@ -235,58 +236,7 @@ public class UserController {
         return result;
     }
     
-    /**
-     * 显示订阅中心页(需要登录)
-     * @param classId - 公众号分类id
-     * @return 订阅中心页
-     */
-    @RequestMapping(value = "/subcenter/{classId}", method = RequestMethod.GET)
-    public ModelAndView subcenterLoginView(@PathVariable("classId") int classId, Page page, HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("user/subcenter");
-        view.addObject("classList", userService.getAllPublicClassList());
-        
-        HttpSession session = request.getSession();
-        int userId = getUserIdFromSession(session);
-        if (classId == 0) {
-            List<Publicer> recommendPublicerList = userService.getRecommendPublicerListByUserId(userId);
-            view.addObject("publicerList", recommendPublicerList);
-            return view;
-        }
-        view.addObject("publicerList", userService.getPublicerListByPublicClassIdAndUserIdAndPage(classId, userId, page));
-        return view;
-    }
     
-    /**
-     * 处理订阅操作接口
-     * @param publicId - 公众号id
-     * @return 处理结果
-     */
-    @RequestMapping(value = "/subscribe.action", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> subscribeAction(
-            @RequestParam(value = "publicId", required = true) int publicId,
-            HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        HttpSession session = request.getSession();
-        int userId = getUserIdFromSession(session);
-        result.put("isSuccess", userService.addSubscribeByPublicIdAndUserId(publicId, userId));
-        return result;
-    }
-    
-    /**
-     * 处理取消订阅操作接口
-     * @param publcId - 公众号id
-     * @return 处理结果
-     */
-    @RequestMapping(value = "/unsubscribe.action", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> unSubscribeAction(
-            @RequestParam(value = "publicId", required = true) int publicId,
-            HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        HttpSession session = request.getSession();
-        int userId = getUserIdFromSession(session);
-        result.put("isSuccess", userService.deleteSubscribeByPublicIdAndUserId(publicId, userId));
-        return result;
-    }
     
     /**
      * 判断用户是否登录
