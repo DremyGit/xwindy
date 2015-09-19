@@ -57,15 +57,15 @@
         <td>${publicer.subscribeUserNum}</td>
         <td>${publicer.lastNewsTime}</td>
         <td>${publicer.lastActive}</td>
-        <td>${publicer.state==0?"<span class=td-red>禁用</span>":"正常"}</td>
+        <td id="state_${publicer.id}">${publicer.state==0?"<span class=td-red>禁用</span>":"正常"}</td>
         <td>
             <a href="admin/user/${publicer.id}" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
     <c:choose>
         <c:when test="${publicer.state == 1}">
-            <a href="javascript:" title="禁用"><span class="glyphicon glyphicon-ban-circle"></span></a>
+            <a href="javascript:disable(${publicer.id})" title="禁用" id="able_${publicer.id}"><span class="glyphicon glyphicon-ban-circle"></span></a>
         </c:when>
         <c:when test="${publicer.state == 0}">
-            <a href="javascript:" title="启用"><span class="glyphicon glyphicon-ok-circle"></span></a>
+            <a href="javascript:available(${publicer.id})" title="启用" id="able_${publicer.id}"><span class="glyphicon glyphicon-ok-circle"></span></a>
         </c:when>
     </c:choose>
         </td>
@@ -90,6 +90,44 @@
     function search() {
         var str = $("#input-search").val();
         alert("搜索"+str);
+    }
+    
+    function disable(id) {
+    	$.ajax({
+    		url: 'admin/user/setdisable',
+    		data: {
+    			userId: id
+    		},
+    		success: function(data) {
+    			var res = eval(data);
+    			if (res.isSuccess) {
+    				$("#state_" + id).html('<span class="td-red">禁用</span>');
+    				$("#able_" + id).after('<a href="javascript:available('+ id +')" title="启用" id="able_'+ id +'"><span class="glyphicon glyphicon-ok-circle"></span></a>').remove();
+    			} else {
+    				alert("修改失败!!");
+    				return;
+    			}
+    		}
+    	})
+    }
+    
+    function available(id) {
+    	$.ajax({
+    		url: 'admin/user/setavailable',
+    		data: {
+    			userId: id
+    		},
+    		success: function(data) {
+    			var res = eval(data);
+    			if (res.isSuccess) {
+    				$("#state_" + id).html('正常');
+    				$("#able_" + id).after('<a href="javascript:disable('+ id +')" title="启用" id="able_'+ id +'"><span class="glyphicon glyphicon-ban-circle"></span></a>').remove();
+        		} else {
+        			alert("修改失败!!");
+        			return;
+        		}
+    		}
+    	})
     }
 </script>
 </body>

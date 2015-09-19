@@ -185,6 +185,21 @@ public class NewsService {
     }
     
     /**
+     * 更新资讯状态
+     * @param newsId - 资讯id
+     * @param toState - 更改的状态
+     * @return 处理结果
+     */
+    public boolean updateNewsState(int newsId, int toState) {
+        try {
+            newsMapper.updateNewsState(newsId, toState);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
      * 通过资讯id和当前状态修改资讯状态
      * @param id - 资讯id
      * @param nowState - 当前状态
@@ -196,7 +211,7 @@ public class NewsService {
             toState = 1;
         }
         try {
-            newsMapper.toggleNewsState(id, toState);
+            newsMapper.updateNewsState(id, toState);
             return true;
         } catch (Exception e) {
             return false;

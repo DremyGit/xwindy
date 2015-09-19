@@ -69,7 +69,7 @@ public class LoginInterceptor {
      * @param request - HttpServletRequest对象
      * @return 根据情况返回ModelAndView对象
      */
-    @Around("execution(* com.xwindy.web.controller.PublicController.*View(..)) && args(.., request)")
+    @Around("execution(* com.xwindy.web.controller.AdminController.*View(..)) && args(.., request)")
     public ModelAndView authenticationView(ProceedingJoinPoint pjp, HttpServletRequest request) throws Throwable {
         HttpSession session = request.getSession();
         ModelAndView view = null;
@@ -89,7 +89,7 @@ public class LoginInterceptor {
      * @return 根据情况返回Map<String, Object>对象
      */
     @SuppressWarnings("unchecked")
-    @Around("execution(* com.xwindy.web.controller.PublicController.*Action(..)) && args(.., request)")
+    @Around("execution(* com.xwindy.web.controller.AdminController.*Action(..)) && args(.., request)")
     public @ResponseBody Map<String, Object> authenticationAction(ProceedingJoinPoint pjp, HttpServletRequest request) throws Throwable {
         HttpSession session = request.getSession();
         Map<String, Object> result = null;

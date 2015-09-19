@@ -78,7 +78,8 @@ public class AdminController {
     }
     
     /**
-     * 学生用户列表获取接口
+     * 学生用户列表获取接口\
+     * [待定]
      * @param page - 分页对象
      * @param request - HttpServletRequest对象
      * @return 学生用户列表Map<String, Object>对象
@@ -87,6 +88,30 @@ public class AdminController {
     public @ResponseBody Map<String, Object> studentListAction(Page page, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("studentList", userService.getStudentDetailListByPage(page));
+        return result;
+    }
+    
+    /**
+     * 禁用用户
+     * @param userId - 用户id
+     * @return 操作结果Map<String, Object>对象
+     */
+    @RequestMapping("/user/setdisable")
+    public @ResponseBody Map<String, Object> setDisableAction(int userId) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", userService.updateUserState(userId, 0));
+        return result;
+    }
+    
+    /**
+     * 启用用户
+     * @param userId - 用户id
+     * @return 操作结果Map<String, Object>对象
+     */
+    @RequestMapping("/user/setavailable")
+    public @ResponseBody Map<String, Object> setAvailableAction(int userId) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", userService.updateUserState(userId, 1));
         return result;
     }
     
@@ -123,6 +148,8 @@ public class AdminController {
         result.put("isSuccess", isSucess);
         return result;
     }
+    
+
     
     @RequestMapping("/user")
     public ModelAndView studentAddView(HttpServletRequest request) {
@@ -200,6 +227,36 @@ public class AdminController {
         Pagination pag = new Pagination("admin/news?p=",page, newsService.getNewsTotalNum(), viewPageNum);
         view.addObject("pag", pag);
         return view;
+    }
+    
+    /**
+     * 隐藏资讯
+     * @param newsId - 资讯id
+     * @param request - HttpServletRequest对象
+     * @return 处理结果结果Map<String, Object>对象
+     */
+    @RequestMapping("/news/sethide")
+    public @ResponseBody Map<String, Object> setHideNewsAction(
+            @RequestParam("newsId") int newsId,
+            HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", newsService.updateNewsState(newsId, 0));
+        return result;
+    }
+    
+    /**
+     * 显示资讯
+     * @param newsId - 资讯id
+     * @param request - HttpServletRequest对象
+     * @return 处理结果结果Map<String, Object>对象
+     */
+    @RequestMapping("/news/setshow")
+    public @ResponseBody Map<String, Object> setShowNewsAction(
+            @RequestParam("newsId") int newsId,
+            HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", newsService.updateNewsState(newsId, 1));
+        return result;
     }
 
     

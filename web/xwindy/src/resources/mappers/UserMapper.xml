@@ -168,7 +168,7 @@
 		WHERE id = #{userId}
 	</update>
 	
-	<update id="toggleUserState">
+	<update id="updateUserState">
 		UPDATE plate_users
 		SET state = #{toState}
 		WHERE id = #{userId}

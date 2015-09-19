@@ -305,6 +305,21 @@ public class UserService {
         return userMapper.getPublicerNum();
     }
 
+
+    /**
+     * 更新用户状态
+     * @param userId - 用户id
+     * @param toState - 需要更新的用户状态
+     * @return 处理结果
+     */
+    public boolean updateUserState(int userId, int toState) {
+        try {
+            userMapper.updateUserState(userId, toState);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     
     
     @Autowired

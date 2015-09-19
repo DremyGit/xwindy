@@ -84,7 +84,7 @@
 		WHERE id = #{id} 
 	</update>
 	
-	<update id="toggleNewsState">
+	<update id="updateNewsState">
 		UPDATE news
 		SET state = #{toState}
 		WHERE id = #{id}

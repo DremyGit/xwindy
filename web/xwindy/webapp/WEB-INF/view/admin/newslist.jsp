@@ -55,16 +55,16 @@
               <c:when test="${news.push == 3}"><span class="td-blue">拒绝推送</span></c:when>
             </c:choose>
         </td>
-        <td>${news.state==0?"<span class=td-red>隐藏</span>":"正常"}</td>
+        <td id="show_state_${news.id}">${news.state==0?"<span class=td-red>隐藏</span>":"正常"}</td>
         <td>${news.datetime}</td>
         <td>
             <a href="admin/news/${news.id}" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
     <c:choose>
         <c:when test="${news.state == 1}">
-            <a href="javascript:" title="隐藏"><span class="glyphicon glyphicon-ban-circle"></span></a>
+            <a href="javascript:setHide(${news.id})" title="隐藏" id="show_${news.id}"><span class="glyphicon glyphicon-ban-circle"></span></a>
         </c:when>
         <c:when test="${news.state == 0}">
-            <a href="javascript:" title="显示"><span class="glyphicon glyphicon-ok-circle"></span></a>
+            <a href="javascript:setShow(${news.id})" title="显示" id="show_${news.id}"><span class="glyphicon glyphicon-ok-circle"></span></a>
         </c:when>
     </c:choose>
         </td>
@@ -85,5 +85,46 @@
 <script src="assets/js/jquery-1.11.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/main-frame.js"></script>
+<script>
+
+
+function setHide(id) {
+	$.ajax({
+		url: 'admin/news/sethide',
+		data: {
+			newsId: id
+		},
+		success: function(data) {
+			var res = eval(data);
+			if (res.isSuccess) {
+				$("#show_state_" + id).html('<span class="td-red">隐藏</span>');
+				$("#show_" + id).after('<a href="javascript:setShow('+ id +')" title="显示" id="show_'+ id +'"><span class="glyphicon glyphicon-ok-circle"></span></a>').remove();
+			} else {
+				alert("修改失败!!");
+				return;
+			}
+		}
+	})
+}
+
+function setShow(id) {
+	$.ajax({
+		url: 'admin/news/setshow',
+		data: {
+			newsId: id
+		},
+		success: function(data) {
+			var res = eval(data);
+			if (res.isSuccess) {
+				$("#show_state_" + id).html('正常');
+				$("#show_" + id).after('<a href="javascript:setHide('+ id +')" title="隐藏" id="show_'+ id +'"><span class="glyphicon glyphicon-ban-circle"></span></a>').remove();
+    		} else {
+    			alert("修改失败!!");
+    			return;
+    		}
+		}
+	})
+}
+</script>
 </body>
 </html>
