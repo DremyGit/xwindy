@@ -10,16 +10,21 @@
 <body>
 <div>Account:<input type="text" id="account" /></div>
 <div>Password:<input type="password" id="password" /></div>
-<div><input type="checkbox" id="autoLogin" />自动登录</div>
+<div><input type="checkbox" id="autoLogin" />自动登录
+<input type="checkbox" id="md5" /> 前端加密
+</div>
 <div><button id="submit">登录</button></div>
 <script src="assets/js/jquery-1.11.2.min.js"></script>
+<script src="assets/js/jquery.md5.js"></script>
 <script>
 $("#submit").click(function () {
 	var account = $("#account").val();
 	var password= $("#password").val();
 	var autoLogin = $("input[id='autoLogin']:checked").val();
+	var md5 = $("input[id='md5']:checked").val();
 	
 	if (autoLogin) alert("autoLoginChoose: " + autoLogin);
+	if (md5) password = $.md5(password);
 	
 	$.ajax({
 		url: "user/login.action",

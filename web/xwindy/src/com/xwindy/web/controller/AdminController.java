@@ -230,7 +230,7 @@ public class AdminController {
     }
     
     /**
-     * 隐藏资讯
+     * 隐藏资讯接口
      * @param newsId - 资讯id
      * @param request - HttpServletRequest对象
      * @return 处理结果结果Map<String, Object>对象
@@ -245,7 +245,7 @@ public class AdminController {
     }
     
     /**
-     * 显示资讯
+     * 显示资讯接口
      * @param newsId - 资讯id
      * @param request - HttpServletRequest对象
      * @return 处理结果结果Map<String, Object>对象
@@ -276,6 +276,23 @@ public class AdminController {
         Pagination pag = new Pagination("admin/news/push?p=",page, newsService.getNewsPushNum(), viewPageNum);
         view.addObject("pag", pag);
         return view;
+    }
+    
+    /**
+     * 审核资讯接口
+     * @param newsId - 资讯id
+     * @param audit - 审核状态
+     * @param request HttpservletRequest对象 
+     * @return 处理结果Map<String, Object>对象
+     */
+    @RequestMapping("/news/auditpush")
+    public @ResponseBody Map<String, Object> auditPushAction(
+            @RequestParam("newsId") int newsId,
+            @RequestParam("audit") int audit,
+            HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", newsService.updateNewsPushState(newsId, audit));
+        return result;
     }
     
     /**

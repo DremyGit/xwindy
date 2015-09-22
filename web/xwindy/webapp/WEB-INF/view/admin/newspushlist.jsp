@@ -44,19 +44,19 @@
         <td>${news.clickNum}</td>
         <td>${news.commentNum}</td>
         <td>${news.publicIP}</td>
-        <td>
+        <td id="state_${news.id}">
     <c:choose>
         <c:when test="${news.push == 1}"><span class="td-red">请求推送</span></c:when>
-        <c:when test="${news.push == 2}"><span class="td-green">已推送</span></c:when>
+        <c:when test="${news.push == 2}"><span class="td-green">允许推送</span></c:when>
         <c:when test="${news.push == 3}"><span class="td-blue">拒绝推送</span></c:when>
     </c:choose>
         </td>
         <td>${news.datetime}</td>
         <td>
-    <c:if test="${news.push == 1}">
-            <a href="javascript:" title="允许推送"><span class="glyphicon glyphicon-ok"></span></a>
-            <a href="javascript:" title="拒绝推送"><span class="glyphicon glyphicon-remove"></span></a>
-    </c:if>
+<%--     <c:if test="${news.push == 1}"> --%>
+            <a href="javascript:setPush(${news.id},2)" title="允许推送"><span class="glyphicon glyphicon-ok"></span></a>
+            <a href="javascript:setPush(${news.id},3)" title="拒绝推送"><span class="glyphicon glyphicon-remove"></span></a>
+<%--     </c:if> --%>
         </td>
     </tr>
 </c:forEach>
@@ -79,5 +79,26 @@
 <script src="assets/js/jquery-1.11.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/main-frame.js"></script>
+<script>
+function setPush(id, state) {
+	$.ajax({
+		url: 'admin/news/auditpush',
+		data:{
+			newsId: id,
+			audit: state
+		},
+		success: function(data) {
+			var res = eval(data);
+			if (res.isSuccess) {
+				if (state == 2) {
+					$("#state_" + id).html('<span class="td-green">允许推送</span>');
+				} else if (state == 3) {
+					$("#state_" + id).html('<span class="td-blue">拒绝推送</span>');
+				}
+			}
+		}
+	})
+}
+</script>
 </body>
 </html>

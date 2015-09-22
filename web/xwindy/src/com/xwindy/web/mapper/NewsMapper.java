@@ -110,6 +110,14 @@ public interface NewsMapper {
     public int updateNewsState(@Param("id") int id, @Param("toState") int toState);
     
     /**
+     * 修改资讯的推送状态
+     * @param id - 资讯id
+     * @param toState - 需要改成的状态
+     * @return 修改的行数
+     */
+    public int updateNewsPushState(@Param("id") int id, @Param("toState") int toState);
+    
+    /**
      * 获取资讯总数
      * @return 资讯总数
      */
