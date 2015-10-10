@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xwindy.web.model.Student;
+import com.xwindy.web.model.User;
 import com.xwindy.web.service.LogService;
 import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.SysUtil;
@@ -56,22 +57,29 @@ public class UserController {
             @RequestParam(value = "autoLogin", required = false) boolean autoLogin,
             HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
-        result = userService.userLogin(account, password);
-        if (!SysUtil.object2Bool(result.get("isRight"))) {
+        User user = userService.userLogin(account, password);
+        if (user == null) {
+            result.put("isRight", false);
             return result;
         }
-        int userId = (int) result.get("userId");
-        userService.updateActiveTimeByUserId(userId);
+        int userId = user.getId();
+        userService.updateActiveTimeByUserId(user.getId());
         
         HttpSession session = request.getSession();
         session.setAttribute("isLogin", "true");
-        session.setAttribute("userType", result.get("userType"));
-        session.setAttribute("userId", userId);
+        session.setAttribute("userType", user.getUserType());
+        session.setAttribute("userId",   userId);
+        session.setAttribute("username", user.getUsername());
+        
+        result.put("isRight", true);
+        result.put("userId",  userId);
+        result.put("userType", user.getUserType());
+        result.put("username", user.getUsername());
         
         if (autoLogin) {
             userService.setAutoLoginCookie(userId, response);
         }
-        if (!result.get("userType").equals("XS")) {
+        if (!user.getUserType().equals("XS")) {
             log.write("公众号用户登录", userId, SysUtil.getRealIp(request));
         }
         

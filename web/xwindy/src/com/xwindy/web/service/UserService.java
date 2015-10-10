@@ -1,8 +1,6 @@
 package com.xwindy.web.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,22 +28,13 @@ public class UserService {
     
     /**
      * 处理用户登录操作
-     * @param account
-     * @param password
-     * @return
+     * @param account - 用户的学号或用户名
+     * @param password - 密码
+     * @return 用户对象
      */
-    public Map<String, Object> userLogin(String account, String password) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        
+    public User userLogin(String account, String password) {
         User user = userMapper.getUserByUsernameOrStuNumAndPassword(account, password);
-        if (user == null) {
-            result.put("isRight", false);
-            return result;
-        }
-        result.put("isRight", true);
-        result.put("userId", user.getId());
-        result.put("userType", user.getUserType());
-        return result;
+        return user;
     }
     
     /**
