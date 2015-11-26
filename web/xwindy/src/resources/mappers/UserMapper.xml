@@ -182,6 +182,18 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateSportPass">
+		UPDATE plate_users
+		SET sport_pass = #{sportPass}
+		WHERE id = #{userId}
+	</update>
+	
+	<update id="updateLibPass">
+		UPDATE plate_users
+		SET lib_pass = #{libPass}
+		WHERE id = #{userId}
+	</update>
+	
 	<update id="updatePublicer"
 		parameterType="Publicer">
 		UPDATE plate_users

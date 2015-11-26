@@ -126,6 +126,22 @@ public interface UserMapper {
     public int updateStudent(Student student);
     
     /**
+     * 更新体育查询密码
+     * @param userId - 用户id
+     * @param sportPass - 新体育查询密码
+     * @return 更改的行数
+     */
+    public int updateSportPass(@Param("userId") int userId, @Param("sportPass") String sportPass);
+    
+    /**
+     * 更新图书馆查询密码
+     * @param userId - 用户id
+     * @param libPass - 新图书馆查询密码
+     * @return 更改的行数
+     */
+    public int updateLibPass(@Param("userId") int userId, @Param("libPass") String libPass);
+    
+    /**
      * 更新公众号用户信息
      * @param publicer - 需要更新的公众号对象
      * @return 更改的行数

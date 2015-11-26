@@ -224,6 +224,40 @@ public class TestUserMapper {
     }
     
     /**
+     * 测试用例: 测试updateSportPass方法
+     * 测试数据: 使用正常的修改数据
+     * 预期结果: 更新执行成功
+     */
+    @Test
+    public void testUpdateSportPass() {
+        Student student = userMapper.getStudentById(4);
+        assertNotSame("666", student.getSportPass());
+        
+        int res = userMapper.updateSportPass(student.getId(), "666");
+        assertEquals(1, res);
+        
+        student = userMapper.getStudentById(4);
+        assertEquals("666",  student.getSportPass());
+    }
+    
+    /**
+     * 测试用例: 测试updateSportPass方法
+     * 测试数据: 使用正常的修改数据
+     * 预期结果: 更新执行成功
+     */
+    @Test
+    public void testUpdateLibPass() {
+        Student student = userMapper.getStudentById(4);
+        assertNotSame("666", student.getLibPass());
+        
+        int res = userMapper.updateLibPass(student.getId(), "666");
+        assertEquals(1, res);
+        
+        student = userMapper.getStudentById(4);
+        assertEquals("666",  student.getLibPass());
+    }
+    
+    /**
      * 测试用例: 测试updatePublicer方法
      * 测试数据: 使用正常的修改数据(介绍修改)
      * 预期结果: 更新执行成功

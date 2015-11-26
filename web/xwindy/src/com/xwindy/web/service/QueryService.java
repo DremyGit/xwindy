@@ -232,16 +232,17 @@ public class QueryService {
         try {
             String content = "";
             content = spider.getGETContent(SportInfoPage);
+            System.out.println(content);
             Map<String, Object> sport = new HashMap<String, Object>();
-            String reg = "有效次数:</td><td class='fd'>(.*?)</td>.*有效米数:</td><td class='fd'>(.*?)</td>.*达标要求:</td><td class='fd'>(.*?)</td>";
-            Pattern regex = Pattern.compile(reg);
-            Matcher regexMatcher = regex.matcher(content);
-            while (regexMatcher.find()) {
-                sport.put("timeCount", regexMatcher.group(1));
-                sport.put("runCount", regexMatcher.group(2));
-                sport.put("require", regexMatcher.group(3));
-            }
-            
+            String regTime      = "有效次数:</td><td class='fd'>(.*?)</td>";
+            String regRun       = "有效米数:</td><td class='fd'>(.*?)</td>";
+            String regRequire   = "达标要求:</td><td class='fd'>(.*?)</td>";
+            Matcher matcherTime   = Pattern.compile(regTime).matcher(content);
+            Matcher matcherRun    = Pattern.compile(regRun).matcher(content);
+            Matcher matcherRequire= Pattern.compile(regRequire).matcher(content);
+            sport.put("timeCount",  matcherTime.find()      ?   matcherTime.group(1)    : "0");
+            sport.put("runCount",   matcherRun.find()       ?   matcherRun.group(1)     : "0");
+            sport.put("require",    matcherRequire.find()   ?   matcherRequire.group(1) : "0");
             return sport;
         } catch (Exception e) {
             e.printStackTrace();

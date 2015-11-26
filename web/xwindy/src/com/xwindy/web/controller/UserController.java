@@ -239,6 +239,62 @@ public class UserController {
         return result;
     }
     
+    /**
+     * 处理体育查询密码修改接口
+     * @param sportPass 新密码
+     * @param request HttpservletRequest对象
+     * @return 修改结果
+     */
+    @RequestMapping(value="/update/sport.action")
+    public @ResponseBody Map<String, Object> updateSportPassAction(
+            @RequestParam(value = "sportPass", required = true) String sportPass,
+            HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        HttpSession session = request.getSession();
+        if (!isLogin(session)) {
+            result.put("reason", "未登录");
+            return result;
+        }
+        result.put("isSuccess", userService.updateSportPassword(getUserIdFromSession(session), sportPass));
+        return result;
+    }
+    
+    /**
+     * 处理图书馆查询密码修改接口
+     * @param sportPass 新密码
+     * @param request HttpservletRequest对象
+     * @return 修改结果
+     */
+    @RequestMapping(value="/update/lib.action")
+    public @ResponseBody Map<String, Object> updateLibPassAction(
+            @RequestParam(value = "libPass", required = true) String libPass,
+            HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        HttpSession session = request.getSession();
+        if (!isLogin(session)) {
+            result.put("reason", "未登录");
+            return result;
+        }
+        result.put("isSuccess", userService.updateLibPassword(getUserIdFromSession(session), libPass));
+        return result;
+    }
+    
+    @RequestMapping(value="/showInfo.action")
+    public @ResponseBody Map<String, Object> showStudentInfo(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("isSuccess", false);
+        HttpSession session = request.getSession();
+        if (!isLogin(session)) {
+            result.put("reason", "未登录");
+            return result;
+        }
+        result.put("studentInfo", userService.getStudentById(getUserIdFromSession(session)));
+        result.put("isSuccess", true);
+        return result;
+    }
+    
     
     
     /**

@@ -193,6 +193,36 @@ public class UserService {
     }
     
     /**
+     * 进行体育查询密码的更新操作
+     * @param userId - 用户id
+     * @param sportPass - 新体育查询密码
+     * @return 更新结果
+     */
+    public boolean updateSportPassword(int userId, String sportPass) {
+        try {
+            userMapper.updateSportPass(userId, sportPass);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
+     * 进行图书馆查询密码的更新操作
+     * @param userId - 用户id
+     * @param sportPass - 新图书馆查询密码
+     * @return 更新结果
+     */
+    public boolean updateLibPassword(int userId, String libPass) {
+        try {
+            userMapper.updateLibPass(userId, libPass);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
      * 获取所有的公众号分类列表
      * @return 公众号分类列表
      */
@@ -313,4 +343,7 @@ public class UserService {
     
     @Autowired
     private UserMapper userMapper;
+
+
+
 }
