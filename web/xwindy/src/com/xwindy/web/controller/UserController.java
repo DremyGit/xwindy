@@ -205,7 +205,9 @@ public class UserController {
     }
     
     /**
-     * 处理用户信息修改操作接口(不包括用户名密码的修改)POST方式, 管理员可以通过传入userId对任意用户进行修改
+     * 处理用户信息修改操作接口(不包括用户名密码的修改) POST方式
+     * 只更新传入的参数
+     * 管理员可以通过传入userId对任意用户进行修改
      * @param userId - 用户id(管理员)
      * @param telNumber - 手机号
      * @param email - 邮箱地址
@@ -213,23 +215,33 @@ public class UserController {
      * @param request - HttpServletRequest对象
      * @return 修改结果
      */
-    @RequestMapping(value = "/info.action", method = RequestMethod.POST)
+    @RequestMapping(value = "/info.action", method = RequestMethod.GET)
     public @ResponseBody Map<String, Object> userInfoAction(
-            @RequestParam(value = "userId",    required = false)int    userId,
-            @RequestParam(value = "telNumber", required = true) String telNumber,
-            @RequestParam(value = "email",     required = true) String email,
-            @RequestParam(value = "header",    required = true) String header,
+            @RequestParam(value = "userId",    required = false, defaultValue="0") int    userId,
+            @RequestParam(value = "telNumber", required = false) String telNumber,
+            @RequestParam(value = "email",     required = false) String email,
+            @RequestParam(value = "header",    required = false) String header,
             HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("isSuccess", false);
         HttpSession session = request.getSession();
-        int id = getUserIdFromSession(session);
         if (!isLogin(session)) {
             result.put("reason", "未登录");
             return result;
         }
+        int id = getUserIdFromSession(session);
         if (userId != 0 && getUserTypeBySession(session).equals("GLY")) {
             id = userId;
+        }
+        Student user = userService.getStudentById(id);
+        if (telNumber == null) {
+        	telNumber = user.getTelNumber();
+        }
+        if (email == null) {
+        	email = user.getEmail();
+        }
+        if (header == null) {
+        	header = user.getHeader();
         }
         if (!userService.updateStudent(id, telNumber, email, header)) {
             result.put("reason", "修改失败");
@@ -281,7 +293,12 @@ public class UserController {
         return result;
     }
     
-    @RequestMapping(value="/showInfo.action")
+    /**
+     * 用户信息获取接口
+     * @param request HttpServletRequest对象
+     * @return 用户信息
+     */
+    @RequestMapping(value="/showinfo.action")
     public @ResponseBody Map<String, Object> showStudentInfo(HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("isSuccess", false);
