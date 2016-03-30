@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 
 
@@ -377,7 +377,7 @@ public class SysUtil {
 	public static String base64Encode(String str) {
 	    try {
 	        byte[]  strByte = str.getBytes("utf-8");
-	        String code = Base64.encode(strByte);
+	        String code = Base64.getEncoder().encodeToString(strByte);
 	        return code;
         } catch (Exception e) {
             e.printStackTrace();
@@ -395,7 +395,7 @@ public class SysUtil {
 	public static String base64Decode(String code) {
 	    byte[] bytes;
         try {
-            bytes = Base64.decode(code);
+            bytes = Base64.getDecoder().decode(code);
             String str = new String(bytes, "utf-8");
             return str;
         } catch (Exception e) {
