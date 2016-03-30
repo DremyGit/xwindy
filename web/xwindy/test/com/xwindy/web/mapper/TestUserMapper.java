@@ -1,5 +1,6 @@
 package com.xwindy.web.mapper;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -65,6 +66,7 @@ public class TestUserMapper {
      * 测试数据: 使用存在的公众号用户id
      * 预期结果: 返回相应的公众号用户对象
      */
+    @Ignore
     @Test
     public void testGetPublicerByIdExisted() {
         Publicer publicer = userMapper.getPublicerById(6);
@@ -100,6 +102,7 @@ public class TestUserMapper {
      * 测试数据: 使用存在的学生用户学号
      * 预期结果: 返回相应的用户对象
      */
+    @Ignore
     @Test
     public void testGetUserByUsernameOrStuNumAndPasswordBySchoolIdExisted() {
         String account = "2014211234";
