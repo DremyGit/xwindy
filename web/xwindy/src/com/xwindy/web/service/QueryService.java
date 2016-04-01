@@ -124,7 +124,7 @@ public class QueryService {
             String content = "";
             content = spider.getGETContent(LibInfoPage);
             List<Map<String, Object>> borrowList = new ArrayList<Map<String, Object>>();
-            Pattern regex = Pattern.compile("<table.*\\s*.*\\s*.*?<td>(?<title>.*?)<.*\\s*.*?td>(?<borrow>.*?)<.*\\s*.*?td>(?<back>.*?)<.*\\s*.*\\s*.*?td>(?<attach>.*?)<(?:.*\\s*){3}<form action=\"(?<href>.*)\">");
+            Pattern regex = Pattern.compile("<table.*\\s*.*\\s*.*?<td>(?<title>.*?)<.*\\s*.*?td>(?<borrow>.*?)<.*\\s*.*?td>(?<back>.*?)<.*\\s*.*\\s*.*?td>(?<attach>.*?)<(?:.*\\s*){3}<form action=\"(?<href>[^\"]*)\"");
             Matcher regexMatcher = regex.matcher(content);
             while (regexMatcher.find()) {
                 Map<String, Object> borrow = new HashMap<String, Object>();
@@ -132,7 +132,7 @@ public class QueryService {
                 borrow.put("borrowDate", regexMatcher.group("borrow"));
                 borrow.put("expectDate", regexMatcher.group("back"));
                 borrow.put("haveAttach", regexMatcher.group("attach"));
-                borrow.put("renewHref", regexMatcher.group("href"));
+                borrow.put("renewHref", LibRenewActionBase + regexMatcher.group("href"));
                 borrowList.add(borrow);
             } 
             
@@ -261,6 +261,8 @@ public class QueryService {
     private static final String LibLoginAction      = "http://mc.lib.hfut.edu.cn/irdUser/login/opac/opacLogin.jspx";  
     
     private static final String LibInfoPage         = "http://mc.lib.hfut.edu.cn/cmpt/opac/opacLink.jspx?stype=1";
+    
+    private static final String LibRenewActionBase  = "http://mc.lib.hfut.edu.cn/cmpt/opac/";
     
     private static final String SportLoginAction    = "http://172.18.6.39/ezdcs/login.do";
 
