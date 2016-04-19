@@ -1,95 +1,205 @@
 /* page */
-body{
-    background-color:#f3f3f3;
-    font-family: "Microsoft Yahei";
-    font-weight: normal;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    color: #333;
-}
-#body{
-    margin-top: 30px;
-}
-a, a:visited{
-    color: #333;
-}
-a:hover{
-    color: #888;
-}
-nav{
-    height:50px;
-    padding:15px;
-    background-color: #00ccff;
-    font-size:16px;
-}
-nav a, nav a:visited,nav a:hover{
-    color: #fff;
+body {
+  background-color: #f3f3f3;
+  font-family: "Microsoft Yahei";
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  color: #333333;
 }
 
-#logo-div{
-    float:left;;
-}
-#logo{
-    width: 100px;
+#body {
+  margin-top: 30px;
 }
 
-#nav-text{
-    margin-top: -10px;
+@media (max-width: 767px) {
+  #body {
+    margin-top: 0px;
+  }
 }
-#nav-ul{
-    padding:0;
+
+a {
+  color: #333333;
 }
-#nav-ul li{
-    list-style: none;
-    float:left;
+
+a:visited {
+  color: #333333;
 }
-#nav-ul li a{
-    padding: 20px;
+
+a:hover {
+  color: #333333;
 }
-#nav-user{
-    float: right;
+
+/*Navigation bar*/
+.navbar {
+  border-radius: 0;
+  background-color: #61B3E6;
 }
-#nav-user a{
-    padding: 0 20px;
+
+.navbar .navbar-header button {
+  border-color: #eeeeee;
+}
+
+.navbar .navbar-header span.icon-bar {
+  background-color: #eeeeee;
+}
+
+.navbar .navbar-header a {
+  color: #eeeeee;
+}
+
+.navbar .navbar-header a:hover {
+  color: white;
+  background-color: #359edf;
+}
+
+.navbar .navbar-collapse.in ul li, .navbar .navbar-collapse.collapsing ul li {
+  margin: 0 !important;
+}
+
+.navbar .navbar-collapse.in ul li a, .navbar .navbar-collapse.collapsing ul li a {
+  color: #eeeeee;
+  background-color: #61B3E6;
+}
+
+.navbar .navbar-collapse ul.navbar-nav li {
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+.navbar .navbar-collapse ul.navbar-nav li a {
+  color: #eeeeee;
+}
+
+.navbar .navbar-collapse ul.navbar-nav li a:hover, .navbar .navbar-collapse ul.navbar-nav li a:focus {
+  color: white;
+  background-color: #359edf;
+}
+
+.navbar .navbar-collapse ul.navbar-nav li.dropdown ul a {
+  color: #333333;
+}
+
+.navbar .navbar-collapse ul.navbar-nav li.dropdown ul a:hover {
+  background-color: transparent;
 }
 
 /* button */
-.btn{
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    border:none;
-    padding: 5px 20px;
-}
-.btn-default{
-    background-color: #00ccff;
-    color: #fff;
-
-}
-.btn-default:hover{
-    background-color: #3399cc;
-    color: #fff;
+.btn {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 2px;
+  border: none;
+  font-size: 14px;
 }
 
-/*sidebar*/
-
-
-.title-bar>h3{
-    margin: 0 15px;
-    padding-top: 12px;
-    font-size: 16px;
-}
-.title-bar{
-    height: 40px;
-    background: #3399cc;
-    color: #fff;;
+.btn.xf-btn {
+  background-color: #61B3E6;
+  color: #eeeeee;
 }
 
+.btn.xf-btn:hover {
+  background-color: #359edf;
+  color: #eeeeee;
+}
 
-.card{
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: 1px 1px 3px #e6e6e6;
-    margin-bottom: 20px;
+.btn.btn-sm {
+  font-size: 12px;
+  padding: 4px 4px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 1px 1px 3px #e6e6e6;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .card {
+    margin: 0px -15px;
+    margin-bottom: 10px;
+  }
+}
+
+.card .card-head {
+  margin: 0 -10px;
+}
+
+.card .card-head h3 {
+  font-size: 18px;
+  font-weight: normal;
+  border-left: 7px #00ccff solid;
+  border-bottom: 1px #f3f3f3 solid;
+  padding: 10px 5px 10px 33px;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+.card .card-head span.card-head-right {
+  font-size: 12px;
+  float: right;
+  margin: 10px;
+}
+
+.item-list {
+  padding-right: 0;
+}
+
+.item-list .item {
+  display: block;
+  padding: 10px 30px;
+  margin: 10px 0 10px -10px;
+}
+
+.item-list .item:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item-list .item:hover, .item-list .item.active {
+  background-color: #f3f3f3;
+  border-left: 4px #61B3E6 solid;
+  margin-left: -14px;
+}
+
+.form-horizontal.left .control-label {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.form-group .control-label {
+  font-weight: normal;
+}
+
+.form-group .form-control {
+  border-radius: 2px;
+}
+
+.bar-10 {
+  padding: 5px;
+}
+
+.bar-20 {
+  padding: 10px;
+}
+
+.bar-40 {
+  padding: 20px;
+}
+
+.color-grey {
+  color: #888888;
+}
+
+.pic-grey {
+  width: 100%;
+}
+
+.float-right {
+  float: right;
 }

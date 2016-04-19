@@ -241,7 +241,7 @@ public class News implements Serializable{
     }
 
     public void setFirstPicUrl(String content) {
-        Pattern regex = Pattern.compile("<img .*?src=\"(.*?.jpg)\"");
+        Pattern regex = Pattern.compile("<img .*?src=\"(.*?.(jpe?g|png))\"");
         Matcher regexMatcher = regex.matcher(content);
         if (regexMatcher.find()) {
             this.firstPicUrl = regexMatcher.group(1);
