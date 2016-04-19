@@ -42,6 +42,26 @@ public class LoginInterceptor {
     }
     
     /**
+     * 若用户已登录则把登录信息添加至页面中
+     * @param pjp - 处理节点
+     * @param request - HttpServletRequest对象
+     * @return 返回处理后的ModelAndView对象
+     * @throws Throwable
+     */
+    @Around("execution(* com.xwindy.web.controller.*.*View(..)) && args(.., request)")
+    public ModelAndView setLoginUser(ProceedingJoinPoint pjp, HttpServletRequest request) throws Throwable {
+        HttpSession session = request.getSession();
+        ModelAndView view = null;
+        
+        view = (ModelAndView) pjp.proceed();
+        if (isLogin(session)) {
+            view.addObject("isLogin", session.getAttribute("isLogin"));
+            view.addObject("username", session.getAttribute("username"));
+        }
+        return view;
+    }
+    
+    /**
      * 把需要登录才能访问的接口拦截， 若未登录则返回错误
      * @param pjp - 处理切点
      * @param request - HttpServletRequest对象
