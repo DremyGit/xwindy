@@ -1,18 +1,18 @@
 package main
 
+// The program is used to fetch news from HFUT_XC website
+// and store into the database.
 import (
+	"database/sql"
+	"errors"
+	"flag"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
-	"errors"
 	"time"
-	"flag"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	//"time"
-	//"fmt"
 )
 
 const (
@@ -43,13 +43,12 @@ func main() {
 		log.Fatal("Connect Error")
 	}
 
-
 	count := 0
 	for aType, listUrl := range []string{LIST_NEWS, LIST_INFO, LIST_REPT} {
 		for i := *tatalPagePtf; i > 0; i-- {
 			urlList := getUrlLisyByType(listUrl, i)
 			for index, _ := range urlList {
-				article, err := getArticleFromUrl(urlList[len(urlList) - 1 - index])
+				article, err := getArticleFromUrl(urlList[len(urlList)-1-index])
 				if err != nil {
 					fmt.Println(err)
 					continue
@@ -68,7 +67,7 @@ func main() {
 						continue
 					}
 
-					if (*useArticleTime) {
+					if *useArticleTime {
 						article.date = article.date + " 12:00:00"
 					} else {
 						article.date = time.Now().Format("2006-01-02 15:04:05")
@@ -119,7 +118,7 @@ func getUrlLisyByType(newsType string, page int) (urlList []string) {
 	return urlList
 }
 
-func getArticleFromUrl(newsUrl string) (article Article, err error)  {
+func getArticleFromUrl(newsUrl string) (article Article, err error) {
 	html, err := fetch(newsUrl)
 	if err != nil {
 		return article, err
@@ -155,7 +154,7 @@ func cleanHtmlStyle(html string) (res string) {
 	res = regexp.MustCompile(`<(\w+?)([^>]*?text-align:right;)`).ReplaceAllString(res, "<$1 TAR $2")
 	res = regexp.MustCompile(` (?:style|id|class)="[^"]*"`).ReplaceAllString(res, "")
 	res = regexp.MustCompile(`TAR`).ReplaceAllString(res, `style="text-align:right;"`)
-	res = regexp.MustCompile(`(href|src)="(/[^"]*?)"`).ReplaceAllString(res, `$1="` + BASE_URL + `$2"`)
+	res = regexp.MustCompile(`(href|src)="(/[^"]*?)"`).ReplaceAllString(res, `$1="`+BASE_URL+`$2"`)
 	return res
 }
 
@@ -163,7 +162,7 @@ type Connect struct {
 	db *sql.DB
 }
 
-func (c *Connect) connectDB(dbUser, dbPass, dbName *string) (error) {
+func (c *Connect) connectDB(dbUser, dbPass, dbName *string) error {
 	var err error
 	dbString := fmt.Sprintf("%s:%s@/%s", *dbUser, *dbPass, *dbName)
 	c.db, err = sql.Open("mysql", dbString)
@@ -183,8 +182,8 @@ func (c *Connect) isArticleExisted(article *Article) (bool, error) {
 		return false, err
 	}
 	defer stmtExist.Close()
-	exist := 0;
-	stmtExist.QueryRow(article.title + "%", article.date).Scan(&exist)
+	exist := 0
+	stmtExist.QueryRow(article.title+"%", article.date).Scan(&exist)
 	return exist != 0, nil
 }
 
@@ -193,7 +192,7 @@ func (c *Connect) addToSchoolnews(article *Article) error {
 	if err != nil {
 		return err
 	}
-	defer  stmtInst.Close()
+	defer stmtInst.Close()
 	_, err = stmtInst.Exec("test", article.title, article.content, article.date, article.url, time.Now().Unix())
 	if err != nil {
 		return err
@@ -206,7 +205,7 @@ func (c *Connect) addToNews(article *Article, aType int) error {
 	if err != nil {
 		return err
 	}
-	defer  stmtInst2.Close()
+	defer stmtInst2.Close()
 	publicId := []int{5, 7, 8}
 	_, err = stmtInst2.Exec(publicId[aType], "127.0.0.1", article.title, article.content, article.date, article.url)
 	if err != nil {
