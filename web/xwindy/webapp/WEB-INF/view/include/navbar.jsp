@@ -18,6 +18,7 @@
 <%--                 <li><a href="<%=BASE_PATH%>">首页</a></li> --%>
                 <li class="active"><a href="<%=BASE_PATH%>/news">资讯</a></li>
                 <li><a href="<%=BASE_PATH%>/query">查询</a></li>
+                <li><a href="<%=BASE_PATH%>/lost">招领站</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:choose>

@@ -35,7 +35,7 @@
 	<select id="getNewsListByPage"
 		resultMap="NewsResult">
 		SELECT * FROM news
-		ORDER BY datetime, id DESC
+		ORDER BY datetime DESC, id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	
@@ -43,7 +43,7 @@
 		resultMap="NewsResult">
 		SELECT * FROM news
 		WHERE push != 0
-		ORDER BY datetime, id DESC
+		ORDER BY datetime DESC, id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	
@@ -51,7 +51,7 @@
 		resultMap="NewsResult">
 		SELECT * FROM user_subscribe_news_view
 		WHERE user_id = #{userId}
-		ORDER BY datetime, id DESC
+		ORDER BY datetime DESC, id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	
@@ -59,7 +59,7 @@
 		resultMap="NewsResult">
 		SELECT * FROM news_and_public_view
 		WHERE public_id = #{publicId}
-		ORDER BY datetime, id DESC
+		ORDER BY datetime DESC, id DESC
 		<include refid="pageLimitSql" />
 	</select>
 	
@@ -127,7 +127,7 @@
 		resultType="String">
 		SELECT datetime FROM news
 		WHERE public_id = #{publicId}
-		ORDER BY datetime, id DESC
+		ORDER BY datetime DESC, id DESC
 		LIMIT 0, 1
 	</select>
 	

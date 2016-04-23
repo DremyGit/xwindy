@@ -47,6 +47,10 @@
   max-width: 100%;
 }
 
+#article-content p strong img {
+  position: absolute;
+}
+
 #article-content ul {
   margin-top: -10px;
   margin-left: 0px;

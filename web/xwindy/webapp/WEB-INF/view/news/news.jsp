@@ -41,6 +41,9 @@ body{
     margin-right: 10px;
     font-size: 12px;
 }
+#article-content {
+    margin-top: 16px;
+}
 
 #comment-submit-area {
     margin-bottom: 70px;
@@ -132,7 +135,10 @@ body{
                     <h3>${news.title}</h3>
                 </div>
                 <div id="article-info">
-                    ${news.datetime} ${news.publicer.username} ${news.clickNum}次阅读 ${news.commentNum}条评论
+                    ${news.datetime.substring(0,16)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ${news.publicer.username}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ${news.clickNum}次阅读&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ${news.commentNum}条评论
                 </div>
                 <div id="article-content">
                     ${news.content}
@@ -161,15 +167,6 @@ body{
 	                        </div>
 	                    </li>
                     </c:forEach>
-<!--                     <li>
-                        <div class="a-comment">
-                            <img class="head-img" src="pic/head.jpg">
-                            <span class="comment-username">路人甲</span>
-                            <span class="comment-floor">1楼</span>
-                            <p class="comment-content">比如乔布斯想做iPhone之前，明确了一些原则，比如触控屏，然后各种传感器，更好的移动上网设备等等，然后苹果就开始收购技术企业，开始研发相关的元器件等等。通过明确可执行的路径，把想象变为现实。</p>
-                            <span class="comment-time">2015-06-06 21:22:35</span>
-                        </div>
-                    </li> -->
                 </ul>
             </div>
         </div>
@@ -180,10 +177,19 @@ body{
                 </div>
                 <div id="article-userblock">
                 <span id="article-username">${news.publicer.username }</span>
-                <button class="btn xf-btn btn-sm float-right" id="article-user-sub">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    订阅
-                </button>
+                <c:choose>
+                    <c:when test="${!news.publicer.isSub}">
+                        <button class="btn xf-btn btn-sm float-right" id="article-user-sub" onclick="sub(${news.publicer.id})">
+		                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>订阅
+		                </button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn xf-btn btn-sm float-right" id="article-user-sub" onclick="rem(${news.publicer.id})">
+                            已订阅
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+                
                 <div id="article-user-info">${news.publicer.introduce}</div>
                 </div>
                 <span id="article-user-fans"></span>
@@ -250,6 +256,33 @@ $("#submit").click(function () {
 		}
 	})
 })
+
+function sub(publicId) {
+    var url = "<%=BASE_PATH%>/news/subscribe.action";
+    sendAjax(url, publicId);
+}
+function rem(publicId) {
+    var url = "<%=BASE_PATH%>/news/unsubscribe.action";
+    sendAjax(url, publicId);
+}
+function sendAjax(url, publicId) {
+    $.ajax({
+        url: url,
+        type: "GET",
+        data:{publicId: publicId},
+        success: function(data) {
+            var res = eval(data);
+            if (res.isSuccess) {
+                window.location.reload(true);
+            } else {
+                alert("操作失败")
+            }
+        },
+        error: function() {
+            alert("连接错误");
+        }
+    });
+}
 </script>
 </body>
 </html>

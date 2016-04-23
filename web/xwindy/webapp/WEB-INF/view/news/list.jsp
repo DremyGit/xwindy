@@ -179,9 +179,10 @@
         <div class="col-sm-9">
             <div class="title-bar">
                 <ul id="class-ul">
-                    <li><a class="active" href="#">我的订阅</a></li>
-                    <li><a href="#">全部资讯</a></li>
-                    <li><a href="#">招领站</a></li>
+                    <c:if test="${isLogin}">
+                        <li><a class="active" href="<%=BASE_PATH%>/news/mysub">我的订阅</a></li>
+                    </c:if>
+                    <li><a href="<%=BASE_PATH%>/news">全部资讯</a></li>
                 </ul>
                 <a href="javascript:;"><span id="search-news" class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
                 <a href="news/subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
@@ -196,13 +197,13 @@
                     <div class="news-head">
                         <img class="news-user-head hidden-xs" src="${news.publicer.header}">
                         <h2 class="news-title">
-                            <a href="news/${news.id}">${news.title}</a>
+                            <a href="<%=BASE_PATH%>/news/${news.id}">${news.title}</a>
                         </h2>
                         <div class="news-info">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             <span>${news.publicer.username}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                            13:31:28&nbsp;&nbsp;&nbsp;&nbsp;
+                            ${news.datetime.substring(0,16)}&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                             ( ${news.clickNum} )&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

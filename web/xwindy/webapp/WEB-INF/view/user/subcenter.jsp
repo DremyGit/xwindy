@@ -153,7 +153,7 @@ function sendAjax(url, publicId) {
             <div class="bar-10"></div>
             <div class="row">                
                 <c:forEach items="${publicerList}" var="publicer">
-                 <div class="col-xs-6 public-list">
+                 <div class="col-xs-12 col-sm-6 public-list">
                     <div class="card">
                         <div class="head-pic">
                             <img src="${publicer.header}" class="pic-grey">
