@@ -133,6 +133,20 @@ public class NewsController {
         return view;
     }
     
+    /**
+     * 为App提供的资讯详情页
+     * @param id - 资讯id
+     * @return 资讯详情页面视图
+     */
+    @RequestMapping("/appnews")
+    public ModelAndView appNewsDetailView(@RequestParam(value="id", required=true) int id) {
+    	News news = newsService.getNewsAndCommentById(id);
+        newsService.addClickNumberById(id);
+        
+        ModelAndView view = new ModelAndView("news/appnews");
+        view.addObject("news", news);
+        return view;
+    }
     
     /**
      * 资讯及评论获取接口
