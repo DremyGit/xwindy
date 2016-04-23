@@ -184,7 +184,7 @@
                     <li><a href="#">招领站</a></li>
                 </ul>
                 <a href="javascript:;"><span id="search-news" class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
-                <a href="subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                <a href="news/subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                 <span>
 
                 </span>
