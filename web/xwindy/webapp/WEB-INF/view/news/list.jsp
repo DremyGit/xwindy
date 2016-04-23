@@ -183,8 +183,8 @@
                     <li><a href="#">全部资讯</a></li>
                     <li><a href="#">招领站</a></li>
                 </ul>
-                <span id="search-news" class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                <span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <a href="javascript:;"><span id="search-news" class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <a href="subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                 <span>
 
                 </span>

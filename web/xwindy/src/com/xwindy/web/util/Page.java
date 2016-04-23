@@ -30,6 +30,14 @@ public class Page {
     /**
      * Page类构造函数
      * @param pageNo
+     */
+    public Page(int pageNo) {
+    	this.pageNo = pageNo;
+    }
+    
+    /**
+     * Page类构造函数
+     * @param pageNo
      * @param pageSize
      */
     public Page(int pageNo, int pageSize) {

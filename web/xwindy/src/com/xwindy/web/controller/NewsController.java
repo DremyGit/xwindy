@@ -42,6 +42,20 @@ public class NewsController {
     }
     
     /**
+     * 分页显示全部咨询列表页
+     * @param pageNo
+     * @return
+     */
+    @RequestMapping("/p/{page}")
+    public ModelAndView newsListPageView(@PathVariable("page") int pageNo) {
+    	Page page = new Page(pageNo);
+    	List<News> newsList = newsService.getNewsListByPage(page);
+    	ModelAndView view = new ModelAndView("news/list");
+    	view .addObject("newsList", newsList);
+    	return view;
+    }
+    
+    /**
      * 全部资讯列表获取接口
      * @param page - 分页对象
      * @return 资讯列表结果集
@@ -70,6 +84,22 @@ public class NewsController {
         ModelAndView view = new ModelAndView("news/list");
         view.addObject("newsList", newsList);
         return view;
+    }
+    
+    /**
+     * 分页显示订阅资讯列表页
+     * @param pageNo
+     * @return
+     */
+    @RequestMapping("/mysub/{page}")
+    public ModelAndView subNewsListPageLoginView(@PathVariable("page") int pageNo, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+        int userId = getUserIdBySession(session);
+    	Page page = new Page(pageNo);
+    	List<News> newsList = newsService.getSubNewsListByUserIdAndPage(userId, page);
+    	ModelAndView view = new ModelAndView("news/list");
+    	view .addObject("newsList", newsList);
+    	return view;
     }
     
     /**
@@ -102,6 +132,7 @@ public class NewsController {
         view.addObject("news", news);
         return view;
     }
+    
     
     /**
      * 资讯及评论获取接口
@@ -150,6 +181,7 @@ public class NewsController {
         result.put("classList", userService.getAllPublicClassList());
         return result;
     }
+
     
     /**
      * 显示订阅中心页(需要登录)
