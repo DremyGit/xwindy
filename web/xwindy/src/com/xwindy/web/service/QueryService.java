@@ -262,7 +262,7 @@ public class QueryService {
     
     private static final String LibInfoPage         = "http://mc.lib.hfut.edu.cn/cmpt/opac/opacLink.jspx?stype=1";
     
-    private static final String LibRenewActionBase  = "http://mc.lib.hfut.edu.cn/cmpt/opac/";
+    private static final String LibRenewActionBase  = "http://210.45.242.51:8080/sms/opac/user/";
     
     private static final String SportLoginAction    = "http://172.18.6.39/ezdcs/login.do";
 
