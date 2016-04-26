@@ -221,6 +221,14 @@
                     </div>
                 </li>
                 </c:forEach>
+                <ul class="pagination">
+				    <c:if test="${pag.preShow}"><li><a href="${pag.pageUrl}${pag.viewFirstPage - 1}"><span aria-hidden="true">&laquo;</span></a></li></c:if>
+				    <c:forEach begin="${pag.viewFirstPage}" end="${pag.viewLastPage}" var="i">
+				        ${(i == pag.nowPage) ? '<li class="active">' : '<li>'}
+				        <a href="${pag.pageUrl}${i}">${i}</a>${'<li>'}
+				    </c:forEach>
+				    <c:if test="${pag.nextShow}"><li><a href="${pag.pageUrl}${pag.viewLastPage + 1}"><span aria-hidden="true">&raquo;</span></a></li></c:if>
+				</ul>
                 
                 
             </ul>

@@ -155,13 +155,11 @@ body{
                 </div>
                 <ul id="comment-area">
                     <c:forEach items="${news.commentList}" var="comment" varStatus="i">
-                        <div>${comment.username}</div>
-                        <div>${comment.content}</div>
                         <li>
 	                        <div class="a-comment">
 	                            <img class="head-img" src="pic/head.jpg">
 	                            <span class="comment-username">${comment.username}</span>
-	                            <span class="comment-floor">${i + 1}楼</span>
+	                            <span class="comment-floor">${i.index + 1}楼</span>
 	                            <p class="comment-content">${comment.content}</p>
 	                            <span class="comment-time">${comment.datetime}</span>
 	                        </div>

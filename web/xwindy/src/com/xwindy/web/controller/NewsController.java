@@ -22,6 +22,7 @@ import com.xwindy.web.model.Publicer;
 import com.xwindy.web.service.NewsService;
 import com.xwindy.web.service.UserService;
 import com.xwindy.web.util.Page;
+import com.xwindy.web.util.Pagination;
 import com.xwindy.web.util.SysUtil;
 
 @Controller
@@ -33,27 +34,30 @@ public class NewsController {
      * @return 带Model的资讯列表页视图
      */
     @RequestMapping(value = {""})
-    public ModelAndView newsListView() {
-        List<News> newsList = newsService.getFirstPageOfNewsList();
+    public ModelAndView newsListView(@RequestParam(value="p", defaultValue="1") int pageNo) {
+    	Page page = new Page(pageNo);
+        List<News> newsList = newsService.getNewsListByPage(page);
 
         ModelAndView view = new ModelAndView("news/list");
         view.addObject("newsList", newsList);
+        Pagination pag = new Pagination("news?p=",page, newsService.getNewsTotalNum(), 10);
+        view.addObject("pag", pag);
         return view;
     }
     
-    /**
-     * 分页显示全部咨询列表页
-     * @param pageNo
-     * @return
-     */
-    @RequestMapping("/p/{page}")
-    public ModelAndView newsListPageView(@PathVariable("page") int pageNo) {
-    	Page page = new Page(pageNo);
-    	List<News> newsList = newsService.getNewsListByPage(page);
-    	ModelAndView view = new ModelAndView("news/list");
-    	view .addObject("newsList", newsList);
-    	return view;
-    }
+//    /**
+//     * 分页显示全部咨询列表页
+//     * @param pageNo
+//     * @return
+//     */
+//    @RequestMapping("/p/{page}")
+//    public ModelAndView newsListPageView(@PathVariable("page") int pageNo) {
+//    	Page page = new Page(pageNo);
+//    	List<News> newsList = newsService.getNewsListByPage(page);
+//    	ModelAndView view = new ModelAndView("news/list");
+//    	view .addObject("newsList", newsList);
+//    	return view;
+//    }
     
     /**
      * 全部资讯列表获取接口
