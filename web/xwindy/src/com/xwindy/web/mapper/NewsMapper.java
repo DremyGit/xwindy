@@ -59,6 +59,8 @@ public interface NewsMapper {
      */
     public News getNewsAndCommentById(int id);
     
+    public List<News> getRankList1Week();
+    
     /**
      * 资讯点击数增加1
      * @param id - 资讯ID

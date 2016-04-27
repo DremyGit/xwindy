@@ -133,7 +133,7 @@
 
         .news-summary p{
             margin-top: 10px;
-            line-height: 22px;
+            line-height: 28px;
             clear: left;
         }
 
@@ -179,13 +179,12 @@
         <div class="col-sm-9">
             <div class="title-bar">
                 <ul id="class-ul">
+                    <li><a class='${listType == "allNews" ? "active" : "" }' href="<%=BASE_PATH%>/news">全部资讯</a></li>
                     <c:if test="${isLogin}">
-                        <li><a class="active" href="<%=BASE_PATH%>/news/mysub">我的订阅</a></li>
+                        <li><a class='${listType == "mySub" ? "active" : "" }' href="<%=BASE_PATH%>/news/mysub">我的订阅</a></li>
                     </c:if>
-                    <li><a href="<%=BASE_PATH%>/news">全部资讯</a></li>
                 </ul>
-                <a href="javascript:;"><span id="search-news" class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
-                <a href="news/subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                <a href="<%=BASE_PATH%>/news/subcenter/0"><span id="subcenter" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                 <span>
 
                 </span>
@@ -235,21 +234,16 @@
         </div>
         <div class="col-sm-3">
             <div class="title-bar">
-                <h3>72小时资讯排行</h3>
+                <h3>一周资讯排行</h3>
             </div>
             <div class="card">
                 <ul id="top-ul">
+                    <c:forEach items="${rankList}" var="news" varStatus="i">
                     <li>
-                        <i>1</i>
-                        <a href="#">关于2015年暑假学生返乡火车票网上预定的通知</a>
+                        <i>${i.index + 1}</i>
+                        <a href="<%=BASE_PATH%>/news/${news.id}">${news.title}</a>
                     </li>
-                    <li>
-                        <i>2</i>
-                        <a href="#">关于实行学生宿舍统一熄灯制度的通知</a>
-                    </li>
-                    <li>
-                        <i>3</i>
-                        <a href="#">关于全国大学生英语四六级考试工作安排的通知</a></li>
+                    </c:forEach>
                 </ul>
             </div>
         </div>

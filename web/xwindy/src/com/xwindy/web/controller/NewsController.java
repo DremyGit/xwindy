@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xwindy.web.mapper.NewsMapper;
 import com.xwindy.web.model.Comment;
 import com.xwindy.web.model.News;
 import com.xwindy.web.model.Publicer;
@@ -42,23 +43,11 @@ public class NewsController {
         view.addObject("newsList", newsList);
         Pagination pag = new Pagination("news?p=",page, newsService.getNewsTotalNum(), 10);
         view.addObject("pag", pag);
+        view.addObject("listType", "allNews");
+        view.addObject("rankList", newsService.getRankList1Week());
         return view;
     }
-    
-//    /**
-//     * 分页显示全部咨询列表页
-//     * @param pageNo
-//     * @return
-//     */
-//    @RequestMapping("/p/{page}")
-//    public ModelAndView newsListPageView(@PathVariable("page") int pageNo) {
-//    	Page page = new Page(pageNo);
-//    	List<News> newsList = newsService.getNewsListByPage(page);
-//    	ModelAndView view = new ModelAndView("news/list");
-//    	view .addObject("newsList", newsList);
-//    	return view;
-//    }
-    
+   
     /**
      * 全部资讯列表获取接口
      * @param page - 分页对象
@@ -78,15 +67,20 @@ public class NewsController {
      * @return 带Model的订阅资讯列表页视图
      */
     @RequestMapping("/mysub")
-    public ModelAndView subNewsListLoginView(Page page, HttpServletRequest request) {
+    public ModelAndView subNewsListLoginView(@RequestParam(value="p", defaultValue="1") int pageNo, HttpServletRequest request) {
         
         HttpSession session = request.getSession();
         int userId = getUserIdBySession(session);
         
-        List<News> newsList = newsService.getFirstPageOfSubNewsListByUserId(userId);
+        Page page = new Page(pageNo);
+        List<News> newsList = newsService.getSubNewsListByUserIdAndPage(userId, page);
         
         ModelAndView view = new ModelAndView("news/list");
         view.addObject("newsList", newsList);
+        Pagination pag = new Pagination("mysub?p=",page, 100, 10);
+        view.addObject("pag", pag);
+        view.addObject("listType", "mySub");
+        view.addObject("rankList", newsService.getRankList1Week());
         return view;
     }
     
@@ -134,6 +128,7 @@ public class NewsController {
         
         ModelAndView view = new ModelAndView("news/news");
         view.addObject("news", news);
+        view.addObject("rankList", newsService.getRankList1Week());
         return view;
     }
     
@@ -218,6 +213,7 @@ public class NewsController {
             view.addObject("publicerList", recommendPublicerList);
             return view;
         }
+        view.addObject("classId", classId);
         view.addObject("publicerList", userService.getPublicerListByPublicClassIdAndUserIdAndPage(classId, userId, page));
         return view;
     }
@@ -230,7 +226,7 @@ public class NewsController {
      * @return 分类id下的公众号对象
      */
     @RequestMapping(value = "/subcenter.action", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> subcenterAction(HttpServletRequest request, Page page,
+    public @ResponseBody Map<String, Object> subcenterLoginAction(HttpServletRequest request, Page page,
             @RequestParam(value = "classId", required = true) int classId) {
         Map<String, Object> result = new HashMap<String, Object>();
         HttpSession session = request.getSession();

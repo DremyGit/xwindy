@@ -140,9 +140,9 @@ function sendAjax(url, publicId) {
                 <!-- <a class="item active">特别推荐</a>
                 <a class="item">学校官网</a>
                 <a class="item">信息工程系</a> -->
-                <a href="0" class="item active">特别推荐</a>
+                <a href="0" class='item ${classId == 0 ? "active" : ""}'>特别推荐</a>
 			    <c:forEach items="${classList}" var="publicClass">
-			         <a href="${publicClass.id}" class="item">${publicClass.className}</a>
+			         <a href="${publicClass.id}" class='item ${classId == publicClass.id ? "active" : ""}'>${publicClass.className}</a>
 			    </c:forEach>
             </div>
         </div>
@@ -167,7 +167,7 @@ function sendAjax(url, publicId) {
                                         <button class="btn xf-btn pull-right" onclick="sub(${publicer.id})">+订阅</button>
                                     </c:when>
                                     <c:otherwise>
-                                        <button class="btn xf-btn pull-right" onclick="rem(${publicer.id})">退订</button>
+                                        <button class="btn xf-btn pull-right" onclick="rem(${publicer.id})">-退订</button>
                                     </c:otherwise>
                                 </c:choose>
                             </div>

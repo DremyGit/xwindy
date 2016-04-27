@@ -237,7 +237,8 @@ public class UserService {
      */
     public List<Publicer> getRecommendPublicerListByUserId(int userId) {
         //TODO: 获取推荐订阅的公众号列表
-        return null;
+    	
+    	return userMapper.getRecommentByUserId(userId);
     }
     
     /**

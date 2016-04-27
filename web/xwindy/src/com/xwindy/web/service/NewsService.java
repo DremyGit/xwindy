@@ -84,6 +84,10 @@ public class NewsService {
         return getSubNewsListByUserIdAndPage(userId, new Page(1, DefaultNewsListPageSize));
     }
     
+    public List<News> getRankList1Week() {
+    	return newsMapper.getRankList1Week();
+    }
+    
     /**
      * 通过资讯id获取资讯
      * @param id - 资讯id

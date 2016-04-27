@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xwindy.web.mapper.NewsMapper">
 
-	<cache  flushInterval="100000"/>
+<!-- 	<cache  flushInterval="100000"/> -->
 	
 	<resultMap type="News" id="NewsResult">
 		<id 	property="id" column="id" />
@@ -78,6 +78,13 @@
 		resultMap="NewsAndCommentResult">
 		SELECT * FROM news
 		WHERE id = #{id}
+	</select>
+	
+	<select id="getRankList1Week"
+	    resultMap="NewsResult">
+        SELECT * FROM `news`
+        WHERE datetime > DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+        Limit 0, 10
 	</select>
 	
 	<update id="addClickNumberById"

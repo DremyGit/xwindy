@@ -220,6 +220,14 @@ public interface UserMapper {
      */
     public int updateUserState(@Param("userId") int userId, @Param("toState") int toState);
     
+    /**
+     * 通过用户ID获取推荐公众号
+     * @param userId - 用户id
+     * @param pageNo - 页数
+     * @param pageSize - 分页大小
+     * @return 推荐的公众号列表
+     */
+    public List<Publicer> getRecommentByUserId(@Param("userId") int userId);
     
     public int getStudentNum();
     

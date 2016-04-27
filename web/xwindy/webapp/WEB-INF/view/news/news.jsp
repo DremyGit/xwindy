@@ -105,6 +105,73 @@ body{
     margin-left: 60px;
 }
 
+
+.title-bar{
+            height: 40px;
+            background: #3399cc;
+            color: #fff;
+ }
+ #class-ul{
+     padding: 14px 15px;
+     display: inline-block;
+ }
+ @media(max-width: 767px) {
+     #class-ul{
+         padding: 14px 10px;
+     }
+ }
+ #class-ul li a{
+     margin: 3px;
+ }
+ @media(max-width: 767px) {
+     #class-ul li a{
+         margin: 2px;
+     }
+ }
+ .title-bar a{
+     color: #fff;
+     padding:8px 15px;
+ }
+ @media (max-width: 767px) {
+     .title-bar a{
+         padding: 8px 8px;
+     }
+ }
+ .title-bar a.active{
+     background-color: #fff;
+     color: #333;
+
+ }
+ .title-bar>h3{
+     margin: 0 15px;
+     padding-top: 10px;
+     font-size: 16px;
+ }
+ #top-ul{
+            padding: 0px;
+        }
+#top-ul li{
+    list-style: none;
+    border-top: 1px;
+    display: inline-block;
+    height: 20px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+#top-ul li i{
+    float: left;
+    width: 20px;
+    padding: 2px 4px;
+    background-color: #31708f;
+    color: #fff;
+}
+#top-ul li a{
+    position: relative;
+    top: -3px;
+    margin-left: 10px;
+    height: 20px;
+    line-height: 28px;
+}
 </style>
 </head>
 <body>
@@ -146,7 +213,7 @@ body{
             </div>
             <div class="card" id="comment">
                 <div class="card-head">
-                    <h3>评论区（2条评论）</h3>
+                    <h3>评论区</h3>
                 </div>
                 <div id="comment-submit-area">
                     <h4>发表评论</h4>
@@ -157,7 +224,7 @@ body{
                     <c:forEach items="${news.commentList}" var="comment" varStatus="i">
                         <li>
 	                        <div class="a-comment">
-	                            <img class="head-img" src="pic/head.jpg">
+	                            <img class="head-img" src="<%=BASE_PATH%>/assets/pic/default_head.jpg">
 	                            <span class="comment-username">${comment.username}</span>
 	                            <span class="comment-floor">${i.index + 1}楼</span>
 	                            <p class="comment-content">${comment.content}</p>
@@ -171,7 +238,7 @@ body{
         <div class="col-sm-3">
             <div class="card" id="article-user">
                 <div id="article-userhead">
-                    <img src="pic/head.jpg">
+                    <img src="${news.publicer.header}">
                 </div>
                 <div id="article-userblock">
                 <span id="article-username">${news.publicer.username }</span>
@@ -191,6 +258,20 @@ body{
                 <div id="article-user-info">${news.publicer.introduce}</div>
                 </div>
                 <span id="article-user-fans"></span>
+            </div>
+            
+            <div class="title-bar">
+                <h3>一周资讯排行</h3>
+            </div>
+            <div class="card">
+                <ul id="top-ul">
+                    <c:forEach items="${rankList}" var="news" varStatus="i">
+                    <li>
+                        <i>${i.index + 1}</i>
+                        <a href="<%=BASE_PATH%>/news/${news.id}">${news.title}</a>
+                    </li>
+                    </c:forEach>
+                </ul>
             </div>
             <!--<div class="card" id="lost">-->
 

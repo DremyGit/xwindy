@@ -267,6 +267,16 @@
 		WHERE user_type != 'XS'
 	</select>
 	
+	<select id="getRecommentByUserId"
+	    resultMap="PublicerResult">
+	    SELECT public.id AS id, public.username AS username, public.header, public.introduce, public.recommend_num, NOT ISNULL(`user`.id) AS isSub
+        FROM plate_users AS public
+        LEFT OUTER JOIN subscribe ON subscribe.public_id = public.id
+        LEFT OUTER JOIN plate_users AS `user` ON `user`.id = subscribe.student_id AND `user`.id = #{userId}
+        WHERE `public`.`user_type` = 'GZH' AND `public`.`recommend_num` != 0 AND ISNULL(`user`.id)
+        ORDER BY `public`.`recommend_num` DESC
+    </select>
+	
 	<sql id="pageLimitSql">
 		<if test="pageNo != null">
 			LIMIT ${((pageNo-1) * pageSize)}, ${pageSize}
