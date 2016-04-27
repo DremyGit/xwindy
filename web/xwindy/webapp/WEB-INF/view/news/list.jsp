@@ -130,6 +130,10 @@
                 float: none;
             }
         }
+        
+        .news-summary {
+            overflow: hidden;
+        }
 
         .news-summary p{
             margin-top: 10px;

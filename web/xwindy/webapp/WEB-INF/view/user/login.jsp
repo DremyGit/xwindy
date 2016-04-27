@@ -125,7 +125,6 @@ $("#submit").click(function () {
 		success: function (data) {
 			var res = eval(data);
 			if(res.isRight) {
-				alert("登录成功" + "isRight: " + res.isRight + "userId: " + res.userId + "userType: " + res.userType);
 				if (location.href.indexOf("login") != -1) {
 					window.location.href="<%=BASE_PATH%>";
 				} else {

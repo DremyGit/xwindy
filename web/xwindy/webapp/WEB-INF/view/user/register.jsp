@@ -91,7 +91,7 @@ $("#submit").click(function () {
 	var email = $("#email").val()
 	var header = $("#header").val();
 	$.ajax({
-		url: "user/register.action",
+		url: "<%=BASE_PATH%>/user/register.action",
 		type: "POST",
 		data:{
 			username: username,
@@ -104,6 +104,7 @@ $("#submit").click(function () {
 			var res = eval(data);
 			if (res.isSuccess) {
 				alert("恭喜你注册成功");
+				location.href="<%=BASE_PATH%>/user/login";
 			} else {
 				alert(res.reason);
 			}

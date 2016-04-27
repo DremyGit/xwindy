@@ -33,13 +33,6 @@ public class QueryController {
     public ModelAndView libQueryView(HttpServletRequest request) {
         
         ModelAndView view = new ModelAndView("query/lib");
-        HttpSession session = request.getSession();
-        if (!isLogin(session)) {
-            view.addObject("isLogin", false);
-            return view;
-        }
-        
-        view.addObject("isLogin", true);
         return view;
     }
     
@@ -87,12 +80,6 @@ public class QueryController {
     public ModelAndView sportQueryView(HttpServletRequest request) {
         
         ModelAndView view = new ModelAndView("query/sport");
-        HttpSession session = request.getSession();
-        if (!isLogin(session)) {
-            view.addObject("isLogin", false);
-        }
-        
-        view.addObject("isLogin", true);
         int userId = getUserIdBySession(session);
         Map<String, Object> result = queryService.getSportByStudentId(userId);
         view.addAllObjects(result);
