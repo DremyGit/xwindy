@@ -25,7 +25,7 @@
 	<select id="getLostAndFoundListVisibleByPage"
 		resultMap="LostAndFoundResult">
 		SELECT * FROM lost_and_found
-		WHERE state != 0
+		WHERE status != 0
 		ORDER BY id DESC
 		<include refid="pageLimitSql"></include>
 	</select>
