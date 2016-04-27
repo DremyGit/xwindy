@@ -33,9 +33,16 @@
 		                    <ul class="dropdown-menu">
 		                        <li><a href="javascript:;">个人信息</a></li>
 		                        <li role="separator" class="divider"></li>
-		                        <li><a href="javascript:;">注销用户</a></li>
+		                        <li><a href="javascript:;" onclick="logout()">注销用户</a></li>
 		                    </ul>
 		                </li>
+		                <script>
+		                function logout() {
+		                	$.get('<%=BASE_PATH%>/user/logout.action', function() {
+		                		location.href = '<%=BASE_PATH%>';
+		                	})
+		                }
+		                </script>
 	               </c:otherwise>
                 </c:choose>
             </ul>

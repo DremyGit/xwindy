@@ -16,8 +16,12 @@
 		<result property="datetime" 	column="datetime" />
 		<result property="push" 		column="push" />
 		<result property="clickNum" 	column="click" />
-		<result property="commentNum" 	column="comment_number" />
 		<result property="state" 		column="state" />
+		<association
+		    property="commentNum"
+            javaType="int"
+            column="id"
+		    select="com.xwindy.web.mapper.CommentMapper.getCommentNumByNewsId" />
 		<association property="publicer"
 			javaType="Publicer"
 			column="public_id"
