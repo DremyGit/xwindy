@@ -70,21 +70,21 @@ public class QueryController {
         return result;
     }
     
-
-    /**
-     * 体育打卡次数查询页面, 登录用户直接显示其查询结果, 未登录用户提示登录
-     * @param request - HttpServletRequest对象
-     * @return 查询页面
-     */
-    @RequestMapping("/sport")
-    public ModelAndView sportQueryView(HttpServletRequest request) {
-        
-        ModelAndView view = new ModelAndView("query/sport");
-        int userId = getUserIdBySession(session);
-        Map<String, Object> result = queryService.getSportByStudentId(userId);
-        view.addAllObjects(result);
-        return view;
-    }
+//
+//    /**
+//     * 体育打卡次数查询页面, 登录用户直接显示其查询结果, 未登录用户提示登录
+//     * @param request - HttpServletRequest对象
+//     * @return 查询页面
+//     */
+//    @RequestMapping("/sport")
+//    public ModelAndView sportQueryView(HttpServletRequest request) {
+//        
+//        ModelAndView view = new ModelAndView("query/sport");
+//        int userId = getUserIdBySession(session);
+//        Map<String, Object> result = queryService.getSportByStudentId(userId);
+//        view.addAllObjects(result);
+//        return view;
+//    }
     
     /**
      * 处理体育打卡查询接口

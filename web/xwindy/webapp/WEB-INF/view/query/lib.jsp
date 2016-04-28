@@ -80,8 +80,8 @@ $(function () {
         <h3>信息查询</h3>
       </div>
       <div class="card item-list">
-        <a class="item">图书借阅查询</a>
-        <a class="item">体育打卡查询</a>
+        <a href="#" class="item active">图书借阅查询</a>
+        <a href="#" class="item">体育打卡查询</a>
       </div>
     </div>
     <div class="col-sm-9">
